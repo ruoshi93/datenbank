@@ -69,6 +69,7 @@ public class DatabaseEngine {
 				HashMap.Entry<String,List<String>> entry2 = it2.next();
 				String s2=entry2.getValue().get(i2);
 				
+				
 				if(s1.equals(s2)) {
 					entry1.getValue().addAll(entry2.getValue());
 					m.put(String.valueOf(i), entry1.getValue());
