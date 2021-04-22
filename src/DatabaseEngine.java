@@ -17,11 +17,12 @@ public class DatabaseEngine {
 	/**
 	 * This method converts an CSV File to HashMap. 
 	 * @param path The path of the CSV File. 
+	 * @param key  The index of the column, which is the key of the HashMap. 
 	 * @return The converted HashMap. 
 	 */
-	public static Map<String,List<String>> csvToHashMap(String path){
+	public static Map<String,List<String>> csvToHashMap(String path,int key){
 		
-		Map<String,List<String>> values = new HashMap<String,List<String>>();
+		Map<String,List<String>> values = new myHashMap<String,List<String>>();
 		
 		try {
 			
@@ -36,7 +37,7 @@ public class DatabaseEngine {
 					list.add(nextLine[i]);
 					i++;
 				}
-				values.put(nextLine[0], list);
+				values.put(nextLine[key], list);
 			}
 			
 		} catch (CsvValidationException e) {
@@ -52,30 +53,45 @@ public class DatabaseEngine {
 		return values;
 	}
 	
-	public static Map<String,List<String>> join(Map<String,List<String>> m1, Map<String,List<String>> m2, int i1, int i2){
-		Map<String,List<String>> m = new HashMap<String,List<String>>();
+	/**
+	 * This method joins two HashMaps. 
+	 * @param m1 The first HashMap. 
+	 * @param m2 The second HashMap. 
+	 * @param index The index of the attribute in the first HashMap. 
+	 * @param key The index of the key in the joined HashMap. 
+	 * @return The joined HashMap. 
+	 */
+	public static Map<String,List<String>> join(Map<String,List<String>> m1, Map<String,List<String>> m2, int key){
+		Map<String,List<String>> m = new myHashMap<String,List<String>>();
 		
 		Iterator<Map.Entry<String, List<String>>> it1 = m1.entrySet().iterator();
 		
-		//key of the new map
-		int i=1;
+//		//key of the new map
+//		int i=1;
 		
 		while(it1.hasNext()) {
 			HashMap.Entry<String,List<String>> entry1 = it1.next();
-			String s1 = entry1.getValue().get(i1);
+			String s1 = entry1.getKey();
+			List<String> list1 = entry1.getValue();
+//			String s1 = entry1.getValue().get(i1);
 			
-			Iterator<Map.Entry<String, List<String>>> it2 = m2.entrySet().iterator();
-			while(it2.hasNext()) {
-				HashMap.Entry<String,List<String>> entry2 = it2.next();
-				String s2=entry2.getValue().get(i2);
-				
-				
-				if(s1.equals(s2)) {
-					entry1.getValue().addAll(entry2.getValue());
-					m.put(String.valueOf(i), entry1.getValue());
-					i++;
-				}
+			List<String> list2 = m2.get(s1);
+			if(list2!=null) {
+				list1.addAll(list2);
+				m.put(list1.get(key), list1);
 			}
+//			Iterator<Map.Entry<String, List<String>>> it2 = m2.entrySet().iterator();
+//			while(it2.hasNext()) {
+//				HashMap.Entry<String,List<String>> entry2 = it2.next();
+//				String s2=entry2.getValue().get(i2);
+//				
+//				
+//				if(s1.equals(s2)) {
+//					entry1.getValue().addAll(entry2.getValue());
+//					m.put(String.valueOf(i), entry1.getValue());
+//					i++;
+//				}
+//			}
 		}
 		
 		System.out.println("Complete join. ");
@@ -85,17 +101,29 @@ public class DatabaseEngine {
 	
 	public static void main(String[] args) {
 		
-		Map<String,List<String>> movie_keyword = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/movie_keyword.csv");
-		Map<String,List<String>> keyword = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/keyword.csv");
-		Map<String,List<String>> title = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/title.csv");
-		Map<String,List<String>> movie_companies = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/movie_companies.csv");
-		Map<String,List<String>> company_name = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/company_name.csv");
+		Map<String,List<String>> movie_keyword = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/movie_keyword.csv",2);
+		Map<String,List<String>> keyword = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/keyword.csv",0);
+		Map<String,List<String>> title = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/title.csv",0);
+		Map<String,List<String>> movie_companies = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/movie_companies.csv",1);
+		Map<String,List<String>> company_name = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/company_name.csv",0);
 		
-		Map<String,List<String>> results = join(join(join(join(movie_keyword, keyword, 2, 0), title, 1, 0), movie_companies, 6, 1),company_name, 20, 0);
+		Map<String,List<String>> results = join(join(join(join(movie_keyword, keyword, 1), title, 6), movie_companies, 20),company_name, 0);
 		System.out.println(results);
 		
-//		Map<String,List<String>> info_type = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/info_type.csv");
-//		System.out.println(join(info_type,info_type,0,0));
 
+
+	}
+}
+
+class myHashMap<K,V> extends HashMap<K,V>{
+	@Override
+	public String toString() {
+		String s = "";
+		Iterator<Map.Entry<K, V>> it = this.entrySet().iterator();
+		while(it.hasNext()) {
+			Map.Entry<K, V> me = it.next();
+			s = s + me.getValue() + "\n";
+		}
+		return s;
 	}
 }
