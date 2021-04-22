@@ -57,7 +57,6 @@ public class DatabaseEngine {
 	 * This method joins two HashMaps. 
 	 * @param m1 The first HashMap. 
 	 * @param m2 The second HashMap. 
-	 * @param index The index of the attribute in the first HashMap. 
 	 * @param key The index of the key in the joined HashMap. 
 	 * @return The joined HashMap. 
 	 */
@@ -65,33 +64,16 @@ public class DatabaseEngine {
 		Map<String,List<String>> m = new myHashMap<String,List<String>>();
 		
 		Iterator<Map.Entry<String, List<String>>> it1 = m1.entrySet().iterator();
-		
-//		//key of the new map
-//		int i=1;
-		
+			
 		while(it1.hasNext()) {
 			HashMap.Entry<String,List<String>> entry1 = it1.next();
 			String s1 = entry1.getKey();
 			List<String> list1 = entry1.getValue();
-//			String s1 = entry1.getValue().get(i1);
-			
 			List<String> list2 = m2.get(s1);
 			if(list2!=null) {
 				list1.addAll(list2);
 				m.put(list1.get(key), list1);
 			}
-//			Iterator<Map.Entry<String, List<String>>> it2 = m2.entrySet().iterator();
-//			while(it2.hasNext()) {
-//				HashMap.Entry<String,List<String>> entry2 = it2.next();
-//				String s2=entry2.getValue().get(i2);
-//				
-//				
-//				if(s1.equals(s2)) {
-//					entry1.getValue().addAll(entry2.getValue());
-//					m.put(String.valueOf(i), entry1.getValue());
-//					i++;
-//				}
-//			}
 		}
 		
 		System.out.println("Complete join. ");
@@ -116,6 +98,8 @@ public class DatabaseEngine {
 }
 
 class myHashMap<K,V> extends HashMap<K,V>{
+	private static final long serialVersionUID = 3523705904473627838L;
+
 	@Override
 	public String toString() {
 		String s = "";
