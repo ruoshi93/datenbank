@@ -48,7 +48,6 @@ public class DatabaseEngine {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Complete file conversion. ");
 		
 		return values;
 	}
@@ -76,8 +75,6 @@ public class DatabaseEngine {
 			}
 		}
 		
-		System.out.println("Complete join. ");
-		
 		return m;
 	}
 	
@@ -89,10 +86,9 @@ public class DatabaseEngine {
 		Map<String,List<String>> movie_companies = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/movie_companies.csv",1);
 		Map<String,List<String>> company_name = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/company_name.csv",0);
 		
-		Map<String,List<String>> results = join(join(join(join(movie_keyword, keyword, 1), title, 6), movie_companies, 20),company_name, 0);
-		System.out.println(results);
+		Map<String,List<String>> joinResults = join(join(join(join(movie_keyword, keyword, 1), title, 6), movie_companies, 20),company_name, 4);
 		
-
+		System.out.println(joinResults);
 
 	}
 }
