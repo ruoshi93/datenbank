@@ -78,6 +78,16 @@ public class DatabaseEngine {
 
 		return m;
 	}
+	
+	private static String runTime(long runT) {
+		if(runT<1000) {
+			return "Total runtime: "+runT+" ms. "; 
+		}else if(runT<60000) {
+			return "Total runtime: "+runT/1000+" secs "+runT%1000+" ms. ";
+		}else {
+			return "Total runtime: "+runT/60000+" min " + (runT%60000)/1000 + " secs " + runT%60000%1000+" ms. ";
+		}
+	}
 
 	public static void main(String[] args) {
 
@@ -90,7 +100,7 @@ public class DatabaseEngine {
 //		Map<String,List<String>> joinResults = join(join(join(join(movie_keyword, keyword, 1), title, 6), movie_companies, 20),company_name, 4);
 //		
 //		System.out.println(joinResults);
-		
+		long startTime=System.currentTimeMillis();
 		
 		List<String> movie_keyword_schema = Arrays.asList("id", "movie_id", "keyword_id");
 		Table movie_keyword = new Table("/Users/lili/Documents/Bachelor Thesis/imdb/movie_keyword.csv",
@@ -111,6 +121,8 @@ public class DatabaseEngine {
 		Table company_name = new Table("/Users/lili/Documents/Bachelor Thesis/imdb/company_name.csv",
 				company_name_schema);
 		
-		
+		long endTime=System.currentTimeMillis();
+		long runTime = endTime - startTime;
+		System.out.println(runTime(runTime));  
 	}
 }
