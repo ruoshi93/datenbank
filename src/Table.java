@@ -148,6 +148,15 @@ public class Table {
 
 	public String toString() {
 		String s = "";
+		for(int i = 0;i<this.schema.size();i++) {
+			s+=this.schema.get(i);
+		}
+		s += "\n";
+		Iterator<Map.Entry<String, List<String>>> it = this.table.entrySet().iterator();
+		while(it.hasNext()) {
+			Map.Entry<String,List<String>> me = it.next();
+			s = s + me.getValue() + "\n";
+		}
 		return s;
 	}
 
