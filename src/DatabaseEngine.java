@@ -103,26 +103,37 @@ public class DatabaseEngine {
 		long startTime=System.currentTimeMillis();
 		
 		List<String> movie_keyword_schema = Arrays.asList("id", "movie_id", "keyword_id");
-		Table movie_keyword = new Table("/Users/lili/Documents/Bachelor Thesis/imdb/movie_keyword.csv",
-				movie_keyword_schema,"keyword_id");
+		Table movie_keyword = new Table("mk", "/Users/lili/Documents/Bachelor Thesis/imdb/movie_keyword.csv",
+				movie_keyword_schema,"mk.keyword_id");
 
 		List<String> keyword_schema = Arrays.asList("id", "keyword", "phonetic_code");
-		Table keyword = new Table("/Users/lili/Documents/Bachelor Thesis/imdb/keyword.csv", keyword_schema);
+		Table keyword = new Table("k", "/Users/lili/Documents/Bachelor Thesis/imdb/keyword.csv", keyword_schema);
 
 		List<String> title_schema = Arrays.asList("id", "title", "imdb_index", "kind_id", "production_year", "imdb_id",
 				"phonetic_code", "episode_of_id", "season_nr", "episode_nr", "series_years", "md5sum");
-		Table title = new Table("/Users/lili/Documents/Bachelor Thesis/imdb/title.csv", title_schema);
+		Table title = new Table("t", "/Users/lili/Documents/Bachelor Thesis/imdb/title.csv", title_schema);
 
 		List<String> movie_companies_schema = Arrays.asList("id", "movie_id", "company_id","company_type_id","note");
-		Table movie_companies = new Table("/Users/lili/Documents/Bachelor Thesis/imdb/movie_companies.csv",
-				movie_companies_schema,"movie_id");
+		Table movie_companies = new Table("mc", "/Users/lili/Documents/Bachelor Thesis/imdb/movie_companies.csv",
+				movie_companies_schema,"mc.movie_id");
 
 		List<String> company_name_schema = Arrays.asList("id", "name", "country_code","imdb_id","name_pcode_nf","name_pcode_sf","md5sum");
-		Table company_name = new Table("/Users/lili/Documents/Bachelor Thesis/imdb/company_name.csv",
+		Table company_name = new Table("cn", "/Users/lili/Documents/Bachelor Thesis/imdb/company_name.csv",
 				company_name_schema);
+		
+		//Query
+		Table result = movie_keyword.join(keyword, "mk.keyword_id");
+		result.setAttribute("mk.movie_id");
+		result = result.join(title, "mk.movie_id");
+		result.setAttribute("t.id");
+		result = result.join(movie_companies, "t.id", "mc.movie_id");
+		result.setAttribute("mc.company_id");
+		result = result.join(company_name, "mc.company_id");
 		
 		long endTime=System.currentTimeMillis();
 		long runTime = endTime - startTime;
 		System.out.println(runTime(runTime));  
+		
+		System.out.println(result);
 	}
 }

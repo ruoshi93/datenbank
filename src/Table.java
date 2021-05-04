@@ -11,22 +11,31 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
 public class Table {
+	private String tableName;
 	private String path;
 	private List<String> schema;
 	private Map<String, List<String>> table;
 	private Map<String, Map<String, List<String>>> attributes;
 
-	public Table(String path, List<String> schema) {
+	public Table(String tableName, String path, List<String> schema) {
+		this.tableName=tableName;
 		this.path = path;
-		this.schema = schema;
+		this.schema = new ArrayList<String>();
+		for(int i=0;i<schema.size();i++) {
+			this.schema.add(this.tableName+"."+schema.get(i));
+		}
 		this.table = new MyHashMap<String, List<String>>();
 		this.attributes = new HashMap<String, Map<String, List<String>>>();
 		this.convert();
 	}
 
-	public Table(String path, List<String> schema, String attr) {
+	public Table(String tableName, String path, List<String> schema, String attr) {
+		this.tableName=tableName;
 		this.path = path;
-		this.schema = schema;
+		this.schema = new ArrayList<String>();
+		for(int i=0;i<schema.size();i++) {
+			this.schema.add(this.tableName+"."+schema.get(i));
+		}
 		this.table = new MyHashMap<String, List<String>>();
 		this.attributes = new HashMap<String, Map<String, List<String>>>();
 		this.convert();
@@ -34,8 +43,9 @@ public class Table {
 	}
 
 	public Table(Map<String, List<String>> table, List<String> schema) {
+		this.schema=schema;
 		this.table = table;
-		this.schema = schema;
+		this.attributes = new HashMap<String, Map<String, List<String>>>();
 	}
 
 	public Map<String, List<String>> getTable() {
@@ -46,8 +56,8 @@ public class Table {
 		return this.schema;
 	}
 
-	public Map<String, List<String>> getAttribute(String name) {
-		return this.attributes.get(name);
+	public Map<String, List<String>> getAttribute(String attr) {
+		return this.attributes.get(attr);
 	}
 
 	public void setAttribute(String attr) {
@@ -77,19 +87,13 @@ public class Table {
 	}
 
 	/**
-	 * This method converts an CSV File to HashMap.
-	 * 
-	 * @param path The path of the CSV File.
-	 * @return The converted HashMap.
+	 * This method converts an CSV File specified by path into a HashMap and saves it in table.  
 	 */
 	private void convert() {
-
 		try {
-
 			CSVReader reader = new CSVReader(new FileReader(path));
 
 			String[] nextLine;
-
 			while ((nextLine = reader.readNext()) != null) {
 				List<String> list = new ArrayList<String>();
 				int i = 0;
@@ -107,9 +111,16 @@ public class Table {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
+	/**
+	 * This method joins two tables.
+	 * 
+	 * @param table2  The second table. 
+	 * @param attr1 The name of the attribute with the name of first table "<table>.<attribute>"
+	 * @param attr2 The name of the attribute with the name of second table "<table>.<attribute>"
+	 * @return The joined table
+	 */
 	public Table join(Table table2, String attr1, String attr2) {
 		Map<String, List<String>> newTable = new HashMap<String, List<String>>();
 
@@ -138,8 +149,34 @@ public class Table {
 		return new Table(newTable, newSchema);
 	}
 
+	
+	/**
+	 * This method joins two tables, when the attribute of the second table is its primary key (id).
+	 * 
+	 * @param table2  The second table. 
+	 * @param attr1 The name of the attribute with the name of first table "<table>.<attribute>"
+	 * @return The joined table
+	 */
 	public Table join(Table table2, String attr1) {
 		Map<String, List<String>> newTable = new HashMap<String, List<String>>();
+		
+		Map<String, List<String>> indexMap1 = this.attributes.get(attr1);
+		Map<String, List<String>> pkMap2 = table2.getTable();
+		
+		Iterator<Map.Entry<String, List<String>>> it = indexMap1.entrySet().iterator();
+		while (it.hasNext()) {
+			HashMap.Entry<String, List<String>> entry1 = it.next();
+			List<String> list2 = pkMap2.get(entry1.getKey());
+			if (list2 != null) {
+				List<String> pkList1 = entry1.getValue();
+				for (int i = 0; i < pkList1.size(); i++) {
+					String pk1 = pkList1.get(i);
+					ArrayList<String> newList = (ArrayList<String>) ((ArrayList<String>) table.get(pk1)).clone();
+					newList.addAll(list2);
+					newTable.put(pk1 + entry1.getKey(), newList);
+				}
+			}
+		}
 		
 		ArrayList<String> newSchema = (ArrayList<String>) ((ArrayList<String>) this.schema).clone();
 		newSchema.addAll(table2.getSchema());
@@ -149,9 +186,10 @@ public class Table {
 	public String toString() {
 		String s = "";
 		for(int i = 0;i<this.schema.size();i++) {
-			s+=this.schema.get(i);
+			s = s + this.schema.get(i) + " ";
 		}
 		s += "\n";
+		
 		Iterator<Map.Entry<String, List<String>>> it = this.table.entrySet().iterator();
 		while(it.hasNext()) {
 			Map.Entry<String,List<String>> me = it.next();
