@@ -81,11 +81,11 @@ public class DatabaseEngine {
 	
 	private static String runTime(long runT) {
 		if(runT<1000) {
-			return "Total runtime: "+runT+" ms. "; 
+			return runT+" ms. "; 
 		}else if(runT<60000) {
-			return "Total runtime: "+runT/1000+" secs "+runT%1000+" ms. ";
+			return runT/1000+" secs "+runT%1000+" ms. ";
 		}else {
-			return "Total runtime: "+runT/60000+" min " + (runT%60000)/1000 + " secs " + runT%60000%1000+" ms. ";
+			return runT/60000+" min " + (runT%60000)/1000 + " secs " + runT%60000%1000+" ms. ";
 		}
 	}
 
@@ -121,6 +121,8 @@ public class DatabaseEngine {
 		Table company_name = new Table("cn", "/Users/lili/Documents/Bachelor Thesis/imdb/company_name.csv",
 				company_name_schema);
 		
+		long loadDataTime=System.currentTimeMillis();
+		
 		//Query
 		Table result = movie_keyword.join(keyword, "mk.keyword_id");
 		result.setAttribute("mk.movie_id");
@@ -131,8 +133,8 @@ public class DatabaseEngine {
 		result = result.join(company_name, "mc.company_id");
 		
 		long endTime=System.currentTimeMillis();
-		long runTime = endTime - startTime;
-		System.out.println(runTime(runTime));  
+		System.out.println("Total runtime: "+runTime(endTime-startTime));
+		System.out.println("Total query runtime: "+runTime(endTime-loadDataTime));  
 		
 		System.out.println(result);
 	}
