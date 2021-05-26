@@ -1,19 +1,31 @@
 
+//Method 1: 
 //import java.io.FileNotFoundException;
 //import java.io.FileReader;
 //import java.io.IOException;
 //import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays;
 //import java.util.HashMap;
 //import java.util.Iterator;
-import java.util.List;
+//import java.util.List;
 //import java.util.Map;
 //
 //import com.opencsv.CSVReader;
 //import com.opencsv.exceptions.CsvValidationException;
 
+
+
+//Method 2:
+import java.util.Arrays;
+import java.util.List;
+
+
+
 public class DatabaseEngine {
 
+	
+//Method 1
+//	
 //	/**
 //	 * This method converts an CSV File to HashMap.
 //	 * 
@@ -21,9 +33,9 @@ public class DatabaseEngine {
 //	 * @param key  The index of the column, which is the key of the HashMap.
 //	 * @return The converted HashMap.
 //	 */
-//	public static Map<String, List<String>> csvToHashMap(String path, int key) {
+//	public static Map<Cell, List<Cell>> csvToHashMap(String path, int key) {
 //
-//		Map<String, List<String>> values = new MyHashMap<String, List<String>>();
+//		Map<Cell, List<Cell>> values = new MyHashMap<Cell, List<Cell>>();
 //
 //		try {
 //
@@ -32,13 +44,13 @@ public class DatabaseEngine {
 //			String[] nextLine;
 //
 //			while ((nextLine = reader.readNext()) != null) {
-//				List<String> list = new ArrayList<String>();
+//				List<Cell> list = new ArrayList<Cell>();
 //				int i = 0;
 //				while (i < nextLine.length) {
-//					list.add(nextLine[i]);
+//					list.add(new Cell(nextLine[i]));
 //					i++;
 //				}
-//				values.put(nextLine[key], list);
+//				values.put(new Cell(nextLine[key]), list);
 //			}
 //
 //		} catch (CsvValidationException e) {
@@ -60,16 +72,16 @@ public class DatabaseEngine {
 //	 * @param key The index of the key in the joined HashMap.
 //	 * @return The joined HashMap.
 //	 */
-//	public static Map<String, List<String>> join(Map<String, List<String>> m1, Map<String, List<String>> m2, int key) {
-//		Map<String, List<String>> m = new MyHashMap<String, List<String>>();
+//	public static Map<Cell, List<Cell>> join(Map<Cell, List<Cell>> m1, Map<Cell, List<Cell>> m2, int key) {
+//		Map<Cell, List<Cell>> m = new MyHashMap<Cell, List<Cell>>();
 //
-//		Iterator<Map.Entry<String, List<String>>> it1 = m1.entrySet().iterator();
+//		Iterator<Map.Entry<Cell, List<Cell>>> it1 = m1.entrySet().iterator();
 //
 //		while (it1.hasNext()) {
-//			HashMap.Entry<String, List<String>> entry1 = it1.next();
-//			String s1 = entry1.getKey();
-//			List<String> list1 = entry1.getValue();
-//			List<String> list2 = m2.get(s1);
+//			HashMap.Entry<Cell, List<Cell>> entry1 = it1.next();
+//			Cell c1 = entry1.getKey();
+//			List<Cell> list1 = entry1.getValue();
+//			List<Cell> list2 = m2.get(c1);
 //			if (list2 != null) {
 //				list1.addAll(list2);
 //				m.put(list1.get(key), list1);
@@ -90,18 +102,21 @@ public class DatabaseEngine {
 	}
 
 	public static void main(String[] args) {
-
-//		Map<String,List<String>> movie_keyword = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/movie_keyword.csv",2);
-//		Map<String,List<String>> keyword = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/keyword.csv",0);
-//		Map<String,List<String>> title = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/title.csv",0);
-//		Map<String,List<String>> movie_companies = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/movie_companies.csv",1);
-//		Map<String,List<String>> company_name = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/company_name.csv",0);
-//		
-//		Map<String,List<String>> joinResults = join(join(join(join(movie_keyword, keyword, 1), title, 6), movie_companies, 20),company_name, 4);
-//		
-//		System.out.println(joinResults);
-		long startTime=System.currentTimeMillis();
 		
+		long startTime=System.currentTimeMillis();
+
+// Method 1: 
+//		Map<Cell,List<Cell>> movie_keyword = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/movie_keyword.csv",2);
+//		Map<Cell,List<Cell>> keyword = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/keyword.csv",0);
+//		Map<Cell,List<Cell>> title = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/title.csv",0);
+//		Map<Cell,List<Cell>> movie_companies = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/movie_companies.csv",1);
+//		Map<Cell,List<Cell>> company_name = csvToHashMap("/Users/lili/Documents/Bachelor Thesis/imdb/company_name.csv",0);
+//		
+//		Map<Cell,List<Cell>> result = join(join(join(join(movie_keyword, keyword, 1), title, 6), movie_companies, 20),company_name, 4);
+		
+
+
+// Method 2: 	
 		List<String> movie_keyword_schema = Arrays.asList("id", "movie_id", "keyword_id");
 		Table movie_keyword = new Table("mk", "/Users/lili/Documents/Bachelor Thesis/imdb/movie_keyword.csv",
 				movie_keyword_schema,"mk.keyword_id");
@@ -123,7 +138,7 @@ public class DatabaseEngine {
 		
 		long loadDataTime=System.currentTimeMillis();
 		
-		//Query
+//Method 2 Query: 
 		Table result = movie_keyword.join(keyword, "mk.keyword_id");
 		result.setAttribute("mk.movie_id");
 		result = result.join(title, "mk.movie_id");
