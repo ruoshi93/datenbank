@@ -1,4 +1,4 @@
-package datanbank.imdb;
+package datenbank.imdb;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,12 +8,12 @@ import java.util.HashMap;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Movie_info_idxTable {
+public class Cast_infoTable {
 
-	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_info_idx.csv";
-	private HashMap<Integer, Movie_info_idx> data = new HashMap<Integer, Movie_info_idx>();
+	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/cast_info.csv";
+	private HashMap<Integer, Cast_info> data = new HashMap<Integer, Cast_info>();
 
-	public Movie_info_idxTable() {
+	public Cast_infoTable() {
 		convert();
 	}
 
@@ -23,8 +23,8 @@ public class Movie_info_idxTable {
 
 			String[] nextLine;
 			while ((nextLine = reader.readNext()) != null) {
-				Movie_info_idx movie_info_idx = new Movie_info_idx(nextLine);
-				this.data.put(movie_info_idx.getPrimaryKey(), movie_info_idx);
+				Cast_info cast_info = new Cast_info(nextLine);
+				this.data.put(cast_info.getPrimaryKey(), cast_info);
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -35,23 +35,28 @@ public class Movie_info_idxTable {
 		}
 	}
 
-	class Movie_info_idx {
+	class Cast_info {
 		int id;
+		int person_id;
 		int movie_id;
-		int info_type_id;
-		String info;
+		int person_role_id;
 		String note;
+		int nr_order;
+		int role_id;
 
 		public int getPrimaryKey() {
 			return this.id;
 		}
 
-		public Movie_info_idx(String[] data) {
+		public Cast_info(String[] data) {
 			this.id = Integer.parseInt(data[0]);
-			this.movie_id = Integer.parseInt(data[1]);
-			this.info_type_id = Integer.parseInt(data[2]);
-			this.info = data[3];
+			this.person_id = Integer.parseInt(data[1]);
+			this.movie_id = Integer.parseInt(data[2]);
+			;
+			this.person_role_id = Integer.parseInt(data[3]);
 			this.note = data[4];
+			this.nr_order = Integer.parseInt(data[5]);
+			this.role_id = Integer.parseInt(data[6]);
 		}
 	}
 }

@@ -1,21 +1,19 @@
-package datanbank.imdb;
+package datenbank.imdb;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Aka_nameTable {
+public class Char_nameTable {
 
-	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/aka_name.csv";
-	private HashMap<Integer, Aka_name> data = new HashMap<Integer, Aka_name>();
+	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/char_name.csv";
+	private HashMap<Integer, Char_name> data = new HashMap<Integer, Char_name>();
 
-	public Aka_nameTable() {
+	public Char_nameTable() {
 		convert();
 	}
 
@@ -25,8 +23,8 @@ public class Aka_nameTable {
 
 			String[] nextLine;
 			while ((nextLine = reader.readNext()) != null) {
-				Aka_name aka_name = new Aka_name(nextLine);
-				this.data.put(aka_name.getPrimaryKey(), aka_name);
+				Char_name char_name = new Char_name(nextLine);
+				this.data.put(char_name.getPrimaryKey(), char_name);
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -37,12 +35,11 @@ public class Aka_nameTable {
 		}
 	}
 
-	class Aka_name {
+	class Char_name {
 		int id;
-		int movie_id;
 		String name;
 		String imdb_index;
-		String name_pcode_cf;
+		int imdb_id;
 		String name_pcode_nf;
 		String surname_pcode;
 		String md5sum;
@@ -51,16 +48,14 @@ public class Aka_nameTable {
 			return this.id;
 		}
 
-		public Aka_name(String[] data) {
+		public Char_name(String[] data) {
 			this.id = Integer.parseInt(data[0]);
-			this.movie_id = Integer.parseInt(data[1]);
-			this.name = data[2];
-			this.imdb_index = data[3];
-			this.name_pcode_cf = data[4];
-			this.name_pcode_nf = data[5];
-			this.surname_pcode = data[6];
-			this.md5sum = data[7];
+			this.name = data[1];
+			this.imdb_index = data[2];
+			this.imdb_id = Integer.parseInt(data[3]);
+			this.name_pcode_nf = data[4];
+			this.surname_pcode = data[5];
+			this.md5sum = data[6];
 		}
-
 	}
 }

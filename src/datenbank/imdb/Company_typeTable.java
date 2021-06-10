@@ -1,4 +1,4 @@
-package datanbank.imdb;
+package datenbank.imdb;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,12 +8,12 @@ import java.util.HashMap;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Link_typeTable {
+public class Company_typeTable {
 
-	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/link_type.csv";
-	private HashMap<Integer, Link_type> data = new HashMap<Integer, Link_type>();
+	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/company_type.csv";
+	private HashMap<Integer, Company_type> data = new HashMap<Integer, Company_type>();
 
-	public Link_typeTable() {
+	public Company_typeTable() {
 		convert();
 	}
 
@@ -23,8 +23,8 @@ public class Link_typeTable {
 
 			String[] nextLine;
 			while ((nextLine = reader.readNext()) != null) {
-				Link_type link_type = new Link_type(nextLine);
-				this.data.put(link_type.getPrimaryKey(), link_type);
+				Company_type company_type = new Company_type(nextLine);
+				this.data.put(company_type.getPrimaryKey(), company_type);
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -35,17 +35,17 @@ public class Link_typeTable {
 		}
 	}
 
-	class Link_type {
+	class Company_type {
 		int id;
-		String link;
+		String kind;
 
 		public int getPrimaryKey() {
 			return this.id;
 		}
 
-		public Link_type(String[] data) {
+		public Company_type(String[] data) {
 			this.id = Integer.parseInt(data[0]);
-			this.link = data[1];
+			this.kind = data[1];
 		}
 	}
 }

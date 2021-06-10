@@ -1,4 +1,4 @@
-package datanbank.imdb;
+package datenbank.imdb;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,12 +8,12 @@ import java.util.HashMap;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Movie_linkTable {
+public class Role_typeTable {
 
-	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_link.csv";
-	private HashMap<Integer, Movie_link> data = new HashMap<Integer, Movie_link>();
+	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/role_type.csv";
+	private HashMap<Integer, Role_type> data = new HashMap<Integer, Role_type>();
 
-	public Movie_linkTable() {
+	public Role_typeTable() {
 		convert();
 	}
 
@@ -23,8 +23,8 @@ public class Movie_linkTable {
 
 			String[] nextLine;
 			while ((nextLine = reader.readNext()) != null) {
-				Movie_link movie_link = new Movie_link(nextLine);
-				this.data.put(movie_link.getPrimaryKey(), movie_link);
+				Role_type role_type = new Role_type(nextLine);
+				this.data.put(role_type.getPrimaryKey(), role_type);
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -35,21 +35,17 @@ public class Movie_linkTable {
 		}
 	}
 
-	class Movie_link {
+	class Role_type {
 		int id;
-		int movie_id;
-		int linked_movie_id;
-		int link_type_id;
+		String role;
 
 		public int getPrimaryKey() {
 			return this.id;
 		}
 
-		public Movie_link(String[] data) {
+		public Role_type(String[] data) {
 			this.id = Integer.parseInt(data[0]);
-			this.movie_id = Integer.parseInt(data[1]);
-			this.linked_movie_id = Integer.parseInt(data[2]);
-			this.link_type_id = Integer.parseInt(data[3]);
+			this.role = data[1];
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package datanbank.imdb;
+package datenbank.imdb;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,12 +8,12 @@ import java.util.HashMap;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class KeywordTable {
+public class Complete_castTable {
 
-	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/keyword.csv";
-	private HashMap<Integer, Keyword> data = new HashMap<Integer, Keyword>();
+	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/complete_cast.csv";
+	private HashMap<Integer, Complete_cast> data = new HashMap<Integer, Complete_cast>();
 
-	public KeywordTable() {
+	public Complete_castTable() {
 		convert();
 	}
 
@@ -23,8 +23,8 @@ public class KeywordTable {
 
 			String[] nextLine;
 			while ((nextLine = reader.readNext()) != null) {
-				Keyword keyword = new Keyword(nextLine);
-				this.data.put(keyword.getPrimaryKey(), keyword);
+				Complete_cast complete_cast = new Complete_cast(nextLine);
+				this.data.put(complete_cast.getPrimaryKey(), complete_cast);
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -35,19 +35,21 @@ public class KeywordTable {
 		}
 	}
 
-	class Keyword {
+	class Complete_cast {
 		int id;
-		String keyword;
-		String phonetic_code;
+		int movie_id;
+		int subject_id;
+		int status_id;
 
 		public int getPrimaryKey() {
 			return this.id;
 		}
 
-		public Keyword(String[] data) {
+		public Complete_cast(String[] data) {
 			this.id = Integer.parseInt(data[0]);
-			this.keyword = data[1];
-			this.phonetic_code = data[2];
+			this.movie_id = Integer.parseInt(data[1]);
+			this.status_id = Integer.parseInt(data[2]);
+			this.status_id = Integer.parseInt(data[3]);
 		}
 	}
 }
