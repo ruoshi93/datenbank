@@ -8,12 +8,11 @@ import java.util.HashMap;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Movie_companiesTable {
-
-	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_companies.csv";
-	private HashMap<Integer, Movie_companies> data = new HashMap<Integer, Movie_companies>();
+public class Movie_companiesTable extends TableDemo {
 
 	public Movie_companiesTable() {
+		name = "movie_companies";
+		path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_companies.csv";
 		convert();
 	}
 
@@ -35,12 +34,30 @@ public class Movie_companiesTable {
 		}
 	}
 
-	class Movie_companies {
-		int id;
-		int movie_id;
-		int company_id;
-		int company_type_id;
-		String note;
+	class Movie_companies extends Row {
+		private int id;
+		private int movie_id;
+		private int company_id;
+		private int company_type_id;
+		private String note;
+
+		@Override
+		public <T> T get(String s) {
+			switch (s) {
+			case "id":
+				return (T) (Integer) this.id;
+			case "movie_id":
+				return (T) (Integer) this.movie_id;
+			case "company_id":
+				return (T) (Integer) this.company_id;
+			case "company_type_id":
+				return (T) (Integer) this.company_type_id;
+			case "note":
+				return (T) this.note;
+			default:
+				return null;
+			}
+		}
 
 		public int getPrimaryKey() {
 			return this.id;

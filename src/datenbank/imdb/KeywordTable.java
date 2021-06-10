@@ -8,10 +8,10 @@ import java.util.HashMap;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class KeywordTable extends TableDemo{
-
+public class KeywordTable extends TableDemo {
 
 	public KeywordTable() {
+		name = "keyword";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/keyword.csv";
 		convert();
 	}
@@ -34,24 +34,24 @@ public class KeywordTable extends TableDemo{
 		}
 	}
 
-	class Keyword extends RowDemo{
+	class Keyword extends Row {
 		private int id;
 		private String keyword;
 		private String phonetic_code;
-	
-	    public <T> T get(String s) {
-	    	switch(s) {
-	    	case "id":
-				return (T)(Integer)this.id;
-	    	case "keyword":
-	    		return (T)this.keyword;
-	    	case "phonetic_code":
-	    		return (T)this.phonetic_code;
-	    	default:
-	    		return null;
-	    	}
-	    }
-		
+
+		public <T> T get(String s) {
+			switch (s) {
+			case "id":
+				return (T) (Integer) this.id;
+			case "keyword":
+				return (T) this.keyword;
+			case "phonetic_code":
+				return (T) this.phonetic_code;
+			default:
+				return null;
+			}
+		}
+
 		public int getPrimaryKey() {
 			return this.id;
 		}

@@ -8,12 +8,11 @@ import java.util.HashMap;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Role_typeTable {
-
-	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/role_type.csv";
-	private HashMap<Integer, Role_type> data = new HashMap<Integer, Role_type>();
+public class Role_typeTable extends TableDemo {
 
 	public Role_typeTable() {
+		name = "role_type";
+		path = "/Users/lili/Documents/Bachelor Thesis/imdb/role_type.csv";
 		convert();
 	}
 
@@ -35,9 +34,21 @@ public class Role_typeTable {
 		}
 	}
 
-	class Role_type {
-		int id;
-		String role;
+	class Role_type extends Row {
+		private int id;
+		private String role;
+
+		@Override
+		public <T> T get(String s) {
+			switch (s) {
+			case "id":
+				return (T) (Integer) this.id;
+			case "role":
+				return (T) this.role;
+			default:
+				return null;
+			}
+		}
 
 		public int getPrimaryKey() {
 			return this.id;
@@ -47,5 +58,6 @@ public class Role_typeTable {
 			this.id = Integer.parseInt(data[0]);
 			this.role = data[1];
 		}
+
 	}
 }

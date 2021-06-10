@@ -17,9 +17,9 @@ public class Demo {
 
 		if (s1.equals("id")) {
 			if (s2.equals("id")) {
-				Iterator<Map.Entry<Integer, RowDemo>> it1 = t1.getData().entrySet().iterator();
+				Iterator<Map.Entry<Integer, Row>> it1 = t1.getData().entrySet().iterator();
 				while (it1.hasNext()) {
-					HashMap.Entry<Integer, RowDemo> entry1 = it1.next();
+					HashMap.Entry<Integer, Row> entry1 = it1.next();
 					Integer i = entry1.getKey();
 					if (t2.getData().get(i) != null) {
 						ArrayList<Integer> list = new ArrayList<Integer>();
@@ -28,12 +28,12 @@ public class Demo {
 					}
 				}
 			} else {
-				Iterator<Map.Entry<Integer, RowDemo>> it2 = t2.getData().entrySet().iterator();
+				Iterator<Map.Entry<Integer, Row>> it2 = t2.getData().entrySet().iterator();
 				while (it2.hasNext()) {
-					HashMap.Entry<Integer, RowDemo> entry2 = it2.next();
+					HashMap.Entry<Integer, Row> entry2 = it2.next();
 					Integer pk2 = entry2.getKey();
-					RowDemo value2 = entry2.getValue();
-					RowDemo value1 = t1.getData().get(value2.get(s2));
+					Row value2 = entry2.getValue();
+					Row value1 = t1.getData().get(value2.get(s2));
 					if (value1 != null) {
 						ArrayList<Integer> list = new ArrayList<Integer>();
 						list.add(pk2);
@@ -43,12 +43,12 @@ public class Demo {
 			}
 		} else {
 			if(s2.equals("id")) {
-				Iterator<Map.Entry<Integer, RowDemo>> it1 = t1.getData().entrySet().iterator();
+				Iterator<Map.Entry<Integer, Row>> it1 = t1.getData().entrySet().iterator();
 				while (it1.hasNext()) {
-					HashMap.Entry<Integer, RowDemo> entry1 = it1.next();
+					HashMap.Entry<Integer, Row> entry1 = it1.next();
 					Integer pk1 = entry1.getKey();
-					RowDemo value1=entry1.getValue();
-					RowDemo value2=t2.getData().get(value1.get(s1));
+					Row value1=entry1.getValue();
+					Row value2=t2.getData().get(value1.get(s1));
 					if (value2 != null) {
 						ArrayList<Integer> list = new ArrayList<Integer>();
 						list.add(value2.getPrimaryKey());
@@ -56,12 +56,12 @@ public class Demo {
 					}
 				}
 			}else {
-				Iterator<Map.Entry<Integer, RowDemo>> it1 = t1.getData().entrySet().iterator();
+				Iterator<Map.Entry<Integer, Row>> it1 = t1.getData().entrySet().iterator();
 				HashMap pk2HashMap = t2.get(s2);
 				while (it1.hasNext()) {
-					HashMap.Entry<Integer, RowDemo> entry1 = it1.next();
+					HashMap.Entry<Integer, Row> entry1 = it1.next();
 					Integer pk1 = entry1.getKey();
-					RowDemo value1 = entry1.getValue();
+					Row value1 = entry1.getValue();
 					ArrayList<Integer> pk2List = (ArrayList<Integer>) pk2HashMap.get(value1.get(s1));
 					if (pk2List != null) {
 						ArrayList<Integer> list = new ArrayList<Integer>();

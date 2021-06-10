@@ -1,6 +1,6 @@
 package datenbank.imdb;
 
-public abstract class RowDemo {
+public abstract class Row {
 
 	public abstract int getPrimaryKey();
 

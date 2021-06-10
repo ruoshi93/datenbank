@@ -8,12 +8,11 @@ import java.util.HashMap;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Complete_castTable {
-
-	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/complete_cast.csv";
-	private HashMap<Integer, Complete_cast> data = new HashMap<Integer, Complete_cast>();
+public class Complete_castTable extends TableDemo {
 
 	public Complete_castTable() {
+		name = "complete_cast";
+		path = "/Users/lili/Documents/Bachelor Thesis/imdb/complete_cast.csv";
 		convert();
 	}
 
@@ -35,11 +34,27 @@ public class Complete_castTable {
 		}
 	}
 
-	class Complete_cast {
-		int id;
-		int movie_id;
-		int subject_id;
-		int status_id;
+	class Complete_cast extends Row {
+		private int id;
+		private int movie_id;
+		private int subject_id;
+		private int status_id;
+
+		@Override
+		public <T> T get(String s) {
+			switch (s) {
+			case "id":
+				return (T) (Integer) this.id;
+			case "movie_id":
+				return (T) (Integer) this.movie_id;
+			case "subject_id":
+				return (T) (Integer) this.subject_id;
+			case "status_id":
+				return (T) (Integer) this.status_id;
+			default:
+				return null;
+			}
+		}
 
 		public int getPrimaryKey() {
 			return this.id;
@@ -51,5 +66,6 @@ public class Complete_castTable {
 			this.status_id = Integer.parseInt(data[2]);
 			this.status_id = Integer.parseInt(data[3]);
 		}
+
 	}
 }

@@ -10,10 +10,10 @@ import java.util.List;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Aka_nameTable extends TableDemo{
-
+public class Aka_nameTable extends TableDemo {
 
 	public Aka_nameTable() {
+		name = "aka_name";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/aka_name.csv";
 		convert();
 	}
@@ -36,7 +36,7 @@ public class Aka_nameTable extends TableDemo{
 		}
 	}
 
-	class Aka_name extends RowDemo{
+	class Aka_name extends Row {
 		private int id;
 		private int movie_id;
 		private String name;
@@ -46,29 +46,30 @@ public class Aka_nameTable extends TableDemo{
 		private String surname_pcode;
 		private String md5sum;
 
-	    public <T> T get(String s) {
-	    	switch(s) {
-	    	case "id":
-				return (T)(Integer)this.id;
-	    	case "movie_id":
-	    		return (T)(Integer)this.movie_id;
-	    	case "name":
-	    		return (T)this.name;
-	    	case "imdb_index":
-	    		return (T)this.imdb_index;
-	    	case "name_pcode_cf":
-	    		return (T)this.name_pcode_cf;
-	    	case "name_pcode_nf":
-	    		return (T)this.name_pcode_nf;
-	    	case "surname_pcode":
-	    		return (T)this.surname_pcode;
-	    	case "md5sum":
-	    		return (T)this.md5sum;
-	    	default:
-	    		return null;
-	    	}
-	    }
-		
+		@Override
+		public <T> T get(String s) {
+			switch (s) {
+			case "id":
+				return (T) (Integer) this.id;
+			case "movie_id":
+				return (T) (Integer) this.movie_id;
+			case "name":
+				return (T) this.name;
+			case "imdb_index":
+				return (T) this.imdb_index;
+			case "name_pcode_cf":
+				return (T) this.name_pcode_cf;
+			case "name_pcode_nf":
+				return (T) this.name_pcode_nf;
+			case "surname_pcode":
+				return (T) this.surname_pcode;
+			case "md5sum":
+				return (T) this.md5sum;
+			default:
+				return null;
+			}
+		}
+
 		public int getPrimaryKey() {
 			return this.id;
 		}

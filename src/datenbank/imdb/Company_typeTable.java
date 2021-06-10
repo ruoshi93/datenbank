@@ -8,12 +8,11 @@ import java.util.HashMap;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Company_typeTable {
-
-	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/company_type.csv";
-	private HashMap<Integer, Company_type> data = new HashMap<Integer, Company_type>();
+public class Company_typeTable extends TableDemo {
 
 	public Company_typeTable() {
+		name = "company_type";
+		path = "/Users/lili/Documents/Bachelor Thesis/imdb/company_type.csv";
 		convert();
 	}
 
@@ -35,9 +34,21 @@ public class Company_typeTable {
 		}
 	}
 
-	class Company_type {
-		int id;
-		String kind;
+	class Company_type extends Row {
+		private int id;
+		private String kind;
+
+		@Override
+		public <T> T get(String s) {
+			switch (s) {
+			case "id":
+				return (T) (Integer) this.id;
+			case "kind":
+				return (T) this.kind;
+			default:
+				return null;
+			}
+		}
 
 		public int getPrimaryKey() {
 			return this.id;

@@ -8,12 +8,11 @@ import java.util.HashMap;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Comp_cast_typeTable {
-
-	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/comp_cast_type.csv";
-	private HashMap<Integer, Comp_cast_type> data = new HashMap<Integer, Comp_cast_type>();
+public class Comp_cast_typeTable extends TableDemo {
 
 	public Comp_cast_typeTable() {
+		name = "comp_cast_type";
+		path = "/Users/lili/Documents/Bachelor Thesis/imdb/comp_cast_type.csv";
 		convert();
 	}
 
@@ -35,9 +34,21 @@ public class Comp_cast_typeTable {
 		}
 	}
 
-	class Comp_cast_type {
-		int id;
-		String kind;
+	class Comp_cast_type extends Row {
+		private int id;
+		private String kind;
+
+		@Override
+		public <T> T get(String s) {
+			switch (s) {
+			case "id":
+				return (T) (Integer) this.id;
+			case "kind":
+				return (T) this.kind;
+			default:
+				return null;
+			}
+		}
 
 		public int getPrimaryKey() {
 			return this.id;

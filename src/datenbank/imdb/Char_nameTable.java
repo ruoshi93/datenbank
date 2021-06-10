@@ -8,12 +8,11 @@ import java.util.HashMap;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Char_nameTable {
-
-	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/char_name.csv";
-	private HashMap<Integer, Char_name> data = new HashMap<Integer, Char_name>();
+public class Char_nameTable extends TableDemo {
 
 	public Char_nameTable() {
+		name = "char_name";
+		path = "/Users/lili/Documents/Bachelor Thesis/imdb/char_name.csv";
 		convert();
 	}
 
@@ -35,14 +34,36 @@ public class Char_nameTable {
 		}
 	}
 
-	class Char_name {
-		int id;
-		String name;
-		String imdb_index;
-		int imdb_id;
-		String name_pcode_nf;
-		String surname_pcode;
-		String md5sum;
+	class Char_name extends Row {
+		private int id;
+		private String name;
+		private String imdb_index;
+		private int imdb_id;
+		private String name_pcode_nf;
+		private String surname_pcode;
+		private String md5sum;
+
+		@Override
+		public <T> T get(String s) {
+			switch (s) {
+			case "id":
+				return (T) (Integer) this.id;
+			case "name":
+				return (T) this.name;
+			case "imdb_index":
+				return (T) this.imdb_index;
+			case "imdb_id":
+				return (T) (Integer) this.imdb_id;
+			case "name_pcode_nf":
+				return (T) this.name_pcode_nf;
+			case "surname_pcode":
+				return (T) this.surname_pcode;
+			case "md5sum":
+				return (T) this.md5sum;
+			default:
+				return null;
+			}
+		}
 
 		public int getPrimaryKey() {
 			return this.id;
@@ -57,5 +78,6 @@ public class Char_nameTable {
 			this.surname_pcode = data[5];
 			this.md5sum = data[6];
 		}
+
 	}
 }

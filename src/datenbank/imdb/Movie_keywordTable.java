@@ -8,9 +8,10 @@ import java.util.HashMap;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Movie_keywordTable extends TableDemo{
+public class Movie_keywordTable extends TableDemo {
 
 	public Movie_keywordTable() {
+		name = "movie_keyword";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_keyword.csv";
 		convert();
 	}
@@ -33,25 +34,24 @@ public class Movie_keywordTable extends TableDemo{
 		}
 	}
 
-	class Movie_keyword extends RowDemo{
+	class Movie_keyword extends Row {
 		private int id;
 		private int movie_id;
 		private int keyword_id;
 
-	    public <T> T get(String s) {
-	    	switch(s) {
-	    	case "id":
-				return (T)(Integer)this.id;
-	    	case "movie_id":
-	    		return (T)(Integer)this.movie_id;
-	    	case "keyword_id":
-	    		return (T)(Integer)this.keyword_id;
-	    	default:
-	    		return null;
-	    	}
-	    }
-		
-		
+		public <T> T get(String s) {
+			switch (s) {
+			case "id":
+				return (T) (Integer) this.id;
+			case "movie_id":
+				return (T) (Integer) this.movie_id;
+			case "keyword_id":
+				return (T) (Integer) this.keyword_id;
+			default:
+				return null;
+			}
+		}
+
 		public int getPrimaryKey() {
 			return this.id;
 		}

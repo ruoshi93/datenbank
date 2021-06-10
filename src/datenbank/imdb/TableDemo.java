@@ -14,21 +14,22 @@ import com.opencsv.exceptions.CsvValidationException;
 import datenbank.imdb.Company_nameTable.Company_name;
 
 public abstract class TableDemo {
+	protected String name;
 	protected String path;
-	protected HashMap<Integer,RowDemo> data = new HashMap<Integer,RowDemo>();
-	//TODO Delete all the path and data of the subclasses
-	
-	public <T> HashMap<T,ArrayList<Integer>> get(String s){
-		HashMap<T,ArrayList<Integer>> pkMap = new HashMap<T,ArrayList<Integer>>();
-		Iterator<Entry<Integer, RowDemo>> it1 = data.entrySet().iterator();
-		while(it1.hasNext()) {
-			Entry<Integer, RowDemo> entry1 = it1.next();
+	protected HashMap<Integer, Row> data = new HashMap<Integer, Row>();
+	// TODO Delete all the path and data of the subclasses
+
+	public <T> HashMap<T, ArrayList<Integer>> get(String s) {
+		HashMap<T, ArrayList<Integer>> pkMap = new HashMap<T, ArrayList<Integer>>();
+		Iterator<Entry<Integer, Row>> it1 = data.entrySet().iterator();
+		while (it1.hasNext()) {
+			Entry<Integer, Row> entry1 = it1.next();
 			Integer pk = entry1.getKey();
 			T value = entry1.getValue().get(s);
 			ArrayList<Integer> pkMapValue = pkMap.get(value);
-			if(pkMapValue!=null) {
+			if (pkMapValue != null) {
 				pkMapValue.add(pk);
-			}else {
+			} else {
 				ArrayList<Integer> pkList = new ArrayList<Integer>();
 				pkList.add(pk);
 				pkMap.put(value, pkList);
@@ -36,23 +37,16 @@ public abstract class TableDemo {
 		}
 		return pkMap;
 	}
-	
-	public String getPath() {
-		return path;
+
+	public String getName() {
+		return this.name;
 	}
 
-
-	public void setPath(String path) {
-		this.path = path;
-	}
-
-
-	public void setData(HashMap<Integer, RowDemo> data) {
+	public void setData(HashMap<Integer, Row> data) {
 		this.data = data;
 	}
 
-
-	public HashMap<Integer, RowDemo> getData() {
+	public HashMap<Integer, Row> getData() {
 		return this.data;
 	}
 }

@@ -8,12 +8,11 @@ import java.util.HashMap;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Movie_linkTable {
-
-	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_link.csv";
-	private HashMap<Integer, Movie_link> data = new HashMap<Integer, Movie_link>();
+public class Movie_linkTable extends TableDemo {
 
 	public Movie_linkTable() {
+		name = "movie_link";
+		path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_link.csv";
 		convert();
 	}
 
@@ -35,11 +34,27 @@ public class Movie_linkTable {
 		}
 	}
 
-	class Movie_link {
-		int id;
-		int movie_id;
-		int linked_movie_id;
-		int link_type_id;
+	class Movie_link extends Row {
+		private int id;
+		private int movie_id;
+		private int linked_movie_id;
+		private int link_type_id;
+
+		@Override
+		public <T> T get(String s) {
+			switch (s) {
+			case "id":
+				return (T) (Integer) this.id;
+			case "movie_id":
+				return (T) (Integer) this.movie_id;
+			case "linked_movie_id":
+				return (T) (Integer) this.linked_movie_id;
+			case "link_type_id":
+				return (T) (Integer) this.link_type_id;
+			default:
+				return null;
+			}
+		}
 
 		public int getPrimaryKey() {
 			return this.id;
@@ -51,5 +66,6 @@ public class Movie_linkTable {
 			this.linked_movie_id = Integer.parseInt(data[2]);
 			this.link_type_id = Integer.parseInt(data[3]);
 		}
+
 	}
 }

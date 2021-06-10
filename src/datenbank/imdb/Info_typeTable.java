@@ -8,12 +8,11 @@ import java.util.HashMap;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Info_typeTable {
-
-	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/info_type.csv";
-	private HashMap<Integer, Info_type> data = new HashMap<Integer, Info_type>();
+public class Info_typeTable extends TableDemo {
 
 	public Info_typeTable() {
+		name = "info_type";
+		path = "/Users/lili/Documents/Bachelor Thesis/imdb/info_type.csv";
 		convert();
 	}
 
@@ -35,9 +34,21 @@ public class Info_typeTable {
 		}
 	}
 
-	class Info_type {
-		int id;
-		String info;
+	class Info_type extends Row {
+		private int id;
+		private String info;
+
+		@Override
+		public <T> T get(String s) {
+			switch (s) {
+			case "id":
+				return (T) (Integer) this.id;
+			case "info":
+				return (T) this.info;
+			default:
+				return null;
+			}
+		}
 
 		public int getPrimaryKey() {
 			return this.id;
@@ -47,5 +58,6 @@ public class Info_typeTable {
 			this.id = Integer.parseInt(data[0]);
 			this.info = data[1];
 		}
+
 	}
 }

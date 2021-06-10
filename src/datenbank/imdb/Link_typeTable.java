@@ -8,12 +8,11 @@ import java.util.HashMap;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Link_typeTable {
-
-	private String path = "/Users/lili/Documents/Bachelor Thesis/imdb/link_type.csv";
-	private HashMap<Integer, Link_type> data = new HashMap<Integer, Link_type>();
+public class Link_typeTable extends TableDemo {
 
 	public Link_typeTable() {
+		name = "link_type";
+		path = "/Users/lili/Documents/Bachelor Thesis/imdb/link_type.csv";
 		convert();
 	}
 
@@ -35,9 +34,21 @@ public class Link_typeTable {
 		}
 	}
 
-	class Link_type {
-		int id;
-		String link;
+	class Link_type extends Row {
+		private int id;
+		private String link;
+
+		@Override
+		public <T> T get(String s) {
+			switch (s) {
+			case "id":
+				return (T) (Integer) this.id;
+			case "link":
+				return (T) this.link;
+			default:
+				return null;
+			}
+		}
 
 		public int getPrimaryKey() {
 			return this.id;
@@ -47,5 +58,6 @@ public class Link_typeTable {
 			this.id = Integer.parseInt(data[0]);
 			this.link = data[1];
 		}
+
 	}
 }
