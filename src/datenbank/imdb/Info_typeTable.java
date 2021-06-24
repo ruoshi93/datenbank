@@ -55,7 +55,7 @@ public class Info_typeTable extends TableDemo {
 		}
 
 		public Info_type(String[] data) {
-			this.id = Integer.parseInt(data[0]);
+			this.id = this.parseStringToInt(data[0]);
 			this.info = data[1];
 		}
 

@@ -57,7 +57,7 @@ public class KeywordTable extends TableDemo {
 		}
 
 		public Keyword(String[] data) {
-			this.id = Integer.parseInt(data[0]);
+			this.id = this.parseStringToInt(data[0]);
 			this.keyword = data[1];
 			this.phonetic_code = data[2];
 		}

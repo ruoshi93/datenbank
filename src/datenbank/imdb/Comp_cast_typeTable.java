@@ -55,7 +55,7 @@ public class Comp_cast_typeTable extends TableDemo {
 		}
 
 		public Comp_cast_type(String[] data) {
-			this.id = Integer.parseInt(data[0]);
+			this.id = this.parseStringToInt(data[0]);
 			this.kind = data[1];
 		}
 	}

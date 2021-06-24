@@ -57,9 +57,9 @@ public class Movie_keywordTable extends TableDemo {
 		}
 
 		public Movie_keyword(String[] data) {
-			this.id = Integer.parseInt(data[0]);
-			this.movie_id = Integer.parseInt(data[1]);
-			this.keyword_id = Integer.parseInt(data[2]);
+			this.id = this.parseStringToInt(data[0]);
+			this.movie_id = this.parseStringToInt(data[1]);
+			this.keyword_id = this.parseStringToInt(data[2]);
 		}
 	}
 }

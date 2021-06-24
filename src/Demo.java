@@ -97,16 +97,31 @@ public class Demo {
 	}
 
 	public static void main(String[] args) {
+		TableDemo an = new Aka_nameTable();
+		TableDemo at = new Aka_titleTable();
+//		TableDemo ci = new Cast_infoTable();
+		TableDemo chn= new Char_nameTable();
+		TableDemo cct= new Comp_cast_typeTable();
+		TableDemo cn = new Company_nameTable();
+		TableDemo ct = new Company_typeTable();
+		TableDemo cc = new Complete_castTable();
+		TableDemo it = new Info_typeTable();
+		TableDemo k = new KeywordTable();
+		TableDemo kt = new Kind_typeTable();
+		TableDemo lt = new Link_typeTable();
+		TableDemo mc = new Movie_companiesTable();
+		TableDemo mii= new Movie_info_idxTable();
+//		TableDemo mi = new Movie_infoTable();
+		TableDemo mk = new Movie_keywordTable();
+		TableDemo ml = new Movie_linkTable();
+		TableDemo n = new NameTable();
+//		TableDemo pi = new Person_infoTable();
+		TableDemo rt = new Role_typeTable();
+//		TableDemo t = new TitleTable();
 
-		Company_nameTable cn = new Company_nameTable();
-		KeywordTable k = new KeywordTable();
-		Movie_companiesTable mc = new Movie_companiesTable();
-		Movie_keywordTable mk = new Movie_keywordTable();
-		TitleTable t = new TitleTable();
-
-		Result result = join(mk,"keyword_id",k,"id");
-		System.out.println("Join completed");
-		System.out.println(result);
+//		Result result = join(mk,"keyword_id",k,"id");
+//		System.out.println("Join completed");
+//		System.out.println(result);
 	}
 
 }

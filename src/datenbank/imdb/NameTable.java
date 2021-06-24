@@ -74,12 +74,12 @@ public class NameTable extends TableDemo {
 		public int getPrimaryKey() {
 			return this.id;
 		}
-
+		
 		public Name(String[] data) {
-			this.id = Integer.parseInt(data[0]);
+			this.id = this.parseStringToInt(data[0]);
 			this.name = data[1];
 			this.imdb_index = data[2];
-			this.imdb_id = Integer.parseInt(data[3]);
+			this.imdb_id = this.parseStringToInt(data[3]);
 			this.gender = data[4];
 			this.name_pcode_cf = data[5];
 			this.name_pcode_nf = data[6];

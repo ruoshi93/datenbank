@@ -70,10 +70,10 @@ public class Char_nameTable extends TableDemo {
 		}
 
 		public Char_name(String[] data) {
-			this.id = Integer.parseInt(data[0]);
+			this.id = this.parseStringToInt(data[0]);
 			this.name = data[1];
 			this.imdb_index = data[2];
-			this.imdb_id = Integer.parseInt(data[3]);
+			this.imdb_id = this.parseStringToInt(data[3]);
 			this.name_pcode_nf = data[4];
 			this.surname_pcode = data[5];
 			this.md5sum = data[6];

@@ -64,10 +64,10 @@ public class Movie_companiesTable extends TableDemo {
 		}
 
 		public Movie_companies(String[] data) {
-			this.id = Integer.parseInt(data[0]);
-			this.movie_id = Integer.parseInt(data[1]);
-			this.company_id = Integer.parseInt(data[2]);
-			this.company_type_id = Integer.parseInt(data[3]);
+			this.id = this.parseStringToInt(data[0]);
+			this.movie_id = this.parseStringToInt(data[1]);
+			this.company_id = this.parseStringToInt(data[2]);
+			this.company_type_id = this.parseStringToInt(data[3]);
 			this.note = data[4];
 		}
 	}

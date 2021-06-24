@@ -85,16 +85,16 @@ public class Aka_titleTable extends TableDemo {
 		}
 
 		public Aka_title(String[] data) {
-			this.id = Integer.parseInt(data[0]);
-			this.movie_id = Integer.parseInt(data[1]);
+			this.id = this.parseStringToInt(data[0]);
+			this.movie_id = this.parseStringToInt(data[1]);
 			this.title = data[2];
 			this.imdb_index = data[3];
-			this.kind_id = Integer.parseInt(data[4]);
-			this.production_year = Integer.parseInt(data[5]);
+			this.kind_id = this.parseStringToInt(data[4]);
+			this.production_year = this.parseStringToInt(data[5]);
 			this.phonetic_code = data[6];
-			this.episode_of_id = Integer.parseInt(data[7]);
-			this.season_nr = Integer.parseInt(data[8]);
-			this.episode_nr = Integer.parseInt(data[9]);
+			this.episode_of_id = this.parseStringToInt(data[7]);
+			this.season_nr = this.parseStringToInt(data[8]);
+			this.episode_nr = this.parseStringToInt(data[9]);
 			this.note = data[10];
 			this.md5sum = data[11];
 		}

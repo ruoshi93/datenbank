@@ -75,8 +75,8 @@ public class Aka_nameTable extends TableDemo {
 		}
 
 		public Aka_name(String[] data) {
-			this.id = Integer.parseInt(data[0]);
-			this.movie_id = Integer.parseInt(data[1]);
+			this.id = this.parseStringToInt(data[0]);
+			this.movie_id = this.parseStringToInt(data[1]);
 			this.name = data[2];
 			this.imdb_index = data[3];
 			this.name_pcode_cf = data[4];

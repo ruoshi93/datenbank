@@ -64,9 +64,9 @@ public class Movie_info_idxTable extends TableDemo {
 		}
 
 		public Movie_info_idx(String[] data) {
-			this.id = Integer.parseInt(data[0]);
-			this.movie_id = Integer.parseInt(data[1]);
-			this.info_type_id = Integer.parseInt(data[2]);
+			this.id = this.parseStringToInt(data[0]);
+			this.movie_id = this.parseStringToInt(data[1]);
+			this.info_type_id = this.parseStringToInt(data[2]);
 			this.info = data[3];
 			this.note = data[4];
 		}

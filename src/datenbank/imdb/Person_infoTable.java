@@ -64,9 +64,9 @@ public class Person_infoTable extends TableDemo {
 		}
 
 		public Person_info(String[] data) {
-			this.id = Integer.parseInt(data[0]);
-			this.person_id = Integer.parseInt(data[1]);
-			this.info_type_id = Integer.parseInt(data[2]);
+			this.id = this.parseStringToInt(data[0]);
+			this.person_id = this.parseStringToInt(data[1]);
+			this.info_type_id = this.parseStringToInt(data[2]);
 			this.info = data[3];
 			this.note = data[4];
 		}

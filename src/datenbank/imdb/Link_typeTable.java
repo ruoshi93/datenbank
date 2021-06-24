@@ -55,7 +55,7 @@ public class Link_typeTable extends TableDemo {
 		}
 
 		public Link_type(String[] data) {
-			this.id = Integer.parseInt(data[0]);
+			this.id = this.parseStringToInt(data[0]);
 			this.link = data[1];
 		}
 

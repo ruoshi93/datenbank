@@ -61,10 +61,10 @@ public class Complete_castTable extends TableDemo {
 		}
 
 		public Complete_cast(String[] data) {
-			this.id = Integer.parseInt(data[0]);
-			this.movie_id = Integer.parseInt(data[1]);
-			this.status_id = Integer.parseInt(data[2]);
-			this.status_id = Integer.parseInt(data[3]);
+			this.id = this.parseStringToInt(data[0]);
+			this.movie_id = this.parseStringToInt(data[1]);
+			this.status_id = this.parseStringToInt(data[2]);
+			this.status_id = this.parseStringToInt(data[3]);
 		}
 
 	}

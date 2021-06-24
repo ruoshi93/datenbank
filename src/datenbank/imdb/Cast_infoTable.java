@@ -71,14 +71,14 @@ public class Cast_infoTable extends TableDemo {
 		}
 
 		public Cast_info(String[] data) {
-			this.id = Integer.parseInt(data[0]);
-			this.person_id = Integer.parseInt(data[1]);
-			this.movie_id = Integer.parseInt(data[2]);
+			this.id = this.parseStringToInt(data[0]);
+			this.person_id = this.parseStringToInt(data[1]);
+			this.movie_id = this.parseStringToInt(data[2]);
 			;
-			this.person_role_id = Integer.parseInt(data[3]);
+			this.person_role_id = this.parseStringToInt(data[3]);
 			this.note = data[4];
-			this.nr_order = Integer.parseInt(data[5]);
-			this.role_id = Integer.parseInt(data[6]);
+			this.nr_order = this.parseStringToInt(data[5]);
+			this.role_id = this.parseStringToInt(data[6]);
 		}
 
 	}

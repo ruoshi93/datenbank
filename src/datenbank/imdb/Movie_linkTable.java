@@ -61,10 +61,10 @@ public class Movie_linkTable extends TableDemo {
 		}
 
 		public Movie_link(String[] data) {
-			this.id = Integer.parseInt(data[0]);
-			this.movie_id = Integer.parseInt(data[1]);
-			this.linked_movie_id = Integer.parseInt(data[2]);
-			this.link_type_id = Integer.parseInt(data[3]);
+			this.id = this.parseStringToInt(data[0]);
+			this.movie_id = this.parseStringToInt(data[1]);
+			this.linked_movie_id = this.parseStringToInt(data[2]);
+			this.link_type_id = this.parseStringToInt(data[3]);
 		}
 
 	}

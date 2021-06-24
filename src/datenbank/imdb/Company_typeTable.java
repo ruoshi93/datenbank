@@ -55,7 +55,7 @@ public class Company_typeTable extends TableDemo {
 		}
 
 		public Company_type(String[] data) {
-			this.id = Integer.parseInt(data[0]);
+			this.id = this.parseStringToInt(data[0]);
 			this.kind = data[1];
 		}
 	}

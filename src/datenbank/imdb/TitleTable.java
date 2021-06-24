@@ -84,19 +84,31 @@ public class TitleTable extends TableDemo {
 			return this.id;
 		}
 
+
 		public Title(String[] data) {
-			this.id = Integer.parseInt(data[0]);
+			try {
+			this.id = this.parseStringToInt(data[0]);
 			this.title = data[1];
 			this.imdb_index = data[2];
-			this.kind_id = Integer.parseInt(data[3]);
-			this.production_year = Integer.parseInt(data[4]);
-			this.imdb_id = Integer.parseInt(data[5]);
+			this.kind_id = this.parseStringToInt(data[3]);
+			this.production_year = this.parseStringToInt(data[4]);
+			this.imdb_id = this.parseStringToInt(data[5]);
 			this.phonetic_code = data[6];
-			this.episode_of_id = Integer.parseInt(data[7]);
-			this.season_nr = Integer.parseInt(data[8]);
-			this.episode_nr = Integer.parseInt(data[9]);
+			this.episode_of_id = this.parseStringToInt(data[7]);
+			this.season_nr = this.parseStringToInt(data[8]);
+			this.episode_nr = this.parseStringToInt(data[9]);
 			this.series_years = data[10];
 			this.md5sum = data[11];
+			}catch(Exception e) {
+				System.out.println("Size:"+data.length);
+				System.out.print(" | ");
+				for(String s:data) {
+					System.out.print(s+" | ");
+				}
+				System.out.println();
+				System.out.println(" | "+this.id+" | "+this.title+" | "+this.imdb_index+" | "+this.kind_id+" | "+this.production_year+" | "+this.imdb_id+" | "+this.phonetic_code+" | "+this.episode_of_id+" | "+this.season_nr+" | "+this.episode_nr+" | "+this.series_years+" | "+this.md5sum+" | ");
+				System.out.println(e);
+			}
 		}
 	}
 }
