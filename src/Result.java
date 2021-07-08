@@ -7,9 +7,11 @@ import java.util.Map;
 import java.util.ArrayList;
 
 
-public class Result{
+public class Result implements Cloneable{
 	
 	private ArrayList<TableDemo> schema = new ArrayList<TableDemo>();
+	
+	//HashMap data only stores the corresponding primary keys ("id") of each table in the schema
 	private HashMap<Integer,ArrayList<Integer>> data = new HashMap<Integer,ArrayList<Integer>>();
 	
 	
@@ -29,10 +31,22 @@ public class Result{
 		this.data = data;
 	}
 
-
+    @Override  
+    public Object clone() {  
+        Result result = null;  
+        try{  
+            result = (Result)super.clone();  
+        }catch(CloneNotSupportedException e) {  
+            e.printStackTrace();  
+        }
+        result.setSchema((ArrayList<TableDemo>)this.schema.clone());
+        result.setData((HashMap<Integer,ArrayList<Integer>>)this.data.clone());
+        return result;  
+    } 
 
 
 	//TODO Complete the toString method
+    @Override
 	public String toString() {
 		String s=new String();
 //		Iterator<Map.Entry<Integer, ArrayList<Integer>>> it = data.entrySet().iterator();

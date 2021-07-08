@@ -19,7 +19,7 @@ public abstract class TableDemo {
 	protected HashMap<Integer, Row> data = new HashMap<Integer, Row>();
 	// TODO Delete all the path and data of the subclasses
 
-	public <T> HashMap<T, ArrayList<Integer>> get(String s) {
+	public <T> HashMap<T, ArrayList<Integer>> getPKMap(String s) {
 		HashMap<T, ArrayList<Integer>> pkMap = new HashMap<T, ArrayList<Integer>>();
 		Iterator<Entry<Integer, Row>> it1 = data.entrySet().iterator();
 		while (it1.hasNext()) {
