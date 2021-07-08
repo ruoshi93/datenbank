@@ -31,6 +31,10 @@ public class Result implements Cloneable{
 		this.data = data;
 	}
 
+	public boolean isEmpty() {
+		return schema.isEmpty()&&data.isEmpty();
+	}
+	
     @Override  
     public Object clone() {  
         Result result = null;  

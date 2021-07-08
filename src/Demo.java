@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import datenbank.imdb.*;
 
 public class Demo {
-
+	
 	static TableDemo an = new Aka_nameTable();
 	static TableDemo at = new Aka_titleTable();
 	static TableDemo ci = new Cast_infoTable();
@@ -81,6 +81,8 @@ public class Demo {
 	}
 
 	public static void join(Result result, String s1, String s2) {
+		long startTime=System.currentTimeMillis();
+		
 		String[] query1 = s1.split("\\.");
 		String[] query2 = s2.split("\\.");
 		TableDemo table1 = get(query1[0]);
@@ -91,7 +93,7 @@ public class Demo {
 		HashMap<Integer, ArrayList<Integer>> resultData = result.getData();
 		ArrayList<TableDemo> resultSchema = result.getSchema();
 
-		if (resultData == null) {
+		if (resultData.isEmpty()) {
 			resultSchema.add(table1);
 			resultSchema.add(table2);
 			if (attr1.equals("id")) {
@@ -292,15 +294,29 @@ public class Demo {
 
 			} else {
 				// TODO Exception
+				System.out.println("Exception");
 			}
 
 			result = newResult;
 		}
+		long endTime=System.currentTimeMillis();
+		System.out.println("Joining runtime: "+runTime(endTime-startTime));  
 	}
 
+	private static String runTime(long runT) {
+		if(runT<1000) {
+			return runT+" ms. "; 
+		}else if(runT<60000) {
+			return runT/1000+" secs "+runT%1000+" ms. ";
+		}else {
+			return runT/60000+" min " + (runT%60000)/1000 + " secs " + runT%60000%1000+" ms. ";
+		}
+	}
+	
 	public static void main(String[] args) {
 		Result result = new Result();
-		join(result,"mk.movie_keywords","k.id");
+		join(result,"mk.keyword_id","k.id");
+		System.out.println(result);
 	}
 
 }
