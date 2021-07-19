@@ -80,7 +80,7 @@ public class Demo {
 		}
 	}
 
-	public static void join(Result result, String s1, String s2) {
+	public static Result join(Result result, String s1, String s2) {
 		long startTime=System.currentTimeMillis();
 		
 		String[] query1 = s1.split("\\.");
@@ -89,6 +89,7 @@ public class Demo {
 		String attr1 = query1[1];
 		TableDemo table2 = get(query2[0]);
 		String attr2 = query2[1];
+		//TODO Examine the tables and attributes
 
 		HashMap<Integer, ArrayList<Integer>> resultData = result.getData();
 		ArrayList<TableDemo> resultSchema = result.getSchema();
@@ -159,16 +160,22 @@ public class Demo {
 					}
 				}
 			}
+			
 		} else {
 			Result newResult = new Result();
+			
+			newResult.setSchema((ArrayList<TableDemo>) resultSchema.clone());
+			
 			ArrayList<TableDemo> newResultSchema = newResult.getSchema();
-			newResultSchema = (ArrayList<TableDemo>) resultSchema.clone();
+			
 			HashMap<Integer, ArrayList<Integer>> newResultData = newResult.getData();
 
 			if (resultSchema.contains(table1)) {
 
 				int index = resultSchema.indexOf(table1);
+				
 				newResultSchema.add(table2);
+				
 				Iterator<Map.Entry<Integer, ArrayList<Integer>>> it1 = result.getData().entrySet().iterator();
 
 				if (attr1.equals("id")) {
@@ -232,7 +239,9 @@ public class Demo {
 			} else if (resultSchema.contains(table2)) {
 
 				int index = resultSchema.indexOf(table2);
-				resultSchema.add(table1);
+				
+				newResultSchema.add(table1);
+				
 				Iterator<Map.Entry<Integer, ArrayList<Integer>>> it2 = result.getData().entrySet().iterator();
 
 				if (attr1.equals("id")) {
@@ -299,8 +308,11 @@ public class Demo {
 
 			result = newResult;
 		}
+
 		long endTime=System.currentTimeMillis();
-		System.out.println("Joining runtime: "+runTime(endTime-startTime));  
+		System.out.println("Joining runtime: "+runTime(endTime-startTime)); 
+		
+		return result;
 	}
 
 	private static String runTime(long runT) {
@@ -315,8 +327,11 @@ public class Demo {
 	
 	public static void main(String[] args) {
 		Result result = new Result();
-		join(result,"mk.keyword_id","k.id");
-		System.out.println(result);
+		result = join(result,"mk.keyword_id","k.id");
+		result = join(result,"mk.movie_id","t.id");
+		result = join(result,"mc.movie_id","t.id");
+		result = join(result,"cn.id","mc.company_id");
+		System.out.println(result.getSchema());
 	}
 
 }

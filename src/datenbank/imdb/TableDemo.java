@@ -37,6 +37,10 @@ public abstract class TableDemo {
 		}
 		return pkMap;
 	}
+	
+	public String toString() {
+		return this.name;
+	}
 
 	public String getName() {
 		return this.name;
