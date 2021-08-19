@@ -1,4 +1,6 @@
+package datenbank.main;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -7,7 +9,7 @@ import java.util.Map.Entry;
 
 import datenbank.imdb.*;
 
-public class Demo {
+public class DatabaseEngine {
 	
 	static TableDemo an = new Aka_nameTable();
 	static TableDemo at = new Aka_titleTable();
@@ -81,7 +83,6 @@ public class Demo {
 	}
 
 	public static Result join(Result result, String s1, String s2) {
-		long startTime=System.currentTimeMillis();
 		
 		String[] query1 = s1.split("\\.");
 		String[] query2 = s2.split("\\.");
@@ -308,30 +309,109 @@ public class Demo {
 
 			result = newResult;
 		}
-
-		long endTime=System.currentTimeMillis();
-		System.out.println("Joining runtime: "+runTime(endTime-startTime)); 
 		
 		return result;
 	}
 
-	private static String runTime(long runT) {
+	private static String printRuntime(long runT) {
+		String s;
+		
 		if(runT<1000) {
-			return runT+" ms. "; 
+			s = runT+" ms. "; 
 		}else if(runT<60000) {
-			return runT/1000+" secs "+runT%1000+" ms. ";
+			s = runT/1000+" secs "+runT%1000+" ms. ";
 		}else {
-			return runT/60000+" min " + (runT%60000)/1000 + " secs " + runT%60000%1000+" ms. ";
+			s = runT/60000+" min " + (runT%60000)/1000 + " secs " + runT%60000%1000+" ms. ";
+		}
+		
+		return s;
+	}
+	
+	private static void printRuntimeArray(Long[] runtime) {
+		for(long r : runtime) {
+			System.out.println(r + "ms  =  " + printRuntime(r));
 		}
 	}
 	
-	public static void main(String[] args) {
+	public static void dynamicJoinOrder(String query) {
 		Result result = new Result();
-		result = join(result,"mk.keyword_id","k.id");
-		result = join(result,"mk.movie_id","t.id");
-		result = join(result,"mc.movie_id","t.id");
-		result = join(result,"cn.id","mc.company_id");
-		System.out.println(result.getSchema());
+		
+		String[] queries = query.split("AND");
+		
+	}
+	
+	public static void main(String[] args) throws IOException {
+		
+		Result result1 = new Result();
+		
+		String[] queries = {"1","2","3","4","5"};
+		Long[] runtime =new Long[queries.length];
+		
+		LineChart lc = new LineChart(queries);
+		
+		long startTime;
+		long endTime;
+		
+//		startTime=System.currentTimeMillis();
+//		result1 = join(result1,"cn.id","mc.company_id");
+//		endTime=System.currentTimeMillis();
+//		runtime[0]=endTime-startTime;
+//		
+//		
+//		startTime=System.currentTimeMillis();
+//		result1 = join(result1,"mc.movie_id","t.id");
+//		endTime=System.currentTimeMillis();
+//		runtime[1]=endTime-startTime;
+//		
+//		startTime=System.currentTimeMillis();
+//		result1 = join(result1,"mk.movie_id","t.id");
+//		endTime=System.currentTimeMillis();
+//		runtime[2]=endTime-startTime;
+//		
+//		startTime=System.currentTimeMillis();
+//		result1 = join(result1,"mc.movie_id","mk.movie_id");
+//		endTime=System.currentTimeMillis();
+//		runtime[3]=endTime-startTime;
+//		
+//		startTime=System.currentTimeMillis();
+//		result1 = join(result1,"mk.keyword_id","k.id");
+//		endTime=System.currentTimeMillis();
+//		runtime[4]=endTime-startTime;
+//		
+//		printRuntimeArray(runtime);
+//		lc.addLine("12345",runtime);	
+		
+//		Result result2 = new Result();
+//		
+//		startTime=System.currentTimeMillis();
+//		result2 = join(result2,"mc.movie_id","t.id");
+//		endTime=System.currentTimeMillis();
+//		runtime[1]=endTime-startTime;
+//		
+//		startTime=System.currentTimeMillis();
+//		result2 = join(result2,"mk.movie_id","t.id");
+//		endTime=System.currentTimeMillis();
+//		runtime[2]=endTime-startTime;
+//		
+//		startTime=System.currentTimeMillis();
+//		result2 = join(result2,"mc.movie_id","mk.movie_id");
+//		endTime=System.currentTimeMillis();
+//		runtime[3]=endTime-startTime;
+//		
+//		startTime=System.currentTimeMillis();
+//		result2 = join(result2,"mk.keyword_id","k.id");
+//		endTime=System.currentTimeMillis();
+//		runtime[4]=endTime-startTime;
+//		
+//		startTime=System.currentTimeMillis();
+//		result2 = join(result2,"cn.id","mc.company_id");
+//		endTime=System.currentTimeMillis();
+//		runtime[0]=endTime-startTime;
+//		
+//		printRuntimeArray(runtime);
+//		lc.addLine("23451",runtime);
+
+		lc.drawLineChart();
 	}
 
 }
