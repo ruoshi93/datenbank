@@ -39,9 +39,7 @@ public class LineChart {
 	XSSFClientAnchor anchor;
 	XSSFChart chart;
 	
-	// 分类轴标(X轴),标题位置
 	XDDFValueAxis bottomAxis;
-	// 值(Y轴)轴,标题位置
 	XDDFValueAxis leftAxis;
 	
 	XDDFLineChartData data;
@@ -57,25 +55,21 @@ public class LineChart {
 		workbook = new XSSFWorkbook();
 		sheet = workbook.createSheet("Sheet 1");
 
-		// create a drawing patriarch
+		// Create a drawing patriarch
 		drawing = sheet.createDrawingPatriarch();
 		
-		// 前四个默认0，[0,5]：从0列5行开始;[7,26]:到7列26行结束
-		// 默认宽度(14-8)*12
+		// From [0,0] to [7,26]
 		anchor = drawing.createAnchor(0, 0, 0, 0, 0, 0, 7, 26);
 
 		chart = drawing.createChart(anchor);
 		chart.setTitleText("The runtime of queries in different join order");
 		
-		// 分类轴标(X轴),标题位置
 		bottomAxis = chart.createValueAxis(AxisPosition.BOTTOM);
 		bottomAxis.setTitle("Query");
 		
-		// 值(Y轴)轴,标题位置
 		leftAxis = chart.createValueAxis(AxisPosition.LEFT);
 		leftAxis.setTitle("Time");
 
-		// LINE：折线图
 		data = (XDDFLineChartData) chart.createData(ChartTypes.LINE, bottomAxis, leftAxis);
 		data.setVaryColors(false);
 		
@@ -85,7 +79,7 @@ public class LineChart {
 	public void addLine(String title, Long[] yAxis) {
 		XDDFNumericalDataSource<Long> runtime = XDDFDataSourcesFactory.fromArray(yAxis);
 		
-		// 图表加载数据，折线1
+		// Load the data to series
 		XDDFLineChartData.Series series = (XDDFLineChartData.Series) data.addSeries(queries, runtime);
 		
 		series.setTitle(title, null);
@@ -100,7 +94,7 @@ public class LineChart {
 		File file = new File(filePath);
 		OutputStream outputStream = new FileOutputStream(file);
 
-		// draw the line plot
+		// Draw the line plot
 		chart.plot(data);
 
 		workbook.setActiveSheet(0);

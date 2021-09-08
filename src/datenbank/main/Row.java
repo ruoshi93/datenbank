@@ -1,4 +1,4 @@
-package datenbank.imdb;
+package datenbank.main;
 
 public abstract class Row {
 

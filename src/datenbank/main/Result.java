@@ -1,7 +1,4 @@
 package datenbank.main;
-import datenbank.imdb.Row;
-import datenbank.imdb.TableDemo;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -10,17 +7,17 @@ import java.util.ArrayList;
 
 public class Result implements Cloneable{
 	
-	private ArrayList<TableDemo> schema = new ArrayList<TableDemo>();
+	private ArrayList<Table> schema = new ArrayList<Table>();
 	
 	//HashMap data only stores the corresponding primary keys ("id") of each table in the schema
 	private HashMap<Integer,ArrayList<Integer>> data = new HashMap<Integer,ArrayList<Integer>>();
 	
 	
-	public ArrayList<TableDemo> getSchema() {
+	public ArrayList<Table> getSchema() {
 		return schema;
 	}
 
-	public void setSchema(ArrayList<TableDemo> schema) {
+	public void setSchema(ArrayList<Table> schema) {
 		this.schema = schema;
 	}
 
@@ -44,7 +41,7 @@ public class Result implements Cloneable{
         }catch(CloneNotSupportedException e) {  
             e.printStackTrace();  
         }
-        result.setSchema((ArrayList<TableDemo>)this.schema.clone());
+        result.setSchema((ArrayList<Table>)this.schema.clone());
         result.setData((HashMap<Integer,ArrayList<Integer>>)this.data.clone());
         return result;  
     } 

@@ -3,12 +3,14 @@ package datenbank.imdb;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Company_typeTable extends TableDemo {
+import datenbank.main.Row;
+import datenbank.main.Table;
+
+public class Company_typeTable extends Table {
 
 	public Company_typeTable() {
 		name = "company_type";

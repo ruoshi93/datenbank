@@ -1,19 +1,11 @@
-package datenbank.imdb;
+package datenbank.main;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvValidationException;
-
-import datenbank.imdb.Company_nameTable.Company_name;
-
-public abstract class TableDemo {
+public abstract class Table {
 	protected String name;
 	protected String path;
 	protected HashMap<Integer, Row> data = new HashMap<Integer, Row>();
@@ -38,6 +30,7 @@ public abstract class TableDemo {
 		return pkMap;
 	}
 	
+	//TODO Output the Table
 	public String toString() {
 		return this.name;
 	}
