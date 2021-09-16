@@ -15,6 +15,7 @@ public class TitleTable extends Table {
 	public TitleTable() {
 		name = "title";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/title.csv";
+		row = new Title();
 		convert();
 	}
 
@@ -23,9 +24,14 @@ public class TitleTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
+			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Title title = new Title(nextLine);
 				this.data.put(title.getPrimaryKey(), title);
+				if (i % 3 == 0) {
+					this.example.put(title.getPrimaryKey(), title);
+				}
+				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -89,6 +95,9 @@ public class TitleTable extends Table {
 		//TODO Delete or modify toString()
 		public String toString() {
 			return " | "+this.id+" | "+this.title+" | "+this.imdb_index+" | "+this.kind_id+" | "+this.production_year+" | "+this.imdb_id+" | "+this.phonetic_code+" | "+this.episode_of_id+" | "+this.season_nr+" | "+this.episode_nr+" | "+this.series_years+" | "+this.md5sum+" | ";
+		}
+		
+		public Title() {
 		}
 
 		public Title(String[] data) {

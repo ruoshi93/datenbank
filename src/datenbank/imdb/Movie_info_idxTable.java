@@ -15,6 +15,7 @@ public class Movie_info_idxTable extends Table {
 	public Movie_info_idxTable() {
 		name = "movie_info_idx";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_info_idx.csv";
+		row = new Movie_info_idx();
 		convert();
 	}
 
@@ -23,9 +24,14 @@ public class Movie_info_idxTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
+			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Movie_info_idx movie_info_idx = new Movie_info_idx(nextLine);
 				this.data.put(movie_info_idx.getPrimaryKey(), movie_info_idx);
+				if (i % 7 == 0) {
+					this.example.put(movie_info_idx.getPrimaryKey(), movie_info_idx);
+				}
+				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -63,6 +69,9 @@ public class Movie_info_idxTable extends Table {
 
 		public int getPrimaryKey() {
 			return this.id;
+		}
+
+		public Movie_info_idx() {
 		}
 
 		public Movie_info_idx(String[] data) {

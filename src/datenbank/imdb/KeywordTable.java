@@ -15,6 +15,7 @@ public class KeywordTable extends Table {
 	public KeywordTable() {
 		name = "keyword";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/keyword.csv";
+		row = new Keyword();
 		convert();
 	}
 
@@ -23,9 +24,14 @@ public class KeywordTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
+			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Keyword keyword = new Keyword(nextLine);
 				this.data.put(keyword.getPrimaryKey(), keyword);
+				if (i % 3 == 0) {
+					this.example.put(keyword.getPrimaryKey(), keyword);
+				}
+				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -58,6 +64,9 @@ public class KeywordTable extends Table {
 			return this.id;
 		}
 
+		public Keyword() {
+		}
+		
 		public Keyword(String[] data) {
 			this.id = this.parseStringToInt(data[0]);
 			this.keyword = data[1];

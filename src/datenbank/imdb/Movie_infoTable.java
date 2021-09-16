@@ -15,6 +15,7 @@ public class Movie_infoTable extends Table {
 	public Movie_infoTable() {
 		name = "movie_info";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_info.csv";
+		row = new Movie_info();
 		convert();
 	}
 
@@ -23,9 +24,14 @@ public class Movie_infoTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
+			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Movie_info movie_info = new Movie_info(nextLine);
 				this.data.put(movie_info.getPrimaryKey(), movie_info);
+				if (i % 7 == 0) {
+					this.example.put(movie_info.getPrimaryKey(), movie_info);
+				}
+				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -63,6 +69,9 @@ public class Movie_infoTable extends Table {
 
 		public int getPrimaryKey() {
 			return this.id;
+		}
+
+		public Movie_info() {
 		}
 
 		public Movie_info(String[] data) {

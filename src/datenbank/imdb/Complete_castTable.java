@@ -15,6 +15,7 @@ public class Complete_castTable extends Table {
 	public Complete_castTable() {
 		name = "complete_cast";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/complete_cast.csv";
+		row = new Complete_cast();
 		convert();
 	}
 
@@ -23,9 +24,14 @@ public class Complete_castTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
+			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Complete_cast complete_cast = new Complete_cast(nextLine);
 				this.data.put(complete_cast.getPrimaryKey(), complete_cast);
+				if (i % 7 == 0) {
+					this.example.put(complete_cast.getPrimaryKey(), complete_cast);
+				}
+				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -60,6 +66,9 @@ public class Complete_castTable extends Table {
 
 		public int getPrimaryKey() {
 			return this.id;
+		}
+
+		public Complete_cast() {
 		}
 
 		public Complete_cast(String[] data) {

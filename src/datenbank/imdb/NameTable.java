@@ -15,6 +15,7 @@ public class NameTable extends Table {
 	public NameTable() {
 		name = "name";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/name.csv";
+		row = new Name();
 		convert();
 	}
 
@@ -23,9 +24,14 @@ public class NameTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
+			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Name name = new Name(nextLine);
 				this.data.put(name.getPrimaryKey(), name);
+				if (i % 7 == 0) {
+					this.example.put(name.getPrimaryKey(), name);
+				}
+				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -76,7 +82,10 @@ public class NameTable extends Table {
 		public int getPrimaryKey() {
 			return this.id;
 		}
-		
+
+		public Name() {
+		}
+
 		public Name(String[] data) {
 			this.id = this.parseStringToInt(data[0]);
 			this.name = data[1];

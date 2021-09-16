@@ -15,6 +15,7 @@ public class Link_typeTable extends Table {
 	public Link_typeTable() {
 		name = "link_type";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/link_type.csv";
+		row = new Link_type();
 		convert();
 	}
 
@@ -26,6 +27,7 @@ public class Link_typeTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Link_type link_type = new Link_type(nextLine);
 				this.data.put(link_type.getPrimaryKey(), link_type);
+				this.example=this.data;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -54,6 +56,9 @@ public class Link_typeTable extends Table {
 
 		public int getPrimaryKey() {
 			return this.id;
+		}
+
+		public Link_type() {
 		}
 
 		public Link_type(String[] data) {

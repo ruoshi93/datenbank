@@ -15,6 +15,7 @@ public class Movie_keywordTable extends Table {
 	public Movie_keywordTable() {
 		name = "movie_keyword";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_keyword.csv";
+		row = new Movie_keyword();
 		convert();
 	}
 
@@ -23,9 +24,14 @@ public class Movie_keywordTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
+			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Movie_keyword movie_keyword = new Movie_keyword(nextLine);
 				this.data.put(movie_keyword.getPrimaryKey(), movie_keyword);
+				if (i % 3 == 0) {
+					this.example.put(movie_keyword.getPrimaryKey(), movie_keyword);
+				}
+				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -56,6 +62,9 @@ public class Movie_keywordTable extends Table {
 
 		public int getPrimaryKey() {
 			return this.id;
+		}
+
+		public Movie_keyword() {
 		}
 
 		public Movie_keyword(String[] data) {

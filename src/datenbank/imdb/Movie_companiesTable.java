@@ -15,6 +15,7 @@ public class Movie_companiesTable extends Table {
 	public Movie_companiesTable() {
 		name = "movie_companies";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_companies.csv";
+		row = new Movie_companies();
 		convert();
 	}
 
@@ -23,9 +24,14 @@ public class Movie_companiesTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
+			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Movie_companies movie_companies = new Movie_companies(nextLine);
 				this.data.put(movie_companies.getPrimaryKey(), movie_companies);
+				if (i % 3 == 0) {
+					this.example.put(movie_companies.getPrimaryKey(), movie_companies);
+				}
+				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -63,6 +69,9 @@ public class Movie_companiesTable extends Table {
 
 		public int getPrimaryKey() {
 			return this.id;
+		}
+
+		public Movie_companies() {
 		}
 
 		public Movie_companies(String[] data) {

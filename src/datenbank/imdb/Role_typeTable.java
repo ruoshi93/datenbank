@@ -15,6 +15,7 @@ public class Role_typeTable extends Table {
 	public Role_typeTable() {
 		name = "role_type";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/role_type.csv";
+		row = new Role_type();
 		convert();
 	}
 
@@ -26,6 +27,7 @@ public class Role_typeTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Role_type role_type = new Role_type(nextLine);
 				this.data.put(role_type.getPrimaryKey(), role_type);
+				this.example=this.data;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -54,6 +56,9 @@ public class Role_typeTable extends Table {
 
 		public int getPrimaryKey() {
 			return this.id;
+		}
+
+		public Role_type() {
 		}
 
 		public Role_type(String[] data) {

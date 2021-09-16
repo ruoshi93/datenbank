@@ -15,6 +15,7 @@ public class Company_nameTable extends Table {
 	public Company_nameTable() {
 		name = "company_name";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/company_name.csv";
+		row = new Company_name();
 		convert();
 	}
 
@@ -23,9 +24,14 @@ public class Company_nameTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
+			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Company_name company_name = new Company_name(nextLine);
 				this.data.put(company_name.getPrimaryKey(), company_name);
+				if (i % 3 == 0) {
+					this.example.put(company_name.getPrimaryKey(), company_name);
+				}
+				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -68,6 +74,9 @@ public class Company_nameTable extends Table {
 
 		public int getPrimaryKey() {
 			return this.id;
+		}
+
+		public Company_name() {
 		}
 
 		public Company_name(String[] data) {

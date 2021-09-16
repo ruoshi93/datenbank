@@ -15,6 +15,7 @@ public class Comp_cast_typeTable extends Table {
 	public Comp_cast_typeTable() {
 		name = "comp_cast_type";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/comp_cast_type.csv";
+		row = new Comp_cast_type();
 		convert();
 	}
 
@@ -26,6 +27,7 @@ public class Comp_cast_typeTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Comp_cast_type comp_cast_type = new Comp_cast_type(nextLine);
 				this.data.put(comp_cast_type.getPrimaryKey(), comp_cast_type);
+				this.example=this.data;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -54,6 +56,9 @@ public class Comp_cast_typeTable extends Table {
 
 		public int getPrimaryKey() {
 			return this.id;
+		}
+		
+		public Comp_cast_type() {
 		}
 
 		public Comp_cast_type(String[] data) {

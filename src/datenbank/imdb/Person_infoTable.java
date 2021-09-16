@@ -15,6 +15,7 @@ public class Person_infoTable extends Table {
 	public Person_infoTable() {
 		name = "person_info";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/person_info.csv";
+		row = new Person_info();
 		convert();
 	}
 
@@ -23,9 +24,14 @@ public class Person_infoTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
+			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Person_info person_info = new Person_info(nextLine);
 				this.data.put(person_info.getPrimaryKey(), person_info);
+				if (i % 7 == 0) {
+					this.example.put(person_info.getPrimaryKey(), person_info);
+				}
+				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -63,6 +69,9 @@ public class Person_infoTable extends Table {
 
 		public int getPrimaryKey() {
 			return this.id;
+		}
+
+		public Person_info() {
 		}
 
 		public Person_info(String[] data) {

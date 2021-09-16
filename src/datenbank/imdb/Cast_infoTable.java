@@ -15,6 +15,7 @@ public class Cast_infoTable extends Table {
 	public Cast_infoTable() {
 		name = "cast_info";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/cast_info.csv";
+		row = new Cast_info();
 		convert();
 	}
 
@@ -23,9 +24,14 @@ public class Cast_infoTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
+			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Cast_info cast_info = new Cast_info(nextLine);
 				this.data.put(cast_info.getPrimaryKey(), cast_info);
+				if(i%7==0) {
+					this.example.put(cast_info.getPrimaryKey(), cast_info);
+				}
+				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -72,6 +78,9 @@ public class Cast_infoTable extends Table {
 			return this.id;
 		}
 
+		public Cast_info() {
+		}
+		
 		public Cast_info(String[] data) {
 			this.id = Integer.parseInt(data[0]);
 			this.person_id = Integer.parseInt(data[1]);

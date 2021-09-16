@@ -15,6 +15,7 @@ public class Kind_typeTable extends Table {
 	public Kind_typeTable() {
 		name = "kind_type";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/kind_type.csv";
+		row = new Kind_type();
 		convert();
 	}
 
@@ -26,6 +27,7 @@ public class Kind_typeTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Kind_type kind_type = new Kind_type(nextLine);
 				this.data.put(kind_type.getPrimaryKey(), kind_type);
+				this.example=this.data;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -56,6 +58,9 @@ public class Kind_typeTable extends Table {
 			return this.id;
 		}
 
+		public Kind_type() {
+		}
+		
 		public Kind_type(String[] data) {
 			this.id = this.parseStringToInt(data[0]);
 			this.kind = data[1];
