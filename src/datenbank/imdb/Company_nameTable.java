@@ -28,7 +28,7 @@ public class Company_nameTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Company_name company_name = new Company_name(nextLine);
 				this.data.put(company_name.getPrimaryKey(), company_name);
-				if (i % 3 == 0) {
+				if (i % 7 == 0) {
 					this.example.put(company_name.getPrimaryKey(), company_name);
 				}
 				i++;

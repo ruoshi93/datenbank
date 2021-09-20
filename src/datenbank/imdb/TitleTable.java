@@ -28,7 +28,7 @@ public class TitleTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Title title = new Title(nextLine);
 				this.data.put(title.getPrimaryKey(), title);
-				if (i % 3 == 0) {
+				if (i % 7 == 0) {
 					this.example.put(title.getPrimaryKey(), title);
 				}
 				i++;
