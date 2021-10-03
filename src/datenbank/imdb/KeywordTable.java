@@ -28,7 +28,7 @@ public class KeywordTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Keyword keyword = new Keyword(nextLine);
 				this.data.put(keyword.getPrimaryKey(), keyword);
-				if (i % 7 == 0) {
+				if (i % this.samplingSpace == 0) {
 					this.example.put(keyword.getPrimaryKey(), keyword);
 				}
 				i++;

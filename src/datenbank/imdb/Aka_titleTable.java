@@ -28,7 +28,7 @@ public class Aka_titleTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Aka_title aka_title = new Aka_title(nextLine);
 				this.data.put(aka_title.getPrimaryKey(), aka_title);
-				if(i%7==0) {
+				if (i % this.samplingSpace == 0) {
 					this.example.put(aka_title.getPrimaryKey(), aka_title);
 				}
 				i++;
@@ -94,7 +94,7 @@ public class Aka_titleTable extends Table {
 
 		public Aka_title() {
 		}
-		
+
 		public Aka_title(String[] data) {
 			this.id = this.parseStringToInt(data[0]);
 			this.movie_id = this.parseStringToInt(data[1]);

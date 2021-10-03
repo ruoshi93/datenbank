@@ -28,7 +28,7 @@ public class Movie_keywordTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Movie_keyword movie_keyword = new Movie_keyword(nextLine);
 				this.data.put(movie_keyword.getPrimaryKey(), movie_keyword);
-				if (i % 7 == 0) {
+				if (i % this.samplingSpace == 0) {
 					this.example.put(movie_keyword.getPrimaryKey(), movie_keyword);
 				}
 				i++;

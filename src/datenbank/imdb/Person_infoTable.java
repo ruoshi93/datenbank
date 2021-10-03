@@ -28,7 +28,7 @@ public class Person_infoTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Person_info person_info = new Person_info(nextLine);
 				this.data.put(person_info.getPrimaryKey(), person_info);
-				if (i % 7 == 0) {
+				if (i % this.samplingSpace == 0) {
 					this.example.put(person_info.getPrimaryKey(), person_info);
 				}
 				i++;

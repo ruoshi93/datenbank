@@ -28,7 +28,7 @@ public class Movie_linkTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Movie_link movie_link = new Movie_link(nextLine);
 				this.data.put(movie_link.getPrimaryKey(), movie_link);
-				if (i % 7 == 0) {
+				if (i % this.samplingSpace == 0) {
 					this.example.put(movie_link.getPrimaryKey(), movie_link);
 				}
 				i++;

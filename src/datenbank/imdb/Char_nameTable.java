@@ -28,7 +28,7 @@ public class Char_nameTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Char_name char_name = new Char_name(nextLine);
 				this.data.put(char_name.getPrimaryKey(), char_name);
-				if(i%7==0) {
+				if (i % this.samplingSpace == 0) {
 					this.example.put(char_name.getPrimaryKey(), char_name);
 				}
 				i++;
@@ -79,7 +79,7 @@ public class Char_nameTable extends Table {
 
 		public Char_name() {
 		}
-		
+
 		public Char_name(String[] data) {
 			this.id = this.parseStringToInt(data[0]);
 			this.name = data[1];

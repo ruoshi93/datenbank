@@ -28,7 +28,7 @@ public class Complete_castTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Complete_cast complete_cast = new Complete_cast(nextLine);
 				this.data.put(complete_cast.getPrimaryKey(), complete_cast);
-				if (i % 7 == 0) {
+				if (i % this.samplingSpace == 0) {
 					this.example.put(complete_cast.getPrimaryKey(), complete_cast);
 				}
 				i++;

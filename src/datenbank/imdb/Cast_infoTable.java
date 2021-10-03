@@ -28,7 +28,7 @@ public class Cast_infoTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Cast_info cast_info = new Cast_info(nextLine);
 				this.data.put(cast_info.getPrimaryKey(), cast_info);
-				if(i%7==0) {
+				if (i % this.samplingSpace == 0) {
 					this.example.put(cast_info.getPrimaryKey(), cast_info);
 				}
 				i++;
@@ -80,7 +80,7 @@ public class Cast_infoTable extends Table {
 
 		public Cast_info() {
 		}
-		
+
 		public Cast_info(String[] data) {
 			this.id = Integer.parseInt(data[0]);
 			this.person_id = Integer.parseInt(data[1]);

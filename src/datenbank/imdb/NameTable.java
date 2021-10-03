@@ -28,7 +28,7 @@ public class NameTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Name name = new Name(nextLine);
 				this.data.put(name.getPrimaryKey(), name);
-				if (i % 7 == 0) {
+				if (i % this.samplingSpace == 0) {
 					this.example.put(name.getPrimaryKey(), name);
 				}
 				i++;

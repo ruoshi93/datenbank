@@ -28,7 +28,7 @@ public class Movie_info_idxTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Movie_info_idx movie_info_idx = new Movie_info_idx(nextLine);
 				this.data.put(movie_info_idx.getPrimaryKey(), movie_info_idx);
-				if (i % 7 == 0) {
+				if (i % this.samplingSpace == 0) {
 					this.example.put(movie_info_idx.getPrimaryKey(), movie_info_idx);
 				}
 				i++;

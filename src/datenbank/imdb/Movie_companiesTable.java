@@ -28,7 +28,7 @@ public class Movie_companiesTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Movie_companies movie_companies = new Movie_companies(nextLine);
 				this.data.put(movie_companies.getPrimaryKey(), movie_companies);
-				if (i % 7 == 0) {
+				if (i % this.samplingSpace == 0) {
 					this.example.put(movie_companies.getPrimaryKey(), movie_companies);
 				}
 				i++;

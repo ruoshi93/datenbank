@@ -9,15 +9,16 @@ public abstract class Table {
 	protected String name;
 	protected String path;
 	protected Row row;
+	protected int samplingSpace=11;
 	protected HashMap<Integer, Row> data = new HashMap<Integer, Row>();
 	protected HashMap<Integer, Row> example = new HashMap<Integer, Row>();
 	// TODO Delete all the path and data of the subclasses
 
 	public <T> HashMap<T, ArrayList<Integer>> getPKMap(String s) {
 		HashMap<T, ArrayList<Integer>> pkMap = new HashMap<T, ArrayList<Integer>>();
-		Iterator<Entry<Integer, Row>> it1 = data.entrySet().iterator();
-		while (it1.hasNext()) {
-			Entry<Integer, Row> entry1 = it1.next();
+		Iterator<Entry<Integer, Row>> it = data.entrySet().iterator();
+		while (it.hasNext()) {
+			Entry<Integer, Row> entry1 = it.next();
 			Integer pk = entry1.getKey();
 			T value = entry1.getValue().get(s);
 			ArrayList<Integer> pkMapValue = pkMap.get(value);
@@ -34,9 +35,9 @@ public abstract class Table {
 	
 	public <T> HashMap<T, ArrayList<Integer>> getExamplePKMap(String s) {
 		HashMap<T, ArrayList<Integer>> pkMap = new HashMap<T, ArrayList<Integer>>();
-		Iterator<Entry<Integer, Row>> it1 = example.entrySet().iterator();
-		while (it1.hasNext()) {
-			Entry<Integer, Row> entry1 = it1.next();
+		Iterator<Entry<Integer, Row>> it = example.entrySet().iterator();
+		while (it.hasNext()) {
+			Entry<Integer, Row> entry1 = it.next();
 			Integer pk = entry1.getKey();
 			T value = entry1.getValue().get(s);
 			ArrayList<Integer> pkMapValue = pkMap.get(value);

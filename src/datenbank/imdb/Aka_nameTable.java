@@ -24,11 +24,11 @@ public class Aka_nameTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
-			int i = 0; 
+			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Aka_name aka_name = new Aka_name(nextLine);
 				this.data.put(aka_name.getPrimaryKey(), aka_name);
-				if(i%7==0) {
+				if (i % this.samplingSpace == 0) {
 					this.example.put(aka_name.getPrimaryKey(), aka_name);
 				}
 				i++;
@@ -82,7 +82,7 @@ public class Aka_nameTable extends Table {
 
 		public Aka_name() {
 		}
-		
+
 		public Aka_name(String[] data) {
 			this.id = this.parseStringToInt(data[0]);
 			this.movie_id = this.parseStringToInt(data[1]);
