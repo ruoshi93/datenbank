@@ -2,6 +2,7 @@ package datenbank.main;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -90,16 +91,18 @@ public class DatabaseEngine {
 		String attr1 = query1[1];
 		Table table2 = get(query2[0]);
 		String attr2 = query2[1];
-		
+
 		// Examine the tables and attributes
-		if(table1==null) {
-			System.out.println("Error: The table \""+query1[0]+"\" does not exist. ");
-		}else if (table2==null) {
-			System.out.println("Error: The table \""+query2[0]+"\" does not exist. ");
-		}else if(table1.getRow().get(attr1)==null) {
-			System.out.println("Error: The attribute \""+attr1+"\" does not exist in the table \""+query1[0]+"\". ");
-		}else if(table2.getRow().get(attr2)==null) {
-			System.out.println("Error: The attribute \""+attr2+"\" does not exist in the table \""+query2[0]+"\". ");
+		if (table1 == null) {
+			System.out.println("Error: The table \"" + query1[0] + "\" does not exist. ");
+		} else if (table2 == null) {
+			System.out.println("Error: The table \"" + query2[0] + "\" does not exist. ");
+		} else if (table1.getRow().get(attr1) == null) {
+			System.out.println(
+					"Error: The attribute \"" + attr1 + "\" does not exist in the table \"" + query1[0] + "\". ");
+		} else if (table2.getRow().get(attr2) == null) {
+			System.out.println(
+					"Error: The attribute \"" + attr2 + "\" does not exist in the table \"" + query2[0] + "\". ");
 		}
 
 		HashMap<Integer, ArrayList<Integer>> resultData = result.getData();
@@ -181,7 +184,246 @@ public class DatabaseEngine {
 
 			HashMap<Integer, ArrayList<Integer>> newResultData = newResult.getData();
 
-			if (resultSchema.contains(table1)) {
+			if (result.storageContains(table1) && !result.storageContains(table2) && resultSchema.contains(table2)) {
+
+				Result storageResult = result.getStorageResult(table1);
+				int index2 = resultSchema.indexOf(table2);
+				newResultSchema.addAll((Collection<? extends Table>) storageResult.getSchema().clone());
+
+				if (attr1.equals("id")) {
+
+					HashMap<Integer, Integer> pkMap1 = storageResult.getIDPKMap(table1);
+					Iterator<Map.Entry<Integer, ArrayList<Integer>>> it2 = resultData.entrySet().iterator();
+
+					if (attr2.equals("id")) {
+						while (it2.hasNext()) {
+							HashMap.Entry<Integer, ArrayList<Integer>> entry2 = it2.next();
+							Integer pk1 = pkMap1.get(entry2.getValue().get(index2));
+							if (pk1 != null) {
+								ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
+								newList.addAll(
+										(Collection<? extends Integer>) storageResult.getData().get(pk1).clone());
+								newResultData.put(entry2.getKey() + pk1, newList);
+							}
+						}
+					} else {
+						while (it2.hasNext()) {
+							HashMap.Entry<Integer, ArrayList<Integer>> entry2 = it2.next();
+							Integer pk1 = pkMap1.get(table2.getData().get(entry2.getValue().get(index2)).get(attr2));
+							if (pk1 != null) {
+								ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
+								newList.addAll(
+										(Collection<? extends Integer>) storageResult.getData().get(pk1).clone());
+								newResultData.put(entry2.getKey() + pk1, newList);
+							}
+						}
+					}
+
+				} else {
+					Iterator<Map.Entry<Integer, ArrayList<Integer>>> it2 = resultData.entrySet().iterator();
+					HashMap attrPKMap1 = storageResult.getAttrPKMap(table1, attr1);
+					if (attr2.equals("id")) {
+						while (it2.hasNext()) {
+							HashMap.Entry<Integer, ArrayList<Integer>> entry2 = it2.next();
+							Integer id2 = entry2.getValue().get(index2);
+							ArrayList<Integer> pkList1 = (ArrayList<Integer>) attrPKMap1.get(id2);
+							if (pkList1 != null) {
+								for (Integer pk1 : pkList1) {
+									ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
+									newList.addAll(storageResult.getData().get(pk1));
+									newResultData.put(entry2.getKey() + pk1, newList);
+								}
+							}
+						}
+					} else {
+						while (it2.hasNext()) {
+							HashMap.Entry<Integer, ArrayList<Integer>> entry2 = it2.next();
+							Integer id2 = entry2.getValue().get(index2);
+							ArrayList<Integer> pkList1 = (ArrayList<Integer>) attrPKMap1
+									.get(table2.getData().get(id2).get(attr2));
+							if (pkList1 != null) {
+								for (Integer pk1 : pkList1) {
+									ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
+									newList.addAll(storageResult.getData().get(pk1));
+									newResultData.put(entry2.getKey() + pk1, newList);
+								}
+							}
+						}
+					}
+				}
+
+				newResult.setStorage((HashMap<ArrayList<Table>, Result>) result.getStorage().clone());
+				newResult.removeStorageTable(table1);
+				result = newResult;
+
+			} else if (result.storageContains(table2) && !result.storageContains(table1)
+					&& resultSchema.contains(table1)) {
+
+				Result storageResult = result.getStorageResult(table2);
+				newResultSchema.addAll((Collection<? extends Table>) storageResult.getSchema().clone());
+
+				if (attr1.equals("id")) {
+
+					Iterator<Map.Entry<Integer, ArrayList<Integer>>> it1 = resultData.entrySet().iterator();
+					int index1 = resultSchema.indexOf(table1);
+
+					if (attr2.equals("id")) {
+						HashMap<Integer, Integer> pkMap2 = storageResult.getIDPKMap(table2);
+						while (it1.hasNext()) {
+							HashMap.Entry<Integer, ArrayList<Integer>> entry1 = it1.next();
+							Integer pk2 = pkMap2.get(entry1.getValue().get(index1));
+							if (pk2 != null) {
+								ArrayList<Integer> newList = (ArrayList<Integer>) entry1.getValue().clone();
+								newList.addAll(
+										(Collection<? extends Integer>) storageResult.getData().get(pk2).clone());
+								newResultData.put(entry1.getKey() + pk2, newList);
+							}
+						}
+					} else {
+						HashMap attrPKMap2 = storageResult.getAttrPKMap(table2, attr2);
+						while (it1.hasNext()) {
+							HashMap.Entry<Integer, ArrayList<Integer>> entry1 = it1.next();
+							Integer id1 = entry1.getValue().get(index1);
+							ArrayList<Integer> pkList2 = (ArrayList<Integer>) attrPKMap2.get(id1);
+							if (pkList2 != null) {
+								for (Integer pk2 : pkList2) {
+									ArrayList<Integer> newList = (ArrayList<Integer>) entry1.getValue().clone();
+									newList.addAll(
+											(Collection<? extends Integer>) storageResult.getData().get(pk2).clone());
+									newResultData.put(entry1.getKey() + pk2, newList);
+								}
+							}
+						}
+					}
+
+				} else {
+					Iterator<Map.Entry<Integer, ArrayList<Integer>>> it2 = storageResult.getData().entrySet()
+							.iterator();
+					int index2 = resultSchema.indexOf(table2);
+					HashMap attrPKMap1 = result.getAttrPKMap(table1, attr1);
+
+					if (attr2.equals("id")) {
+						while (it2.hasNext()) {
+							Map.Entry<Integer, ArrayList<Integer>> entry2 = it2.next();
+							Integer id2 = entry2.getValue().get(index2);
+							ArrayList<Integer> pkList1 = (ArrayList<Integer>) attrPKMap1.get(id2);
+							if (pkList1 != null) {
+								for (Integer pk1 : pkList1) {
+									ArrayList<Integer> newList = (ArrayList<Integer>) resultData.get(pk1).clone();
+									newList.addAll((Collection<? extends Integer>) entry2.getValue().clone());
+									newResultData.put(pk1 + entry2.getKey(), newList);
+								}
+							}
+						}
+					} else {
+						while (it2.hasNext()) {
+							Map.Entry<Integer, ArrayList<Integer>> entry2 = it2.next();
+							Integer id2 = entry2.getValue().get(index2);
+							ArrayList<Integer> pkList1 = (ArrayList<Integer>) attrPKMap1
+									.get(table2.getData().get(id2).get(attr2));
+							if (pkList1 != null) {
+								for (Integer pk1 : pkList1) {
+									ArrayList<Integer> newList = (ArrayList<Integer>) resultData.get(pk1).clone();
+									newList.addAll((Collection<? extends Integer>) entry2.getValue().clone());
+									newResultData.put(pk1 + entry2.getKey(), newList);
+								}
+							}
+						}
+					}
+				}
+
+				newResult.setStorage((HashMap<ArrayList<Table>, Result>) result.getStorage().clone());
+				newResult.removeStorageTable(table2);
+				result = newResult;
+
+			} else if (result.storageContains(table1) && result.storageContains(table2)) {
+
+				if (result.storageIndex(table1) == result.storageIndex(table2)) {
+
+					Result storageResult = result.getStorageResult(table1);
+
+					for (Map.Entry<ArrayList<Table>, Result> entry : result.getStorage().entrySet()) {
+						ArrayList<Table> key = entry.getKey();
+						if (key.contains(table1)) {
+							Result newStorageResult = join(storageResult, s1, s2);
+							result.getStorage().remove(key);
+							result.getStorage().put(key, newStorageResult);
+							break;
+						}
+					}
+				} else {
+					ArrayList<Table> key1 = null;
+					ArrayList<Table> key2 = null;
+					Result storageResult1 = null;
+					Result storageResult2 = null;
+					for (Map.Entry<ArrayList<Table>, Result> entry : result.getStorage().entrySet()) {
+						if (entry.getKey().contains(table1)) {
+							key1 = entry.getKey();
+							storageResult1 = entry.getValue();
+						}
+						if (entry.getKey().contains(table2)) {
+							key2 = entry.getKey();
+							storageResult2 = entry.getValue();
+						}
+					}
+					storageResult1.getStorage().put(key2, storageResult2);
+					result.getStorage().remove(key1);
+					result.getStorage().remove(key2);
+					result.getStorage().put((ArrayList<Table>) storageResult1.getSchema().clone(),
+							join(storageResult1, s1, s2));
+
+				}
+			} else if (resultSchema.contains(table1) && resultSchema.contains(table2)) {
+				Iterator<Map.Entry<Integer, ArrayList<Integer>>> it = resultData.entrySet().iterator();
+				int index1 = resultSchema.indexOf(table1);
+				int index2 = resultSchema.indexOf(table2);
+
+				if (attr1.equals("id")) {
+					if (attr2.equals("id")) {
+						while (it.hasNext()) {
+							Map.Entry<Integer, ArrayList<Integer>> entry = it.next();
+							ArrayList<Integer> value = entry.getValue();
+							if (value.get(index1) == value.get(index2)) {
+								newResultData.put(entry.getKey(), entry.getValue());
+							}
+						}
+					} else {
+						while (it.hasNext()) {
+							Map.Entry<Integer, ArrayList<Integer>> entry = it.next();
+							ArrayList<Integer> value = entry.getValue();
+							Integer id2 = value.get(index2);
+							if (value.get(index1) == table2.getData().get(id2).get(attr2)) {
+								newResultData.put(entry.getKey(), entry.getValue());
+							}
+						}
+					}
+				} else {
+					if (attr2.equals("id")) {
+						while (it.hasNext()) {
+							Map.Entry<Integer, ArrayList<Integer>> entry = it.next();
+							ArrayList<Integer> value = entry.getValue();
+							Integer id1 = value.get(index1);
+							if (table1.getData().get(id1).get(attr1) == value.get(index2)) {
+								newResultData.put(entry.getKey(), entry.getValue());
+							}
+						}
+					} else {
+						while (it.hasNext()) {
+							Map.Entry<Integer, ArrayList<Integer>> entry = it.next();
+							ArrayList<Integer> value = entry.getValue();
+							Integer id1 = value.get(index1);
+							Integer id2 = value.get(index2);
+							if (table1.getData().get(id1).get(attr1) == table2.getData().get(id2).get(attr2)) {
+								newResultData.put(entry.getKey(), entry.getValue());
+							}
+						}
+					}
+				}
+
+				newResult.setStorage((HashMap<ArrayList<Table>, Result>) result.getStorage().clone());
+				result = newResult;
+
+			} else if (resultSchema.contains(table1) && !resultSchema.contains(table2)) {
 
 				int index = resultSchema.indexOf(table1);
 
@@ -246,8 +488,9 @@ public class DatabaseEngine {
 						}
 					}
 				}
-
-			} else if (resultSchema.contains(table2)) {
+				newResult.setStorage((HashMap<ArrayList<Table>, Result>) result.getStorage().clone());
+				result = newResult;
+			} else if (resultSchema.contains(table2) && !resultSchema.contains(table1)) {
 
 				int index = resultSchema.indexOf(table2);
 
@@ -311,15 +554,37 @@ public class DatabaseEngine {
 						}
 					}
 				}
-
+				newResult.setStorage((HashMap<ArrayList<Table>, Result>) result.getStorage().clone());
+				result = newResult;
 			} else {
-				// TODO Exception
-				System.out.println("Exception");
+				if (result.getStorage().size() == 0) {
+					ArrayList<Table> l = new ArrayList<Table>();
+					l.add(table1);
+					l.add(table2);
+					result.getStorage().put(l, joinExample(new Result(), s1, s2));
+				} else {
+					for (Map.Entry<ArrayList<Table>, Result> entry : result.getStorage().entrySet()) {
+						if (entry.getKey().contains(table1)) {
+							Result resultStorage = joinExample(entry.getValue(), s1, s2);
+							result.getStorage().remove(entry.getKey());
+							entry.getKey().add(table2);
+							result.getStorage().put(entry.getKey(), resultStorage);
+						}
+						if (entry.getKey().contains(table2)) {
+							Result resultStorage = joinExample(entry.getValue(), s1, s2);
+							result.getStorage().remove(entry.getKey());
+							entry.getKey().add(table1);
+							result.getStorage().put(entry.getKey(), resultStorage);
+						} else {
+							ArrayList<Table> l = new ArrayList<Table>();
+							l.add(table1);
+							l.add(table2);
+							result.getStorage().put(l, joinExample(new Result(), s1, s2));
+						}
+					}
+				}
 			}
-
-			result = newResult;
 		}
-
 		return result;
 	}
 
@@ -331,16 +596,18 @@ public class DatabaseEngine {
 		String attr1 = query1[1];
 		Table table2 = get(query2[0]);
 		String attr2 = query2[1];
-		
+
 		// Examine the tables and attributes
-		if(table1==null) {
-			System.out.println("Error: The table \""+query1[0]+"\" does not exist. ");
-		}else if (table2==null) {
-			System.out.println("Error: The table \""+query2[0]+"\" does not exist. ");
-		}else if(table1.getRow().get(attr1)==null) {
-			System.out.println("Error: The attribute \""+attr1+"\" does not exist in the table \""+query1[0]+"\". ");
-		}else if(table2.getRow().get(attr2)==null) {
-			System.out.println("Error: The attribute \""+attr2+"\" does not exist in the table \""+query2[0]+"\". ");
+		if (table1 == null) {
+			System.out.println("Error: The table \"" + query1[0] + "\" does not exist. ");
+		} else if (table2 == null) {
+			System.out.println("Error: The table \"" + query2[0] + "\" does not exist. ");
+		} else if (table1.getRow().get(attr1) == null) {
+			System.out.println(
+					"Error: The attribute \"" + attr1 + "\" does not exist in the table \"" + query1[0] + "\". ");
+		} else if (table2.getRow().get(attr2) == null) {
+			System.out.println(
+					"Error: The attribute \"" + attr2 + "\" does not exist in the table \"" + query2[0] + "\". ");
 		}
 
 		HashMap<Integer, ArrayList<Integer>> resultData = result.getData();
@@ -422,7 +689,246 @@ public class DatabaseEngine {
 
 			HashMap<Integer, ArrayList<Integer>> newResultData = newResult.getData();
 
-			if (resultSchema.contains(table1)) {
+			if (result.storageContains(table1) && !result.storageContains(table2) && resultSchema.contains(table2)) {
+
+				Result storageResult = result.getStorageResult(table1);
+				int index2 = resultSchema.indexOf(table2);
+				newResultSchema.addAll((Collection<? extends Table>) storageResult.getSchema().clone());
+
+				if (attr1.equals("id")) {
+
+					HashMap<Integer, Integer> pkMap1 = storageResult.getIDPKMap(table1);
+					Iterator<Map.Entry<Integer, ArrayList<Integer>>> it2 = resultData.entrySet().iterator();
+
+					if (attr2.equals("id")) {
+						while (it2.hasNext()) {
+							HashMap.Entry<Integer, ArrayList<Integer>> entry2 = it2.next();
+							Integer pk1 = pkMap1.get(entry2.getValue().get(index2));
+							if (pk1 != null) {
+								ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
+								newList.addAll(
+										(Collection<? extends Integer>) storageResult.getData().get(pk1).clone());
+								newResultData.put(entry2.getKey() + pk1, newList);
+							}
+						}
+					} else {
+						while (it2.hasNext()) {
+							HashMap.Entry<Integer, ArrayList<Integer>> entry2 = it2.next();
+							Integer pk1 = pkMap1.get(table2.getData().get(entry2.getValue().get(index2)).get(attr2));
+							if (pk1 != null) {
+								ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
+								newList.addAll(
+										(Collection<? extends Integer>) storageResult.getData().get(pk1).clone());
+								newResultData.put(entry2.getKey() + pk1, newList);
+							}
+						}
+					}
+
+				} else {
+					Iterator<Map.Entry<Integer, ArrayList<Integer>>> it2 = resultData.entrySet().iterator();
+					HashMap attrPKMap1 = storageResult.getAttrPKMap(table1, attr1);
+					if (attr2.equals("id")) {
+						while (it2.hasNext()) {
+							HashMap.Entry<Integer, ArrayList<Integer>> entry2 = it2.next();
+							Integer id2 = entry2.getValue().get(index2);
+							ArrayList<Integer> pkList1 = (ArrayList<Integer>) attrPKMap1.get(id2);
+							if (pkList1 != null) {
+								for (Integer pk1 : pkList1) {
+									ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
+									newList.addAll(storageResult.getData().get(pk1));
+									newResultData.put(entry2.getKey() + pk1, newList);
+								}
+							}
+						}
+					} else {
+						while (it2.hasNext()) {
+							HashMap.Entry<Integer, ArrayList<Integer>> entry2 = it2.next();
+							Integer id2 = entry2.getValue().get(index2);
+							ArrayList<Integer> pkList1 = (ArrayList<Integer>) attrPKMap1
+									.get(table2.getData().get(id2).get(attr2));
+							if (pkList1 != null) {
+								for (Integer pk1 : pkList1) {
+									ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
+									newList.addAll(storageResult.getData().get(pk1));
+									newResultData.put(entry2.getKey() + pk1, newList);
+								}
+							}
+						}
+					}
+				}
+
+				newResult.setStorage((HashMap<ArrayList<Table>, Result>) result.getStorage().clone());
+				newResult.removeStorageTable(table1);
+				result = newResult;
+
+			} else if (result.storageContains(table2) && !result.storageContains(table1)
+					&& resultSchema.contains(table1)) {
+
+				Result storageResult = result.getStorageResult(table2);
+				newResultSchema.addAll((Collection<? extends Table>) storageResult.getSchema().clone());
+
+				if (attr1.equals("id")) {
+
+					Iterator<Map.Entry<Integer, ArrayList<Integer>>> it1 = resultData.entrySet().iterator();
+					int index1 = resultSchema.indexOf(table1);
+
+					if (attr2.equals("id")) {
+						HashMap<Integer, Integer> pkMap2 = storageResult.getIDPKMap(table2);
+						while (it1.hasNext()) {
+							HashMap.Entry<Integer, ArrayList<Integer>> entry1 = it1.next();
+							Integer pk2 = pkMap2.get(entry1.getValue().get(index1));
+							if (pk2 != null) {
+								ArrayList<Integer> newList = (ArrayList<Integer>) entry1.getValue().clone();
+								newList.addAll(
+										(Collection<? extends Integer>) storageResult.getData().get(pk2).clone());
+								newResultData.put(entry1.getKey() + pk2, newList);
+							}
+						}
+					} else {
+						HashMap attrPKMap2 = storageResult.getAttrPKMap(table2, attr2);
+						while (it1.hasNext()) {
+							HashMap.Entry<Integer, ArrayList<Integer>> entry1 = it1.next();
+							Integer id1 = entry1.getValue().get(index1);
+							ArrayList<Integer> pkList2 = (ArrayList<Integer>) attrPKMap2.get(id1);
+							if (pkList2 != null) {
+								for (Integer pk2 : pkList2) {
+									ArrayList<Integer> newList = (ArrayList<Integer>) entry1.getValue().clone();
+									newList.addAll(
+											(Collection<? extends Integer>) storageResult.getData().get(pk2).clone());
+									newResultData.put(entry1.getKey() + pk2, newList);
+								}
+							}
+						}
+					}
+
+				} else {
+					Iterator<Map.Entry<Integer, ArrayList<Integer>>> it2 = storageResult.getData().entrySet()
+							.iterator();
+					int index2 = resultSchema.indexOf(table2);
+					HashMap attrPKMap1 = result.getAttrPKMap(table1, attr1);
+
+					if (attr2.equals("id")) {
+						while (it2.hasNext()) {
+							Map.Entry<Integer, ArrayList<Integer>> entry2 = it2.next();
+							Integer id2 = entry2.getValue().get(index2);
+							ArrayList<Integer> pkList1 = (ArrayList<Integer>) attrPKMap1.get(id2);
+							if (pkList1 != null) {
+								for (Integer pk1 : pkList1) {
+									ArrayList<Integer> newList = (ArrayList<Integer>) resultData.get(pk1).clone();
+									newList.addAll((Collection<? extends Integer>) entry2.getValue().clone());
+									newResultData.put(pk1 + entry2.getKey(), newList);
+								}
+							}
+						}
+					} else {
+						while (it2.hasNext()) {
+							Map.Entry<Integer, ArrayList<Integer>> entry2 = it2.next();
+							Integer id2 = entry2.getValue().get(index2);
+							ArrayList<Integer> pkList1 = (ArrayList<Integer>) attrPKMap1
+									.get(table2.getData().get(id2).get(attr2));
+							if (pkList1 != null) {
+								for (Integer pk1 : pkList1) {
+									ArrayList<Integer> newList = (ArrayList<Integer>) resultData.get(pk1).clone();
+									newList.addAll((Collection<? extends Integer>) entry2.getValue().clone());
+									newResultData.put(pk1 + entry2.getKey(), newList);
+								}
+							}
+						}
+					}
+				}
+
+				newResult.setStorage((HashMap<ArrayList<Table>, Result>) result.getStorage().clone());
+				newResult.removeStorageTable(table2);
+				result = newResult;
+
+			} else if (result.storageContains(table1) && result.storageContains(table2)) {
+
+				if (result.storageIndex(table1) == result.storageIndex(table2)) {
+
+					Result storageResult = result.getStorageResult(table1);
+
+					for (Map.Entry<ArrayList<Table>, Result> entry : result.getStorage().entrySet()) {
+						ArrayList<Table> key = entry.getKey();
+						if (key.contains(table1)) {
+							Result newStorageResult = join(storageResult, s1, s2);
+							result.getStorage().remove(key);
+							result.getStorage().put(key, newStorageResult);
+							break;
+						}
+					}
+				} else {
+					ArrayList<Table> key1 = null;
+					ArrayList<Table> key2 = null;
+					Result storageResult1 = null;
+					Result storageResult2 = null;
+					for (Map.Entry<ArrayList<Table>, Result> entry : result.getStorage().entrySet()) {
+						if (entry.getKey().contains(table1)) {
+							key1 = entry.getKey();
+							storageResult1 = entry.getValue();
+						}
+						if (entry.getKey().contains(table2)) {
+							key2 = entry.getKey();
+							storageResult2 = entry.getValue();
+						}
+					}
+					storageResult1.getStorage().put(key2, storageResult2);
+					result.getStorage().remove(key1);
+					result.getStorage().remove(key2);
+					result.getStorage().put((ArrayList<Table>) storageResult1.getSchema().clone(),
+							join(storageResult1, s1, s2));
+
+				}
+			} else if (resultSchema.contains(table1) && resultSchema.contains(table2)) {
+				Iterator<Map.Entry<Integer, ArrayList<Integer>>> it = resultData.entrySet().iterator();
+				int index1 = resultSchema.indexOf(table1);
+				int index2 = resultSchema.indexOf(table2);
+
+				if (attr1.equals("id")) {
+					if (attr2.equals("id")) {
+						while (it.hasNext()) {
+							Map.Entry<Integer, ArrayList<Integer>> entry = it.next();
+							ArrayList<Integer> value = entry.getValue();
+							if (value.get(index1) == value.get(index2)) {
+								newResultData.put(entry.getKey(), entry.getValue());
+							}
+						}
+					} else {
+						while (it.hasNext()) {
+							Map.Entry<Integer, ArrayList<Integer>> entry = it.next();
+							ArrayList<Integer> value = entry.getValue();
+							Integer id2 = value.get(index2);
+							if (value.get(index1) == table2.getData().get(id2).get(attr2)) {
+								newResultData.put(entry.getKey(), entry.getValue());
+							}
+						}
+					}
+				} else {
+					if (attr2.equals("id")) {
+						while (it.hasNext()) {
+							Map.Entry<Integer, ArrayList<Integer>> entry = it.next();
+							ArrayList<Integer> value = entry.getValue();
+							Integer id1 = value.get(index1);
+							if (table1.getData().get(id1).get(attr1) == value.get(index2)) {
+								newResultData.put(entry.getKey(), entry.getValue());
+							}
+						}
+					} else {
+						while (it.hasNext()) {
+							Map.Entry<Integer, ArrayList<Integer>> entry = it.next();
+							ArrayList<Integer> value = entry.getValue();
+							Integer id1 = value.get(index1);
+							Integer id2 = value.get(index2);
+							if (table1.getData().get(id1).get(attr1) == table2.getData().get(id2).get(attr2)) {
+								newResultData.put(entry.getKey(), entry.getValue());
+							}
+						}
+					}
+				}
+
+				newResult.setStorage((HashMap<ArrayList<Table>, Result>) result.getStorage().clone());
+				result = newResult;
+
+			} else if (resultSchema.contains(table1) && !resultSchema.contains(table2)) {
 
 				int index = resultSchema.indexOf(table1);
 
@@ -487,8 +993,9 @@ public class DatabaseEngine {
 						}
 					}
 				}
-
-			} else if (resultSchema.contains(table2)) {
+				newResult.setStorage((HashMap<ArrayList<Table>, Result>) result.getStorage().clone());
+				result = newResult;
+			} else if (resultSchema.contains(table2) & !resultSchema.contains(table1)) {
 
 				int index = resultSchema.indexOf(table2);
 
@@ -552,15 +1059,37 @@ public class DatabaseEngine {
 						}
 					}
 				}
-
+				newResult.setStorage((HashMap<ArrayList<Table>, Result>) result.getStorage().clone());
+				result = newResult;
 			} else {
-				// TODO Exception
-				System.out.println("Exception");
+				if (result.getStorage().size() == 0) {
+					ArrayList<Table> l = new ArrayList<Table>();
+					l.add(table1);
+					l.add(table2);
+					result.getStorage().put(l, join(new Result(), s1, s2));
+				} else {
+					for (Map.Entry<ArrayList<Table>, Result> entry : result.getStorage().entrySet()) {
+						if (entry.getKey().contains(table1)) {
+							Result resultStorage = join(entry.getValue(), s1, s2);
+							result.getStorage().remove(entry.getKey());
+							entry.getKey().add(table2);
+							result.getStorage().put(entry.getKey(), resultStorage);
+						}
+						if (entry.getKey().contains(table2)) {
+							Result resultStorage = join(entry.getValue(), s1, s2);
+							result.getStorage().remove(entry.getKey());
+							entry.getKey().add(table1);
+							result.getStorage().put(entry.getKey(), resultStorage);
+						} else {
+							ArrayList<Table> l = new ArrayList<Table>();
+							l.add(table1);
+							l.add(table2);
+							result.getStorage().put(l, join(new Result(), s1, s2));
+						}
+					}
+				}
 			}
-
-			result = newResult;
 		}
-
 		return result;
 	}
 
@@ -593,7 +1122,6 @@ public class DatabaseEngine {
 
 	public static void main(String[] args) throws IOException {
 
-
 		String[] queries = { "1", "2", "3", "4", "5" };
 		Long[] runtime = new Long[queries.length];
 
@@ -601,74 +1129,102 @@ public class DatabaseEngine {
 
 		long startTime;
 		long endTime;
-		
-		int i = 0;
-		while(i < 10) {
-		System.out.println("----------"+i+" iteration----------");
-		
-		Result result1 = new Result();
-		
-		startTime=System.currentTimeMillis();
-		result1 = join(result1,"cn.id","mc.company_id");
-		endTime=System.currentTimeMillis();
-		runtime[0]=endTime-startTime;
-		
-		startTime=System.currentTimeMillis();
-		result1 = join(result1,"mc.movie_id","t.id");
-		endTime=System.currentTimeMillis();
-		runtime[1]=endTime-startTime;
-		
-		startTime=System.currentTimeMillis();
-		result1 = join(result1,"mk.movie_id","t.id");
-		endTime=System.currentTimeMillis();
-		runtime[2]=endTime-startTime;
-		
-		startTime=System.currentTimeMillis();
-		result1 = join(result1,"mc.movie_id","mk.movie_id");
-		endTime=System.currentTimeMillis();
-		runtime[3]=endTime-startTime;
-		
-		startTime=System.currentTimeMillis();
-		result1 = join(result1,"mk.keyword_id","k.id");
-		endTime=System.currentTimeMillis();
-		runtime[4]=endTime-startTime;
-		
-		printRuntimeArray(runtime);
-		lc.addLine("12345",runtime);	
-		
-		Result result1Example = new Result();
-		
-		startTime=System.currentTimeMillis();
-		result1Example = joinExample(result1Example,"cn.id","mc.company_id");
-		endTime=System.currentTimeMillis();
-		runtime[0]=endTime-startTime;
-		
-		
-		startTime=System.currentTimeMillis();
-		result1Example = joinExample(result1Example,"mc.movie_id","t.id");
-		endTime=System.currentTimeMillis();
-		runtime[1]=endTime-startTime;
-		
-		startTime=System.currentTimeMillis();
-		result1Example = joinExample(result1Example,"mk.movie_id","t.id");
-		endTime=System.currentTimeMillis();
-		runtime[2]=endTime-startTime;
-		
-		startTime=System.currentTimeMillis();
-		result1Example = joinExample(result1Example,"mc.movie_id","mk.movie_id");
-		endTime=System.currentTimeMillis();
-		runtime[3]=endTime-startTime;
-		
-		startTime=System.currentTimeMillis();
-		result1Example = joinExample(result1Example,"mk.keyword_id","k.id");
-		endTime=System.currentTimeMillis();
-		runtime[4]=endTime-startTime;
-		
-		printRuntimeArray(runtime);
-		lc.addLine("12345Example",runtime);
-		
-		i++;
+
+		String[] orders = { "14523", "14532", "23145", "32145", "54123", "54132","23541","32541", "41523", "41532","23415","32415", "45123", "45132","23451","32451" };
+
+		for (String order : orders) {
+
+			System.out.println("-------------order: " + order + " --------------");
+
+			Result result = new Result();
+
+			for (char c : order.toCharArray()) {
+				switch (c) {
+				case '1':
+					startTime = System.currentTimeMillis();
+					result = join(result, "cn.id", "mc.company_id");
+					endTime = System.currentTimeMillis();
+					runtime[0] = endTime - startTime;
+					break;
+				case '2':
+					startTime = System.currentTimeMillis();
+					result = join(result, "mc.movie_id", "t.id");
+					endTime = System.currentTimeMillis();
+					runtime[1] = endTime - startTime;
+					break;
+				case '3':
+					startTime = System.currentTimeMillis();
+					result = join(result, "mk.movie_id", "t.id");
+					endTime = System.currentTimeMillis();
+					runtime[2] = endTime - startTime;
+					break;
+				case '4':
+					startTime = System.currentTimeMillis();
+					result = join(result, "mc.movie_id", "mk.movie_id");
+					endTime = System.currentTimeMillis();
+					runtime[3] = endTime - startTime;
+					break;
+				case '5':
+					startTime = System.currentTimeMillis();
+					result = join(result, "mk.keyword_id", "k.id");
+					endTime = System.currentTimeMillis();
+					runtime[4] = endTime - startTime;
+					break;
+				default:
+					System.out.println("Error: The corresponding execution does not exist. ");
+					break;
+				}
+			}
+
+			printRuntimeArray(runtime);
+			System.out.println("The size of the result in the order " + order + " is: " + result.getData().size());
+			lc.addLine(order, runtime);
+
+//			Result result1Example = new Result();
+//
+//			for (char c : "54123".toCharArray()) {
+//				switch (c) {
+//				case '1':
+//					startTime = System.currentTimeMillis();
+//					result1Example = joinExample(result1Example, "cn.id", "mc.company_id");
+//					endTime = System.currentTimeMillis();
+//					runtime[0] = endTime - startTime;
+//					break;
+//				case '2':
+//					startTime = System.currentTimeMillis();
+//					result1Example = joinExample(result1Example, "mc.movie_id", "t.id");
+//					endTime = System.currentTimeMillis();
+//					runtime[1] = endTime - startTime;
+//					break;
+//				case '3':
+//					startTime = System.currentTimeMillis();
+//					result1Example = joinExample(result1Example, "mk.movie_id", "t.id");
+//					endTime = System.currentTimeMillis();
+//					runtime[2] = endTime - startTime;
+//					break;
+//				case '4':
+//					startTime = System.currentTimeMillis();
+//					result1Example = joinExample(result1Example, "mc.movie_id", "mk.movie_id");
+//					endTime = System.currentTimeMillis();
+//					runtime[3] = endTime - startTime;
+//					break;
+//				case '5':
+//					startTime = System.currentTimeMillis();
+//					result1Example = joinExample(result1Example, "mk.keyword_id", "k.id");
+//					endTime = System.currentTimeMillis();
+//					runtime[4] = endTime - startTime;
+//					break;
+//				default:
+//					System.out.println("Error: The corresponding execution does not exist. ");
+//					break;
+//				}
+//			}
+//
+//			printRuntimeArray(runtime);
+//			lc.addLine("54123Example-"+i, runtime);
+
 		}
+
 //		Result result2 = new Result();
 //		
 //		startTime=System.currentTimeMillis();
@@ -729,7 +1285,7 @@ public class DatabaseEngine {
 //		
 //		printRuntimeArray(runtime);
 //		lc.addLine("23451Example",runtime);
-		
+
 		lc.drawLineChart();
 
 	}
