@@ -3,6 +3,8 @@ package datenbank.imdb;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -15,7 +17,7 @@ public class Complete_castTable extends Table {
 	public Complete_castTable() {
 		name = "complete_cast";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/complete_cast.csv";
-		title = new String[] { "id", "movie_id", "subject_id", "status_id" };
+		title = new ArrayList<String>( Arrays.asList(new String[] { "id", "movie_id", "subject_id", "status_id" }));
 		row = new Complete_cast();
 		convert();
 	}

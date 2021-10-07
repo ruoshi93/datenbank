@@ -3,6 +3,8 @@ package datenbank.imdb;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -15,7 +17,7 @@ public class Info_typeTable extends Table {
 	public Info_typeTable() {
 		name = "info_type";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/info_type.csv";
-		title = new String[] { "id", "info" };
+		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "info" }));
 		row = new Info_type();
 		convert();
 	}

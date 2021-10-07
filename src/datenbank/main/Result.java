@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Result implements Cloneable {
 
@@ -149,39 +150,41 @@ public class Result implements Cloneable {
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.setVisible(true);
 	}
-
+ 
 	public TableModel toTableModel(Map<Integer, ArrayList<Integer>> map) {
+		ArrayList<String> allSchema = new ArrayList<String>();
 		for(Table t:this.schema) {
 			for(String s:t.getTitle()) {
-				
+				allSchema.add(t.getName()+"."+s);
 			}
 		}
-		String[] title = new String[];
+		Object[] title = (Object[]) allSchema.toArray();
 		DefaultTableModel model = new DefaultTableModel(title, 0);
+		
 		int size = title.length;
 		for (Map.Entry<Integer, ArrayList<Integer>> entry : map.entrySet()) {
 			Object[] row = new Object[size];
+			
 			int i = 0;
-			for (String attr : title) {
-				row[i] = entry.getValue().get(attr);
+			int j = 0;
+			for(Integer pk : entry.getValue()) {
+				Table t = this.getSchema().get(i);
+				Row r = t.getData().get(pk);
+				for(String attr: t.getTitle()) {
+					row[j] = r.get(attr);
+					j++;
+				}
 				i++;
 			}
+			
 			model.addRow(row);
 		}
 		return model;
 	}
 
-	// TODO Complete the toString method
 	@Override
 	public String toString() {
-		String s = new String();
-//		Iterator<Map.Entry<Integer, ArrayList<Integer>>> it = data.entrySet().iterator();
-//		while (it.hasNext()) {
-//			HashMap.Entry<Integer, ArrayList<Integer>> entry = it.next();
-//			s += schema.get(0).getData().get(entry.getKey());
-//			
-//		}
-		s += data;
-		return s;
+		init();
+		return "Result: "+this.data.size()+ " rows in total. ";
 	}
 }

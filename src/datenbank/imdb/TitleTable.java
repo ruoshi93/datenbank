@@ -3,6 +3,8 @@ package datenbank.imdb;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -15,8 +17,9 @@ public class TitleTable extends Table {
 	public TitleTable() {
 		name = "title";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/title.csv";
-		title = new String[] { "id", "title", "imdb_index", "kind_id", "production_year", "imdb_id", "phonetic_code",
-				"episode_of_id", "season_nr", "episode_nr", "series_years", "md5sum" };
+		title = new ArrayList<String>(
+				Arrays.asList(new String[] { "id", "title", "imdb_index", "kind_id", "production_year", "imdb_id",
+						"phonetic_code", "episode_of_id", "season_nr", "episode_nr", "series_years", "md5sum" }));
 		row = new Title();
 
 		convert();

@@ -3,6 +3,8 @@ package datenbank.imdb;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -15,7 +17,7 @@ public class Comp_cast_typeTable extends Table {
 	public Comp_cast_typeTable() {
 		name = "comp_cast_type";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/comp_cast_type.csv";
-		title = new String[] { "id", "kind" };
+		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "kind" }));
 		row = new Comp_cast_type();
 		convert();
 	}

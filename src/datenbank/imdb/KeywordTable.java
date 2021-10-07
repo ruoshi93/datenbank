@@ -3,6 +3,8 @@ package datenbank.imdb;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -15,7 +17,7 @@ public class KeywordTable extends Table {
 	public KeywordTable() {
 		name = "keyword";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/keyword.csv";
-		title = new String[] { "id", "keyword", "phonetic_code" };
+		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "keyword", "phonetic_code" }));
 		row = new Keyword();
 		convert();
 	}

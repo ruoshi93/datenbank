@@ -16,7 +16,7 @@ public abstract class Table {
 	protected String name;
 	protected String path;
 	protected Row row;
-	protected String[] title;
+	protected ArrayList<String> title;
 	protected int samplingSpace=11;
 	protected HashMap<Integer, Row> data = new HashMap<Integer, Row>();
 	protected HashMap<Integer, Row> example = new HashMap<Integer, Row>();
@@ -69,8 +69,8 @@ public abstract class Table {
 	}
 	
 	public TableModel toTableModel(Map<Integer, Row> map) {
-		DefaultTableModel model = new DefaultTableModel(title, 0);
-		int size = title.length;
+		DefaultTableModel model = new DefaultTableModel(title.toArray(), 0);
+		int size = title.size();
 		for (Map.Entry<Integer, Row> entry : map.entrySet()) {
 			Object[] row = new Object[size];
 			int i = 0;
@@ -100,7 +100,7 @@ public abstract class Table {
 		return this.row;
 	}
 	
-	public String[] getTitle() {
+	public ArrayList<String> getTitle() {
 		return this.title;
 	}
 

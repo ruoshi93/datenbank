@@ -3,6 +3,8 @@ package datenbank.imdb;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -15,8 +17,8 @@ public class Aka_titleTable extends Table {
 	public Aka_titleTable() {
 		name = "aka_title";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/aka_title.csv";
-		title = new String[] { "id", "movie_id", "title", "imdb_index", "kind_id", "production_year", "phonetic_code",
-				"episode_of_id", "season_nr", "episode_nr", "note", "md5sum" };
+		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "movie_id", "title", "imdb_index", "kind_id", "production_year", "phonetic_code",
+				"episode_of_id", "season_nr", "episode_nr", "note", "md5sum" }));
 		row = new Aka_title();
 		convert();
 	}
