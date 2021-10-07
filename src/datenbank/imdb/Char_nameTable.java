@@ -15,6 +15,7 @@ public class Char_nameTable extends Table {
 	public Char_nameTable() {
 		name = "char_name";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/char_name.csv";
+		title = new String[] { "id", "name", "imdb_index", "imdb_id", "name_pcode_nf", "surname_pcode", "md5sum" };
 		row = new Char_name();
 		convert();
 	}
@@ -43,10 +44,10 @@ public class Char_nameTable extends Table {
 	}
 
 	class Char_name extends Row {
-		private int id;
+		private Integer id;
 		private String name;
 		private String imdb_index;
-		private int imdb_id;
+		private Integer imdb_id;
 		private String name_pcode_nf;
 		private String surname_pcode;
 		private String md5sum;
@@ -55,13 +56,13 @@ public class Char_nameTable extends Table {
 		public <T> T get(String s) {
 			switch (s) {
 			case "id":
-				return (T) (Integer) this.id;
+				return (T) this.id;
 			case "name":
 				return (T) this.name;
 			case "imdb_index":
 				return (T) this.imdb_index;
 			case "imdb_id":
-				return (T) (Integer) this.imdb_id;
+				return (T) this.imdb_id;
 			case "name_pcode_nf":
 				return (T) this.name_pcode_nf;
 			case "surname_pcode":

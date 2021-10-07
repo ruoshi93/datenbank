@@ -15,6 +15,7 @@ public class Movie_companiesTable extends Table {
 	public Movie_companiesTable() {
 		name = "movie_companies";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_companies.csv";
+		title = new String[] { "id", "movie_id", "company_id", "company_type_id", "note" };
 		row = new Movie_companies();
 		convert();
 	}
@@ -43,23 +44,23 @@ public class Movie_companiesTable extends Table {
 	}
 
 	class Movie_companies extends Row {
-		private int id;
-		private int movie_id;
-		private int company_id;
-		private int company_type_id;
+		private Integer id;
+		private Integer movie_id;
+		private Integer company_id;
+		private Integer company_type_id;
 		private String note;
 
 		@Override
 		public <T> T get(String s) {
 			switch (s) {
 			case "id":
-				return (T) (Integer) this.id;
+				return (T) this.id;
 			case "movie_id":
-				return (T) (Integer) this.movie_id;
+				return (T) this.movie_id;
 			case "company_id":
-				return (T) (Integer) this.company_id;
+				return (T) this.company_id;
 			case "company_type_id":
-				return (T) (Integer) this.company_type_id;
+				return (T) this.company_type_id;
 			case "note":
 				return (T) this.note;
 			default:

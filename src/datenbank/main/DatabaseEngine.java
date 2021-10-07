@@ -804,7 +804,7 @@ public class DatabaseEngine {
 				} else {
 					Iterator<Map.Entry<Integer, ArrayList<Integer>>> it2 = storageResult.getData().entrySet()
 							.iterator();
-					int index2 = resultSchema.indexOf(table2);
+					int index2 = storageResult.getSchema().indexOf(table2);
 					HashMap attrPKMap1 = result.getAttrPKMap(table1, attr1);
 
 					if (attr2.equals("id")) {
@@ -995,7 +995,7 @@ public class DatabaseEngine {
 				}
 				newResult.setStorage((HashMap<ArrayList<Table>, Result>) result.getStorage().clone());
 				result = newResult;
-			} else if (resultSchema.contains(table2) & !resultSchema.contains(table1)) {
+			} else if (resultSchema.contains(table2) && !resultSchema.contains(table1)) {
 
 				int index = resultSchema.indexOf(table2);
 
@@ -1122,97 +1122,74 @@ public class DatabaseEngine {
 
 	public static void main(String[] args) throws IOException {
 
-		String[] queries = { "1", "2", "3", "4", "5" };
-		Long[] runtime = new Long[queries.length];
-
-		LineChart lc = new LineChart(queries);
-
-		long startTime;
-		long endTime;
-
-		String[] orders = { "14523", "14532", "23145", "32145", "54123", "54132","23541","32541", "41523", "41532","23415","32415", "45123", "45132","23451","32451" };
-
-		for (String order : orders) {
-
-			System.out.println("-------------order: " + order + " --------------");
-
-			Result result = new Result();
-
-			for (char c : order.toCharArray()) {
-				switch (c) {
-				case '1':
-					startTime = System.currentTimeMillis();
-					result = join(result, "cn.id", "mc.company_id");
-					endTime = System.currentTimeMillis();
-					runtime[0] = endTime - startTime;
-					break;
-				case '2':
-					startTime = System.currentTimeMillis();
-					result = join(result, "mc.movie_id", "t.id");
-					endTime = System.currentTimeMillis();
-					runtime[1] = endTime - startTime;
-					break;
-				case '3':
-					startTime = System.currentTimeMillis();
-					result = join(result, "mk.movie_id", "t.id");
-					endTime = System.currentTimeMillis();
-					runtime[2] = endTime - startTime;
-					break;
-				case '4':
-					startTime = System.currentTimeMillis();
-					result = join(result, "mc.movie_id", "mk.movie_id");
-					endTime = System.currentTimeMillis();
-					runtime[3] = endTime - startTime;
-					break;
-				case '5':
-					startTime = System.currentTimeMillis();
-					result = join(result, "mk.keyword_id", "k.id");
-					endTime = System.currentTimeMillis();
-					runtime[4] = endTime - startTime;
-					break;
-				default:
-					System.out.println("Error: The corresponding execution does not exist. ");
-					break;
-				}
-			}
-
-			printRuntimeArray(runtime);
-			System.out.println("The size of the result in the order " + order + " is: " + result.getData().size());
-			lc.addLine(order, runtime);
-
-//			Result result1Example = new Result();
+//		String[] queries = { "1", "2", "3", "4", "5" };
+////		Long[] runtime = new Long[queries.length];
+//		Long[] runtime = {0L,0L,0L,0L,0L};
 //
-//			for (char c : "54123".toCharArray()) {
+//		LineChart lc = new LineChart(queries);
+//
+//		long startTime;
+//		long endTime;
+//
+////		String[] orders = { "14523", "14532", "23145", "32145", "54123", "54132","23541","32541", "41523", "41532","23415","32415", "45123", "45132","23451","32451" };
+//		String[] orders = {"12","21","14","41","45","54","53","35","34","43","24","42"};
+//		
+//		for (String order : orders) {
+//
+//			System.out.println("-------------order: " + order + " --------------");
+//
+//			Result result = new Result();
+//
+//			for (char c : order.toCharArray()) {
 //				switch (c) {
 //				case '1':
 //					startTime = System.currentTimeMillis();
-//					result1Example = joinExample(result1Example, "cn.id", "mc.company_id");
+//					System.out.println("cn.id=mc.company_id");
+//					result = join(result, "cn.id", "mc.company_id");
 //					endTime = System.currentTimeMillis();
 //					runtime[0] = endTime - startTime;
 //					break;
 //				case '2':
 //					startTime = System.currentTimeMillis();
-//					result1Example = joinExample(result1Example, "mc.movie_id", "t.id");
+//					System.out.println("mc.movie_id=t.id");
+//					result = join(result, "mc.movie_id", "t.id");
 //					endTime = System.currentTimeMillis();
 //					runtime[1] = endTime - startTime;
 //					break;
 //				case '3':
 //					startTime = System.currentTimeMillis();
-//					result1Example = joinExample(result1Example, "mk.movie_id", "t.id");
+//					System.out.println("mk.movie_id=t.id");
+//					result = join(result, "mk.movie_id", "t.id");
 //					endTime = System.currentTimeMillis();
 //					runtime[2] = endTime - startTime;
 //					break;
 //				case '4':
 //					startTime = System.currentTimeMillis();
-//					result1Example = joinExample(result1Example, "mc.movie_id", "mk.movie_id");
+//					System.out.println("mc.movie_id=mk.movie_id");
+//					result = join(result, "mc.movie_id", "mk.movie_id");
 //					endTime = System.currentTimeMillis();
 //					runtime[3] = endTime - startTime;
 //					break;
 //				case '5':
 //					startTime = System.currentTimeMillis();
-//					result1Example = joinExample(result1Example, "mk.keyword_id", "k.id");
+//					System.out.println("mk.keyword_id=k.id");
+//					result = join(result, "mk.keyword_id", "k.id");
 //					endTime = System.currentTimeMillis();
 //					runtime[4] = endTime - startTime;
+//					break;
+//				case '6':
+//					startTime = System.currentTimeMillis();
+//					System.out.println("t.id=mc.movie_id");
+//					result = join(result, "t.id", "mc.movie_id");
+//					endTime = System.currentTimeMillis();
+//					runtime[0] = endTime - startTime;
+//					break;
+//				case '7':
+//					startTime = System.currentTimeMillis();
+//					System.out.println("t.id=mk.movie_id");
+//					result = join(result, "t.id", "mk.movie_id");
+//					endTime = System.currentTimeMillis();
+//					runtime[0] = endTime - startTime;
 //					break;
 //				default:
 //					System.out.println("Error: The corresponding execution does not exist. ");
@@ -1221,72 +1198,55 @@ public class DatabaseEngine {
 //			}
 //
 //			printRuntimeArray(runtime);
-//			lc.addLine("54123Example-"+i, runtime);
-
-		}
-
-//		Result result2 = new Result();
-//		
-//		startTime=System.currentTimeMillis();
-//		result2 = join(result2,"mc.movie_id","t.id");
-//		endTime=System.currentTimeMillis();
-//		runtime[1]=endTime-startTime;
-//		
-//		startTime=System.currentTimeMillis();
-//		result2 = join(result2,"mk.movie_id","t.id");
-//		endTime=System.currentTimeMillis();
-//		runtime[2]=endTime-startTime;
-//		
-//		startTime=System.currentTimeMillis();
-//		result2 = join(result2,"mc.movie_id","mk.movie_id");
-//		endTime=System.currentTimeMillis();
-//		runtime[3]=endTime-startTime;
-//		
-//		startTime=System.currentTimeMillis();
-//		result2 = join(result2,"mk.keyword_id","k.id");
-//		endTime=System.currentTimeMillis();
-//		runtime[4]=endTime-startTime;
-//		
-//		startTime=System.currentTimeMillis();
-//		result2 = join(result2,"cn.id","mc.company_id");
-//		endTime=System.currentTimeMillis();
-//		runtime[0]=endTime-startTime;
-//		
-//		printRuntimeArray(runtime);
-//		lc.addLine("23451",runtime);
-
-//		///////////////////////////////////////////////Test for ExampleJoin
-//		Result resultExample = new Result();
-//		
-//		startTime=System.currentTimeMillis();
-//		resultExample = joinExample(resultExample,"mc.movie_id","t.id");
-//		endTime=System.currentTimeMillis();
-//		runtime[1]=endTime-startTime;
-//		
-//		startTime=System.currentTimeMillis();
-//		resultExample = joinExample(resultExample,"mk.movie_id","t.id");
-//		endTime=System.currentTimeMillis();
-//		runtime[2]=endTime-startTime;
-//		
-//		startTime=System.currentTimeMillis();
-//		resultExample = joinExample(resultExample,"mc.movie_id","mk.movie_id");
-//		endTime=System.currentTimeMillis();
-//		runtime[3]=endTime-startTime;
-//		
-//		startTime=System.currentTimeMillis();
-//		resultExample = joinExample(resultExample,"mk.keyword_id","k.id");
-//		endTime=System.currentTimeMillis();
-//		runtime[4]=endTime-startTime;
-//		
-//		startTime=System.currentTimeMillis();
-//		resultExample = joinExample(resultExample,"cn.id","mc.company_id");
-//		endTime=System.currentTimeMillis();
-//		runtime[0]=endTime-startTime;
-//		
-//		printRuntimeArray(runtime);
-//		lc.addLine("23451Example",runtime);
-
-		lc.drawLineChart();
+//			System.out.println("The size of the result in the order " + order + " is: " + result.getData().size());
+//			lc.addLine(order, runtime);
+//
+////			Result result1Example = new Result();
+////
+////			for (char c : "54123".toCharArray()) {
+////				switch (c) {
+////				case '1':
+////					startTime = System.currentTimeMillis();
+////					result1Example = joinExample(result1Example, "cn.id", "mc.company_id");
+////					endTime = System.currentTimeMillis();
+////					runtime[0] = endTime - startTime;
+////					break;
+////				case '2':
+////					startTime = System.currentTimeMillis();
+////					result1Example = joinExample(result1Example, "mc.movie_id", "t.id");
+////					endTime = System.currentTimeMillis();
+////					runtime[1] = endTime - startTime;
+////					break;
+////				case '3':
+////					startTime = System.currentTimeMillis();
+////					result1Example = joinExample(result1Example, "mk.movie_id", "t.id");
+////					endTime = System.currentTimeMillis();
+////					runtime[2] = endTime - startTime;
+////					break;
+////				case '4':
+////					startTime = System.currentTimeMillis();
+////					result1Example = joinExample(result1Example, "mc.movie_id", "mk.movie_id");
+////					endTime = System.currentTimeMillis();
+////					runtime[3] = endTime - startTime;
+////					break;
+////				case '5':
+////					startTime = System.currentTimeMillis();
+////					result1Example = joinExample(result1Example, "mk.keyword_id", "k.id");
+////					endTime = System.currentTimeMillis();
+////					runtime[4] = endTime - startTime;
+////					break;
+////				default:
+////					System.out.println("Error: The corresponding execution does not exist. ");
+////					break;
+////				}
+////			}
+////
+////			printRuntimeArray(runtime);
+////			lc.addLine("54123Example-"+i, runtime);
+//
+//		}
+//
+//		lc.drawLineChart();
 
 	}
 

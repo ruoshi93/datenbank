@@ -15,6 +15,7 @@ public class Person_infoTable extends Table {
 	public Person_infoTable() {
 		name = "person_info";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/person_info.csv";
+		title = new String[] { "id", "person_id", "info_type_id", "info", "note" };
 		row = new Person_info();
 		convert();
 	}
@@ -43,9 +44,9 @@ public class Person_infoTable extends Table {
 	}
 
 	class Person_info extends Row {
-		private int id;
-		private int person_id;
-		private int info_type_id;
+		private Integer id;
+		private Integer person_id;
+		private Integer info_type_id;
 		private String info;
 		private String note;
 
@@ -53,11 +54,11 @@ public class Person_infoTable extends Table {
 		public <T> T get(String s) {
 			switch (s) {
 			case "id":
-				return (T) (Integer) this.id;
+				return (T) this.id;
 			case "person_id":
-				return (T) (Integer) this.person_id;
+				return (T) this.person_id;
 			case "info_type_id":
-				return (T) (Integer) this.info_type_id;
+				return (T) this.info_type_id;
 			case "info":
 				return (T) this.info;
 			case "note":

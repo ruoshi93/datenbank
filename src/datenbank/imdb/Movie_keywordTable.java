@@ -15,6 +15,7 @@ public class Movie_keywordTable extends Table {
 	public Movie_keywordTable() {
 		name = "movie_keyword";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_keyword.csv";
+		title = new String[] { "id", "movie_id", "keyword_id" };
 		row = new Movie_keyword();
 		convert();
 	}
@@ -43,18 +44,18 @@ public class Movie_keywordTable extends Table {
 	}
 
 	class Movie_keyword extends Row {
-		private int id;
-		private int movie_id;
-		private int keyword_id;
+		private Integer id;
+		private Integer movie_id;
+		private Integer keyword_id;
 
 		public <T> T get(String s) {
 			switch (s) {
 			case "id":
-				return (T) (Integer) this.id;
+				return (T) this.id;
 			case "movie_id":
-				return (T) (Integer) this.movie_id;
+				return (T) this.movie_id;
 			case "keyword_id":
-				return (T) (Integer) this.keyword_id;
+				return (T) this.keyword_id;
 			default:
 				return null;
 			}

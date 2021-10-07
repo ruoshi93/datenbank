@@ -7,9 +7,9 @@ public abstract class Row {
 	public abstract <T> T get(String s);
 	
 	
-	protected int parseStringToInt(String s) {
+	protected Integer parseStringToInt(String s) {
 		if(s.equals("")) {
-			return 0;
+			return null;
 		}else {
 			return Integer.parseInt(s);
 		}

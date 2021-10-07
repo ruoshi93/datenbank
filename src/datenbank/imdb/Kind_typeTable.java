@@ -15,6 +15,7 @@ public class Kind_typeTable extends Table {
 	public Kind_typeTable() {
 		name = "kind_type";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/kind_type.csv";
+		title = new String[] { "id", "kind" };
 		row = new Kind_type();
 		convert();
 	}
@@ -27,7 +28,7 @@ public class Kind_typeTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Kind_type kind_type = new Kind_type(nextLine);
 				this.data.put(kind_type.getPrimaryKey(), kind_type);
-				this.example=this.data;
+				this.example = this.data;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -39,14 +40,14 @@ public class Kind_typeTable extends Table {
 	}
 
 	class Kind_type extends Row {
-		private int id;
+		private Integer id;
 		private String kind;
 
 		@Override
 		public <T> T get(String s) {
 			switch (s) {
 			case "id":
-				return (T) (Integer) this.id;
+				return (T) this.id;
 			case "kind":
 				return (T) this.kind;
 			default:
@@ -60,7 +61,7 @@ public class Kind_typeTable extends Table {
 
 		public Kind_type() {
 		}
-		
+
 		public Kind_type(String[] data) {
 			this.id = this.parseStringToInt(data[0]);
 			this.kind = data[1];

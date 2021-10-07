@@ -15,6 +15,7 @@ public class Movie_infoTable extends Table {
 	public Movie_infoTable() {
 		name = "movie_info";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_info.csv";
+		title = new String[] { "id", "movie_id", "info_type_id", "info", "note" };
 		row = new Movie_info();
 		convert();
 	}
@@ -43,9 +44,9 @@ public class Movie_infoTable extends Table {
 	}
 
 	class Movie_info extends Row {
-		private int id;
-		private int movie_id;
-		private int info_type_id;
+		private Integer id;
+		private Integer movie_id;
+		private Integer info_type_id;
 		private String info;
 		private String note;
 
@@ -53,11 +54,11 @@ public class Movie_infoTable extends Table {
 		public <T> T get(String s) {
 			switch (s) {
 			case "id":
-				return (T) (Integer) this.id;
+				return (T) this.id;
 			case "movie_id":
-				return (T) (Integer) this.movie_id;
+				return (T) this.movie_id;
 			case "info_type_id":
-				return (T) (Integer) this.info_type_id;
+				return (T) this.info_type_id;
 			case "info":
 				return (T) this.info;
 			case "note":

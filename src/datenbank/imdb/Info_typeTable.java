@@ -15,6 +15,7 @@ public class Info_typeTable extends Table {
 	public Info_typeTable() {
 		name = "info_type";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/info_type.csv";
+		title = new String[] { "id", "info" };
 		row = new Info_type();
 		convert();
 	}
@@ -27,7 +28,7 @@ public class Info_typeTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Info_type info_type = new Info_type(nextLine);
 				this.data.put(info_type.getPrimaryKey(), info_type);
-				this.example=this.data;
+				this.example = this.data;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -39,14 +40,14 @@ public class Info_typeTable extends Table {
 	}
 
 	class Info_type extends Row {
-		private int id;
+		private Integer id;
 		private String info;
 
 		@Override
 		public <T> T get(String s) {
 			switch (s) {
 			case "id":
-				return (T) (Integer) this.id;
+				return (T) this.id;
 			case "info":
 				return (T) this.info;
 			default:
@@ -60,7 +61,7 @@ public class Info_typeTable extends Table {
 
 		public Info_type() {
 		}
-		
+
 		public Info_type(String[] data) {
 			this.id = this.parseStringToInt(data[0]);
 			this.info = data[1];

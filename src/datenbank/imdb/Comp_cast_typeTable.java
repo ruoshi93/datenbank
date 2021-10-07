@@ -15,6 +15,7 @@ public class Comp_cast_typeTable extends Table {
 	public Comp_cast_typeTable() {
 		name = "comp_cast_type";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/comp_cast_type.csv";
+		title = new String[] { "id", "kind" };
 		row = new Comp_cast_type();
 		convert();
 	}
@@ -27,7 +28,7 @@ public class Comp_cast_typeTable extends Table {
 			while ((nextLine = reader.readNext()) != null) {
 				Comp_cast_type comp_cast_type = new Comp_cast_type(nextLine);
 				this.data.put(comp_cast_type.getPrimaryKey(), comp_cast_type);
-				this.example=this.data;
+				this.example = this.data;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
@@ -39,14 +40,14 @@ public class Comp_cast_typeTable extends Table {
 	}
 
 	class Comp_cast_type extends Row {
-		private int id;
+		private Integer id;
 		private String kind;
 
 		@Override
 		public <T> T get(String s) {
 			switch (s) {
 			case "id":
-				return (T) (Integer) this.id;
+				return (T) this.id;
 			case "kind":
 				return (T) this.kind;
 			default:
@@ -57,7 +58,7 @@ public class Comp_cast_typeTable extends Table {
 		public int getPrimaryKey() {
 			return this.id;
 		}
-		
+
 		public Comp_cast_type() {
 		}
 

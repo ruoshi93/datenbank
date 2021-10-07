@@ -15,6 +15,8 @@ public class Aka_titleTable extends Table {
 	public Aka_titleTable() {
 		name = "aka_title";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/aka_title.csv";
+		title = new String[] { "id", "movie_id", "title", "imdb_index", "kind_id", "production_year", "phonetic_code",
+				"episode_of_id", "season_nr", "episode_nr", "note", "md5sum" };
 		row = new Aka_title();
 		convert();
 	}
@@ -43,16 +45,16 @@ public class Aka_titleTable extends Table {
 	}
 
 	class Aka_title extends Row {
-		private int id;
-		private int movie_id;
+		private Integer id;
+		private Integer movie_id;
 		private String title;
 		private String imdb_index;
-		private int kind_id;
-		private int production_year;
+		private Integer kind_id;
+		private Integer production_year;
 		private String phonetic_code;
-		private int episode_of_id;
-		private int season_nr;
-		private int episode_nr;
+		private Integer episode_of_id;
+		private Integer season_nr;
+		private Integer episode_nr;
 		private String note;
 		private String md5sum;
 
@@ -60,25 +62,25 @@ public class Aka_titleTable extends Table {
 		public <T> T get(String s) {
 			switch (s) {
 			case "id":
-				return (T) (Integer) this.id;
+				return (T) this.id;
 			case "movie_id":
-				return (T) (Integer) this.movie_id;
+				return (T) this.movie_id;
 			case "title":
 				return (T) this.title;
 			case "imdb_index":
 				return (T) this.imdb_index;
 			case "kind_id":
-				return (T) (Integer) this.kind_id;
+				return (T) this.kind_id;
 			case "production_year":
-				return (T) (Integer) this.production_year;
+				return (T) this.production_year;
 			case "phonetic_code":
 				return (T) this.phonetic_code;
 			case "episode_of_id":
-				return (T) (Integer) this.episode_of_id;
+				return (T) this.episode_of_id;
 			case "season_nr":
-				return (T) (Integer) this.season_nr;
+				return (T) this.season_nr;
 			case "episode_nr":
-				return (T) (Integer) this.episode_nr;
+				return (T) this.episode_nr;
 			case "note":
 				return (T) this.note;
 			case "md5sum":

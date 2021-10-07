@@ -15,6 +15,7 @@ public class Complete_castTable extends Table {
 	public Complete_castTable() {
 		name = "complete_cast";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/complete_cast.csv";
+		title = new String[] { "id", "movie_id", "subject_id", "status_id" };
 		row = new Complete_cast();
 		convert();
 	}
@@ -43,22 +44,22 @@ public class Complete_castTable extends Table {
 	}
 
 	class Complete_cast extends Row {
-		private int id;
-		private int movie_id;
-		private int subject_id;
-		private int status_id;
+		private Integer id;
+		private Integer movie_id;
+		private Integer subject_id;
+		private Integer status_id;
 
 		@Override
 		public <T> T get(String s) {
 			switch (s) {
 			case "id":
-				return (T) (Integer) this.id;
+				return (T) this.id;
 			case "movie_id":
-				return (T) (Integer) this.movie_id;
+				return (T) this.movie_id;
 			case "subject_id":
-				return (T) (Integer) this.subject_id;
+				return (T) this.subject_id;
 			case "status_id":
-				return (T) (Integer) this.status_id;
+				return (T) this.status_id;
 			default:
 				return null;
 			}
@@ -74,7 +75,7 @@ public class Complete_castTable extends Table {
 		public Complete_cast(String[] data) {
 			this.id = this.parseStringToInt(data[0]);
 			this.movie_id = this.parseStringToInt(data[1]);
-			this.status_id = this.parseStringToInt(data[2]);
+			this.subject_id = this.parseStringToInt(data[2]);
 			this.status_id = this.parseStringToInt(data[3]);
 		}
 

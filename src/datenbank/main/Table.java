@@ -3,12 +3,20 @@ package datenbank.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 public abstract class Table {
 	protected String name;
 	protected String path;
 	protected Row row;
+	protected String[] title;
 	protected int samplingSpace=11;
 	protected HashMap<Integer, Row> data = new HashMap<Integer, Row>();
 	protected HashMap<Integer, Row> example = new HashMap<Integer, Row>();
@@ -52,9 +60,32 @@ public abstract class Table {
 		return pkMap;
 	}
 	
-	//TODO Output the Table
+	public void init() {
+		JFrame jf = new JFrame(name);
+		jf.add(new JScrollPane(new JTable(toTableModel(data))));
+		jf.pack();
+		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jf.setVisible(true);
+	}
+	
+	public TableModel toTableModel(Map<Integer, Row> map) {
+		DefaultTableModel model = new DefaultTableModel(title, 0);
+		int size = title.length;
+		for (Map.Entry<Integer, Row> entry : map.entrySet()) {
+			Object[] row = new Object[size];
+			int i = 0;
+			for(String attr:title) {
+				row[i] = entry.getValue().get(attr);
+				i++;
+			}
+			model.addRow(row);
+		}
+		return model;
+	}
+	
 	public String toString() {
-		return this.name;
+		init();
+		return "Table "+this.name+": "+data.size()+" rows in total. ";
 	}
 
 	public String getName() {
@@ -67,6 +98,10 @@ public abstract class Table {
 	
 	public Row getRow() {
 		return this.row;
+	}
+	
+	public String[] getTitle() {
+		return this.title;
 	}
 
 	public HashMap<Integer, Row> getData() {

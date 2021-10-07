@@ -15,6 +15,7 @@ public class Aka_nameTable extends Table {
 	public Aka_nameTable() {
 		name = "aka_name";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/aka_name.csv";
+		title = new String[] {"id","movie_id","name","imdb_index","name_pcode_cf","name_pcode_nf","surname_pcode","md5sum"};
 		row = new Aka_name();
 		convert();
 	}
@@ -43,8 +44,8 @@ public class Aka_nameTable extends Table {
 	}
 
 	class Aka_name extends Row {
-		private int id;
-		private int movie_id;
+		private Integer id;
+		private Integer movie_id;
 		private String name;
 		private String imdb_index;
 		private String name_pcode_cf;
@@ -56,9 +57,9 @@ public class Aka_nameTable extends Table {
 		public <T> T get(String s) {
 			switch (s) {
 			case "id":
-				return (T) (Integer) this.id;
+				return (T) this.id;
 			case "movie_id":
-				return (T) (Integer) this.movie_id;
+				return (T) this.movie_id;
 			case "name":
 				return (T) this.name;
 			case "imdb_index":

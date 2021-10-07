@@ -15,6 +15,7 @@ public class Cast_infoTable extends Table {
 	public Cast_infoTable() {
 		name = "cast_info";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/cast_info.csv";
+		title = new String[] { "id", "person_id", "movie_id", "person_role_id", "note", "nr_order", "role_id" };
 		row = new Cast_info();
 		convert();
 	}
@@ -43,31 +44,31 @@ public class Cast_infoTable extends Table {
 	}
 
 	class Cast_info extends Row {
-		private int id;
-		private int person_id;
-		private int movie_id;
-		private int person_role_id;
+		private Integer id;
+		private Integer person_id;
+		private Integer movie_id;
+		private Integer person_role_id;
 		private String note;
-		private int nr_order;
-		private int role_id;
+		private Integer nr_order;
+		private Integer role_id;
 
 		@Override
 		public <T> T get(String s) {
 			switch (s) {
 			case "id":
-				return (T) (Integer) this.id;
+				return (T) this.id;
 			case "person_id":
-				return (T) (Integer) this.person_id;
+				return (T) this.person_id;
 			case "movie_id":
-				return (T) (Integer) this.movie_id;
+				return (T) this.movie_id;
 			case "person_role_id":
-				return (T) (Integer) this.person_role_id;
+				return (T) this.person_role_id;
 			case "note":
 				return (T) this.note;
 			case "nr_order":
-				return (T) (Integer) this.nr_order;
+				return (T) this.nr_order;
 			case "role_id":
-				return (T) (Integer) this.role_id;
+				return (T) this.role_id;
 			default:
 				return null;
 
@@ -82,13 +83,13 @@ public class Cast_infoTable extends Table {
 		}
 
 		public Cast_info(String[] data) {
-			this.id = Integer.parseInt(data[0]);
-			this.person_id = Integer.parseInt(data[1]);
-			this.movie_id = Integer.parseInt(data[2]);
+			this.id = this.parseStringToInt(data[0]);
+			this.person_id = this.parseStringToInt(data[1]);
+			this.movie_id = this.parseStringToInt(data[2]);
 			this.person_role_id = this.parseStringToInt(data[3]);
 			this.note = data[4];
 			this.nr_order = this.parseStringToInt(data[5]);
-			this.role_id = Integer.parseInt(data[6]);
+			this.role_id = this.parseStringToInt(data[6]);
 		}
 
 	}

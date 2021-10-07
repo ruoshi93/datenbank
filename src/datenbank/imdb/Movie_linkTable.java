@@ -15,6 +15,7 @@ public class Movie_linkTable extends Table {
 	public Movie_linkTable() {
 		name = "movie_link";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_link.csv";
+		title = new String[] { "id", "movie_id", "linked_movie_id", "link_type_id" };
 		row = new Movie_link();
 		convert();
 	}
@@ -43,22 +44,22 @@ public class Movie_linkTable extends Table {
 	}
 
 	class Movie_link extends Row {
-		private int id;
-		private int movie_id;
-		private int linked_movie_id;
-		private int link_type_id;
+		private Integer id;
+		private Integer movie_id;
+		private Integer linked_movie_id;
+		private Integer link_type_id;
 
 		@Override
 		public <T> T get(String s) {
 			switch (s) {
 			case "id":
-				return (T) (Integer) this.id;
+				return (T) this.id;
 			case "movie_id":
-				return (T) (Integer) this.movie_id;
+				return (T) this.movie_id;
 			case "linked_movie_id":
-				return (T) (Integer) this.linked_movie_id;
+				return (T) this.linked_movie_id;
 			case "link_type_id":
-				return (T) (Integer) this.link_type_id;
+				return (T) this.link_type_id;
 			default:
 				return null;
 			}

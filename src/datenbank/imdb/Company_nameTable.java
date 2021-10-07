@@ -15,6 +15,7 @@ public class Company_nameTable extends Table {
 	public Company_nameTable() {
 		name = "company_name";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/company_name.csv";
+		title = new String[] { "id", "name", "country_code", "imdb_id", "name_pcode_nf", "name_pcode_sf", "md5sum" };
 		row = new Company_name();
 		convert();
 	}
@@ -43,10 +44,10 @@ public class Company_nameTable extends Table {
 	}
 
 	class Company_name extends Row {
-		private int id;
+		private Integer id;
 		private String name;
 		private String country_code;
-		private int imdb_id;
+		private Integer imdb_id;
 		private String name_pcode_nf;
 		private String name_pcode_sf;
 		private String md5sum;
@@ -80,7 +81,7 @@ public class Company_nameTable extends Table {
 		}
 
 		public Company_name(String[] data) {
-			this.id = Integer.parseInt(data[0]);
+			this.id = this.parseStringToInt(data[0]);
 			this.name = data[1];
 			this.country_code = data[2];
 			this.imdb_id = this.parseStringToInt(data[3]);

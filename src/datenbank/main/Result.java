@@ -3,6 +3,13 @@ package datenbank.main;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 import java.util.ArrayList;
 
 public class Result implements Cloneable {
@@ -133,6 +140,35 @@ public class Result implements Cloneable {
 		result.setSchema((ArrayList<Table>) this.schema.clone());
 		result.setData((HashMap<Integer, ArrayList<Integer>>) this.data.clone());
 		return result;
+	}
+
+	public void init() {
+		JFrame jf = new JFrame("Result");
+		jf.add(new JScrollPane(new JTable(toTableModel(data))));
+		jf.pack();
+		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jf.setVisible(true);
+	}
+
+	public TableModel toTableModel(Map<Integer, ArrayList<Integer>> map) {
+		for(Table t:this.schema) {
+			for(String s:t.getTitle()) {
+				
+			}
+		}
+		String[] title = new String[];
+		DefaultTableModel model = new DefaultTableModel(title, 0);
+		int size = title.length;
+		for (Map.Entry<Integer, ArrayList<Integer>> entry : map.entrySet()) {
+			Object[] row = new Object[size];
+			int i = 0;
+			for (String attr : title) {
+				row[i] = entry.getValue().get(attr);
+				i++;
+			}
+			model.addRow(row);
+		}
+		return model;
 	}
 
 	// TODO Complete the toString method

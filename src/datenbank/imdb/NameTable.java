@@ -15,6 +15,8 @@ public class NameTable extends Table {
 	public NameTable() {
 		name = "name";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/name.csv";
+		title = new String[] { "id", "name", "imdb_index", "imdb_id", "gender", "name_pcode_cf", "name_pcode_nf",
+				"surname_pcode", "md5sum" };
 		row = new Name();
 		convert();
 	}
@@ -43,10 +45,10 @@ public class NameTable extends Table {
 	}
 
 	class Name extends Row {
-		private int id;
+		private Integer id;
 		private String name;
 		private String imdb_index;
-		private int imdb_id;
+		private Integer imdb_id;
 		private String gender;
 		private String name_pcode_cf;
 		private String name_pcode_nf;
@@ -57,13 +59,13 @@ public class NameTable extends Table {
 		public <T> T get(String s) {
 			switch (s) {
 			case "id":
-				return (T) (Integer) this.id;
+				return (T) this.id;
 			case "name":
 				return (T) this.name;
 			case "imdb_index":
 				return (T) this.imdb_index;
 			case "imdb_id":
-				return (T) (Integer) this.imdb_id;
+				return (T) this.imdb_id;
 			case "gender":
 				return (T) this.gender;
 			case "name_pcode_cf":

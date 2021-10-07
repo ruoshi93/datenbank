@@ -15,6 +15,7 @@ public class KeywordTable extends Table {
 	public KeywordTable() {
 		name = "keyword";
 		path = "/Users/lili/Documents/Bachelor Thesis/imdb/keyword.csv";
+		title = new String[] { "id", "keyword", "phonetic_code" };
 		row = new Keyword();
 		convert();
 	}
@@ -43,14 +44,14 @@ public class KeywordTable extends Table {
 	}
 
 	class Keyword extends Row {
-		private int id;
+		private Integer id;
 		private String keyword;
 		private String phonetic_code;
 
 		public <T> T get(String s) {
 			switch (s) {
 			case "id":
-				return (T) (Integer) this.id;
+				return (T) this.id;
 			case "keyword":
 				return (T) this.keyword;
 			case "phonetic_code":
@@ -66,7 +67,7 @@ public class KeywordTable extends Table {
 
 		public Keyword() {
 		}
-		
+
 		public Keyword(String[] data) {
 			this.id = this.parseStringToInt(data[0]);
 			this.keyword = data[1];
