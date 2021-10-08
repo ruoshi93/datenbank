@@ -16,7 +16,7 @@ public class Movie_infoTable extends Table {
 
 	public Movie_infoTable() {
 		name = "movie_info";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_info.csv";
+		path = "imdb/movie_info.csv";
 		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "movie_id", "info_type_id", "info", "note" }));
 		row = new Movie_info();
 		convert();

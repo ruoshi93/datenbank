@@ -16,7 +16,7 @@ public class KeywordTable extends Table {
 
 	public KeywordTable() {
 		name = "keyword";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/keyword.csv";
+		path = "imdb/keyword.csv";
 		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "keyword", "phonetic_code" }));
 		row = new Keyword();
 		convert();

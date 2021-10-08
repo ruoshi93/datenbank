@@ -16,7 +16,7 @@ public class Company_nameTable extends Table {
 
 	public Company_nameTable() {
 		name = "company_name";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/company_name.csv";
+		path = "imdb/company_name.csv";
 		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "name", "country_code", "imdb_id", "name_pcode_nf", "name_pcode_sf", "md5sum" }));
 		row = new Company_name();
 		convert();

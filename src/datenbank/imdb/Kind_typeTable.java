@@ -16,7 +16,7 @@ public class Kind_typeTable extends Table {
 
 	public Kind_typeTable() {
 		name = "kind_type";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/kind_type.csv";
+		path = "imdb/kind_type.csv";
 		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "kind" }));
 		row = new Kind_type();
 		convert();

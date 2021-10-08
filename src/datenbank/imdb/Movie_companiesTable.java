@@ -16,8 +16,9 @@ public class Movie_companiesTable extends Table {
 
 	public Movie_companiesTable() {
 		name = "movie_companies";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_companies.csv";
-		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "movie_id", "company_id", "company_type_id", "note" }));
+		path = "imdb/movie_companies.csv";
+		title = new ArrayList<String>(
+				Arrays.asList(new String[] { "id", "movie_id", "company_id", "company_type_id", "note" }));
 		row = new Movie_companies();
 		convert();
 	}

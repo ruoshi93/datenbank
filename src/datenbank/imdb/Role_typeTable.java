@@ -16,7 +16,7 @@ public class Role_typeTable extends Table {
 
 	public Role_typeTable() {
 		name = "role_type";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/role_type.csv";
+		path = "imdb/role_type.csv";
 		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "role" }));
 		row = new Role_type();
 		convert();

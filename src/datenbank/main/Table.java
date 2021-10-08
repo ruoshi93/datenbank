@@ -17,10 +17,9 @@ public abstract class Table {
 	protected String path;
 	protected Row row;
 	protected ArrayList<String> title;
-	protected int samplingSpace=11;
+	protected int samplingSpace=51;
 	protected HashMap<Integer, Row> data = new HashMap<Integer, Row>();
 	protected HashMap<Integer, Row> example = new HashMap<Integer, Row>();
-	// TODO Delete all the path and data of the subclasses
 
 	public <T> HashMap<T, ArrayList<Integer>> getPKMap(String s) {
 		HashMap<T, ArrayList<Integer>> pkMap = new HashMap<T, ArrayList<Integer>>();

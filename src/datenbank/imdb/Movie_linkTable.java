@@ -16,7 +16,7 @@ public class Movie_linkTable extends Table {
 
 	public Movie_linkTable() {
 		name = "movie_link";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_link.csv";
+		path = "imdb/movie_link.csv";
 		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "movie_id", "linked_movie_id", "link_type_id" }));
 		row = new Movie_link();
 		convert();

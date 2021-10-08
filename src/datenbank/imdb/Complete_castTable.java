@@ -16,7 +16,7 @@ public class Complete_castTable extends Table {
 
 	public Complete_castTable() {
 		name = "complete_cast";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/complete_cast.csv";
+		path = "imdb/complete_cast.csv";
 		title = new ArrayList<String>( Arrays.asList(new String[] { "id", "movie_id", "subject_id", "status_id" }));
 		row = new Complete_cast();
 		convert();

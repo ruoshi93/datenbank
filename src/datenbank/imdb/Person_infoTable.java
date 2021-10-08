@@ -16,7 +16,7 @@ public class Person_infoTable extends Table {
 
 	public Person_infoTable() {
 		name = "person_info";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/person_info.csv";
+		path = "imdb/person_info.csv";
 		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "person_id", "info_type_id", "info", "note" }));
 		row = new Person_info();
 		convert();

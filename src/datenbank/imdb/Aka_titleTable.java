@@ -16,7 +16,7 @@ public class Aka_titleTable extends Table {
 
 	public Aka_titleTable() {
 		name = "aka_title";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/aka_title.csv";
+		path = "imdb/aka_title.csv";
 		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "movie_id", "title", "imdb_index", "kind_id", "production_year", "phonetic_code",
 				"episode_of_id", "season_nr", "episode_nr", "note", "md5sum" }));
 		row = new Aka_title();

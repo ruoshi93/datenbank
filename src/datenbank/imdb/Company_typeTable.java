@@ -16,7 +16,7 @@ public class Company_typeTable extends Table {
 
 	public Company_typeTable() {
 		name = "company_type";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/company_type.csv";
+		path = "imdb/company_type.csv";
 		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "kind" }));
 		row = new Company_type();
 		convert();

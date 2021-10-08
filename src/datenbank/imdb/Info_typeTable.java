@@ -16,7 +16,7 @@ public class Info_typeTable extends Table {
 
 	public Info_typeTable() {
 		name = "info_type";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/info_type.csv";
+		path = "imdb/info_type.csv";
 		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "info" }));
 		row = new Info_type();
 		convert();

@@ -16,7 +16,7 @@ public class Char_nameTable extends Table {
 
 	public Char_nameTable() {
 		name = "char_name";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/char_name.csv";
+		path = "imdb/char_name.csv";
 		title = new ArrayList<String>(Arrays.asList(
 				new String[] { "id", "name", "imdb_index", "imdb_id", "name_pcode_nf", "surname_pcode", "md5sum" }));
 		row = new Char_name();

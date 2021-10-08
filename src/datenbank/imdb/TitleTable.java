@@ -16,7 +16,7 @@ public class TitleTable extends Table {
 
 	public TitleTable() {
 		name = "title";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/title.csv";
+		path = "imdb/title.csv";
 		title = new ArrayList<String>(
 				Arrays.asList(new String[] { "id", "title", "imdb_index", "kind_id", "production_year", "imdb_id",
 						"phonetic_code", "episode_of_id", "season_nr", "episode_nr", "series_years", "md5sum" }));

@@ -16,7 +16,7 @@ public class NameTable extends Table {
 
 	public NameTable() {
 		name = "name";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/name.csv";
+		path = "imdb/name.csv";
 		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "name", "imdb_index", "imdb_id", "gender",
 				"name_pcode_cf", "name_pcode_nf", "surname_pcode", "md5sum" }));
 		row = new Name();

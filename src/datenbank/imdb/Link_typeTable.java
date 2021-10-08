@@ -16,7 +16,7 @@ public class Link_typeTable extends Table {
 
 	public Link_typeTable() {
 		name = "link_type";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/link_type.csv";
+		path = "imdb/link_type.csv";
 		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "link" }));
 		row = new Link_type();
 		convert();

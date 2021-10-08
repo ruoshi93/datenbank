@@ -16,7 +16,7 @@ public class Movie_keywordTable extends Table {
 
 	public Movie_keywordTable() {
 		name = "movie_keyword";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/movie_keyword.csv";
+		path = "imdb/movie_keyword.csv";
 		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "movie_id", "keyword_id" }));
 		row = new Movie_keyword();
 		convert();

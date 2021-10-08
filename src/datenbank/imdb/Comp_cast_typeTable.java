@@ -16,7 +16,7 @@ public class Comp_cast_typeTable extends Table {
 
 	public Comp_cast_typeTable() {
 		name = "comp_cast_type";
-		path = "/Users/lili/Documents/Bachelor Thesis/imdb/comp_cast_type.csv";
+		path = "imdb/comp_cast_type.csv";
 		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "kind" }));
 		row = new Comp_cast_type();
 		convert();
