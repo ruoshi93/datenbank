@@ -17,17 +17,17 @@ public abstract class Table {
 	protected String path;
 	protected Row row;
 	protected ArrayList<String> title;
-	protected int samplingSpace=51;
+	protected int samplingSpace=15;
 	protected HashMap<Integer, Row> data = new HashMap<Integer, Row>();
 	protected HashMap<Integer, Row> example = new HashMap<Integer, Row>();
 
-	public <T> HashMap<T, ArrayList<Integer>> getPKMap(String s) {
+	public <T> HashMap<T, ArrayList<Integer>> getPKMap(String attr) {
 		HashMap<T, ArrayList<Integer>> pkMap = new HashMap<T, ArrayList<Integer>>();
 		Iterator<Entry<Integer, Row>> it = data.entrySet().iterator();
 		while (it.hasNext()) {
-			Entry<Integer, Row> entry1 = it.next();
-			Integer pk = entry1.getKey();
-			T value = entry1.getValue().get(s);
+			Entry<Integer, Row> entry = it.next();
+			Integer pk = entry.getKey();
+			T value = entry.getValue().get(attr);
 			ArrayList<Integer> pkMapValue = pkMap.get(value);
 			if (pkMapValue != null) {
 				pkMapValue.add(pk);
@@ -80,6 +80,24 @@ public abstract class Table {
 			model.addRow(row);
 		}
 		return model;
+	}
+	
+	public <T> void printPKMap(String attr) {
+		HashMap<T, ArrayList<Integer>> pkMap = this.getPKMap(attr);
+		
+		DefaultTableModel model = new DefaultTableModel(new String[] {"Key", "Value"}, 0);
+		for (Entry<T, ArrayList<Integer>> entry : pkMap.entrySet()) {
+			Object[] row = new Object[2];
+			row[0] = entry.getKey();
+			row[1] = entry.getValue();
+			model.addRow(row);
+		}
+		
+		JFrame jf = new JFrame(name);
+		jf.add(new JScrollPane(new JTable(model)));
+		jf.pack();
+		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jf.setVisible(true);
 	}
 	
 	public String toString() {

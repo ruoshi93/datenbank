@@ -168,7 +168,7 @@ public class Result implements Cloneable {
 			int i = 0;
 			int j = 0;
 			for(Integer pk : entry.getValue()) {
-				Table t = this.getSchema().get(i);
+				Table t = this.schema.get(i);
 				Row r = t.getData().get(pk);
 				for(String attr: t.getTitle()) {
 					row[j] = r.get(attr);

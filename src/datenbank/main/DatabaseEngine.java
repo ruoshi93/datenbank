@@ -111,6 +111,7 @@ public class DatabaseEngine {
 		if (resultData.isEmpty()) {
 			resultSchema.add(table1);
 			resultSchema.add(table2);
+			Integer pk = 1;
 			if (attr1.equals("id")) {
 				if (attr2.equals("id")) {
 					Iterator<Map.Entry<Integer, Row>> it1 = table1.getExample().entrySet().iterator();
@@ -122,7 +123,8 @@ public class DatabaseEngine {
 							ArrayList<Integer> list = new ArrayList<Integer>();
 							list.add(pk1);
 							list.add(value2.getPrimaryKey());
-							resultData.put(pk1 + value2.getPrimaryKey(), list);
+							resultData.put(pk, list);
+							pk++;
 						}
 					}
 				} else {
@@ -135,7 +137,8 @@ public class DatabaseEngine {
 							ArrayList<Integer> list = new ArrayList<Integer>();
 							list.add(value1.getPrimaryKey());
 							list.add(value2.getPrimaryKey());
-							resultData.put(value1.getPrimaryKey() + value2.getPrimaryKey(), list);
+							resultData.put(pk, list);
+							pk++;
 						}
 					}
 				}
@@ -151,7 +154,8 @@ public class DatabaseEngine {
 							ArrayList<Integer> list = new ArrayList<Integer>();
 							list.add(value1.getPrimaryKey());
 							list.add(value2.getPrimaryKey());
-							resultData.put(value1.getPrimaryKey() + value2.getPrimaryKey(), list);
+							resultData.put(pk, list);
+							pk++;
 						}
 					}
 				} else {
@@ -163,12 +167,13 @@ public class DatabaseEngine {
 						Row value1 = entry1.getValue();
 						ArrayList<Integer> pk2List = (ArrayList<Integer>) pk2HashMap.get(value1.get(attr1));
 						if (pk2List != null) {
-							ArrayList<Integer> list = new ArrayList<Integer>();
 							for (int i = 0; i < pk2List.size(); i++) {
+								ArrayList<Integer> list = new ArrayList<Integer>();
 								list.add(pk1);
 								list.add(pk2List.get(i));
 								// TODO Examine if the key is duplicate
-								resultData.put(pk1 + pk2List.get(i), list);
+								resultData.put(pk, list);
+								pk++;
 							}
 						}
 					}
@@ -190,6 +195,7 @@ public class DatabaseEngine {
 				int index2 = resultSchema.indexOf(table2);
 				newResultSchema.addAll((Collection<? extends Table>) storageResult.getSchema().clone());
 
+				Integer pk = 1;
 				if (attr1.equals("id")) {
 
 					HashMap<Integer, Integer> pkMap1 = storageResult.getIDPKMap(table1);
@@ -203,7 +209,8 @@ public class DatabaseEngine {
 								ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
 								newList.addAll(
 										(Collection<? extends Integer>) storageResult.getData().get(pk1).clone());
-								newResultData.put(entry2.getKey() + pk1, newList);
+								newResultData.put(pk, newList);
+								pk++;
 							}
 						}
 					} else {
@@ -214,7 +221,8 @@ public class DatabaseEngine {
 								ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
 								newList.addAll(
 										(Collection<? extends Integer>) storageResult.getData().get(pk1).clone());
-								newResultData.put(entry2.getKey() + pk1, newList);
+								newResultData.put(pk, newList);
+								pk++;
 							}
 						}
 					}
@@ -231,7 +239,8 @@ public class DatabaseEngine {
 								for (Integer pk1 : pkList1) {
 									ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
 									newList.addAll(storageResult.getData().get(pk1));
-									newResultData.put(entry2.getKey() + pk1, newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -245,7 +254,8 @@ public class DatabaseEngine {
 								for (Integer pk1 : pkList1) {
 									ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
 									newList.addAll(storageResult.getData().get(pk1));
-									newResultData.put(entry2.getKey() + pk1, newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -261,7 +271,7 @@ public class DatabaseEngine {
 
 				Result storageResult = result.getStorageResult(table2);
 				newResultSchema.addAll((Collection<? extends Table>) storageResult.getSchema().clone());
-
+				Integer pk = 1;
 				if (attr1.equals("id")) {
 
 					Iterator<Map.Entry<Integer, ArrayList<Integer>>> it1 = resultData.entrySet().iterator();
@@ -276,7 +286,8 @@ public class DatabaseEngine {
 								ArrayList<Integer> newList = (ArrayList<Integer>) entry1.getValue().clone();
 								newList.addAll(
 										(Collection<? extends Integer>) storageResult.getData().get(pk2).clone());
-								newResultData.put(entry1.getKey() + pk2, newList);
+								newResultData.put(pk, newList);
+								pk++;
 							}
 						}
 					} else {
@@ -290,7 +301,8 @@ public class DatabaseEngine {
 									ArrayList<Integer> newList = (ArrayList<Integer>) entry1.getValue().clone();
 									newList.addAll(
 											(Collection<? extends Integer>) storageResult.getData().get(pk2).clone());
-									newResultData.put(entry1.getKey() + pk2, newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -311,7 +323,8 @@ public class DatabaseEngine {
 								for (Integer pk1 : pkList1) {
 									ArrayList<Integer> newList = (ArrayList<Integer>) resultData.get(pk1).clone();
 									newList.addAll((Collection<? extends Integer>) entry2.getValue().clone());
-									newResultData.put(pk1 + entry2.getKey(), newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -325,7 +338,8 @@ public class DatabaseEngine {
 								for (Integer pk1 : pkList1) {
 									ArrayList<Integer> newList = (ArrayList<Integer>) resultData.get(pk1).clone();
 									newList.addAll((Collection<? extends Integer>) entry2.getValue().clone());
-									newResultData.put(pk1 + entry2.getKey(), newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -339,13 +353,10 @@ public class DatabaseEngine {
 			} else if (result.storageContains(table1) && result.storageContains(table2)) {
 
 				if (result.storageIndex(table1) == result.storageIndex(table2)) {
-
-					Result storageResult = result.getStorageResult(table1);
-
 					for (Map.Entry<ArrayList<Table>, Result> entry : result.getStorage().entrySet()) {
 						ArrayList<Table> key = entry.getKey();
 						if (key.contains(table1)) {
-							Result newStorageResult = join(storageResult, s1, s2);
+							Result newStorageResult = join(entry.getValue(), s1, s2);
 							result.getStorage().remove(key);
 							result.getStorage().put(key, newStorageResult);
 							break;
@@ -377,14 +388,15 @@ public class DatabaseEngine {
 				Iterator<Map.Entry<Integer, ArrayList<Integer>>> it = resultData.entrySet().iterator();
 				int index1 = resultSchema.indexOf(table1);
 				int index2 = resultSchema.indexOf(table2);
-
+				Integer pk = 1;
 				if (attr1.equals("id")) {
 					if (attr2.equals("id")) {
 						while (it.hasNext()) {
 							Map.Entry<Integer, ArrayList<Integer>> entry = it.next();
 							ArrayList<Integer> value = entry.getValue();
-							if (value.get(index1) == value.get(index2)) {
-								newResultData.put(entry.getKey(), entry.getValue());
+							if (value.get(index1).equals(value.get(index2))) {
+								newResultData.put(pk, entry.getValue());
+								pk++;
 							}
 						}
 					} else {
@@ -392,8 +404,9 @@ public class DatabaseEngine {
 							Map.Entry<Integer, ArrayList<Integer>> entry = it.next();
 							ArrayList<Integer> value = entry.getValue();
 							Integer id2 = value.get(index2);
-							if (value.get(index1) == table2.getData().get(id2).get(attr2)) {
-								newResultData.put(entry.getKey(), entry.getValue());
+							if (value.get(index1).equals(table2.getData().get(id2).get(attr2))) {
+								newResultData.put(pk, entry.getValue());
+								pk++;
 							}
 						}
 					}
@@ -403,8 +416,9 @@ public class DatabaseEngine {
 							Map.Entry<Integer, ArrayList<Integer>> entry = it.next();
 							ArrayList<Integer> value = entry.getValue();
 							Integer id1 = value.get(index1);
-							if (table1.getData().get(id1).get(attr1) == value.get(index2)) {
-								newResultData.put(entry.getKey(), entry.getValue());
+							if (table1.getData().get(id1).get(attr1).equals(value.get(index2))) {
+								newResultData.put(pk, entry.getValue());
+								pk++;
 							}
 						}
 					} else {
@@ -413,8 +427,9 @@ public class DatabaseEngine {
 							ArrayList<Integer> value = entry.getValue();
 							Integer id1 = value.get(index1);
 							Integer id2 = value.get(index2);
-							if (table1.getData().get(id1).get(attr1) == table2.getData().get(id2).get(attr2)) {
-								newResultData.put(entry.getKey(), entry.getValue());
+							if (table1.getData().get(id1).get(attr1).equals(table2.getData().get(id2).get(attr2))) {
+								newResultData.put(pk, entry.getValue());
+								pk++;
 							}
 						}
 					}
@@ -430,6 +445,7 @@ public class DatabaseEngine {
 				newResultSchema.add(table2);
 
 				Iterator<Map.Entry<Integer, ArrayList<Integer>>> it1 = resultData.entrySet().iterator();
+				Integer pk = 1;
 
 				if (attr1.equals("id")) {
 					if (attr2.equals("id")) {
@@ -440,7 +456,8 @@ public class DatabaseEngine {
 							if (value2 != null) {
 								ArrayList<Integer> newList = (ArrayList<Integer>) entry1.getValue().clone();
 								newList.add(value2.getPrimaryKey());
-								newResultData.put(entry1.getKey() + value2.getPrimaryKey(), newList);
+								newResultData.put(pk, newList);
+								pk++;
 							}
 						}
 					} else {
@@ -453,7 +470,8 @@ public class DatabaseEngine {
 								for (int i = 0; i < pk2List.size(); i++) {
 									ArrayList<Integer> newList = (ArrayList<Integer>) entry1.getValue().clone();
 									newList.add(pk2List.get(i));
-									newResultData.put(entry1.getKey() + pk2List.get(i), newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -468,7 +486,8 @@ public class DatabaseEngine {
 							if (value2 != null) {
 								ArrayList<Integer> newList = (ArrayList<Integer>) entry1.getValue().clone();
 								newList.add(value2.getPrimaryKey());
-								newResultData.put(entry1.getKey() + value2.getPrimaryKey(), newList);
+								newResultData.put(pk, newList);
+								pk++;
 							}
 						}
 					} else {
@@ -482,7 +501,8 @@ public class DatabaseEngine {
 								for (int i = 0; i < pk2List.size(); i++) {
 									ArrayList<Integer> newList = (ArrayList<Integer>) entry1.getValue().clone();
 									newList.add(pk2List.get(i));
-									newResultData.put(entry1.getKey() + pk2List.get(i), newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -497,7 +517,8 @@ public class DatabaseEngine {
 				newResultSchema.add(table1);
 
 				Iterator<Map.Entry<Integer, ArrayList<Integer>>> it2 = resultData.entrySet().iterator();
-
+				Integer pk = 1;
+				
 				if (attr1.equals("id")) {
 					if (attr2.equals("id")) {
 						while (it2.hasNext()) {
@@ -507,7 +528,8 @@ public class DatabaseEngine {
 							if (value1 != null) {
 								ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
 								newList.add(value1.getPrimaryKey());
-								newResultData.put(entry2.getKey() + value1.getPrimaryKey(), newList);
+								newResultData.put(pk, newList);
+								pk++;
 							}
 						}
 					} else {
@@ -519,7 +541,8 @@ public class DatabaseEngine {
 							if (value1 != null) {
 								ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
 								newList.add(value1.getPrimaryKey());
-								newResultData.put(entry2.getKey() + value1.getPrimaryKey(), newList);
+								newResultData.put(pk, newList);
+								pk++;
 							}
 						}
 					}
@@ -534,7 +557,8 @@ public class DatabaseEngine {
 								for (int i = 0; i < pk1List.size(); i++) {
 									ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
 									newList.add(pk1List.get(i));
-									newResultData.put(entry2.getKey() + pk1List.get(i), newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -548,7 +572,8 @@ public class DatabaseEngine {
 								for (int i = 0; i < pk1List.size(); i++) {
 									ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
 									newList.add(pk1List.get(i));
-									newResultData.put(entry2.getKey() + pk1List.get(i), newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -616,6 +641,7 @@ public class DatabaseEngine {
 		if (resultData.isEmpty()) {
 			resultSchema.add(table1);
 			resultSchema.add(table2);
+			Integer pk = 1;
 			if (attr1.equals("id")) {
 				if (attr2.equals("id")) {
 					Iterator<Map.Entry<Integer, Row>> it1 = table1.getData().entrySet().iterator();
@@ -627,7 +653,8 @@ public class DatabaseEngine {
 							ArrayList<Integer> list = new ArrayList<Integer>();
 							list.add(pk1);
 							list.add(value2.getPrimaryKey());
-							resultData.put(pk1 + value2.getPrimaryKey(), list);
+							resultData.put(pk, list);
+							pk++;
 						}
 					}
 				} else {
@@ -640,7 +667,8 @@ public class DatabaseEngine {
 							ArrayList<Integer> list = new ArrayList<Integer>();
 							list.add(value1.getPrimaryKey());
 							list.add(value2.getPrimaryKey());
-							resultData.put(value1.getPrimaryKey() + value2.getPrimaryKey(), list);
+							resultData.put(pk, list);
+							pk++;
 						}
 					}
 				}
@@ -656,7 +684,8 @@ public class DatabaseEngine {
 							ArrayList<Integer> list = new ArrayList<Integer>();
 							list.add(value1.getPrimaryKey());
 							list.add(value2.getPrimaryKey());
-							resultData.put(value1.getPrimaryKey() + value2.getPrimaryKey(), list);
+							resultData.put(pk, list);
+							pk++;
 						}
 					}
 				} else {
@@ -668,14 +697,15 @@ public class DatabaseEngine {
 						Row value1 = entry1.getValue();
 						ArrayList<Integer> pk2List = (ArrayList<Integer>) pk2HashMap.get(value1.get(attr1));
 						if (pk2List != null) {
-							ArrayList<Integer> list = new ArrayList<Integer>();
 							for (int i = 0; i < pk2List.size(); i++) {
+								ArrayList<Integer> list = new ArrayList<Integer>();
 								list.add(pk1);
 								list.add(pk2List.get(i));
-								// TODO Examine if the key is duplicate
-								resultData.put(pk1 + pk2List.get(i), list);
+								resultData.put(pk, list);
+								pk++;
 							}
 						}
+
 					}
 				}
 			}
@@ -694,6 +724,7 @@ public class DatabaseEngine {
 				Result storageResult = result.getStorageResult(table1);
 				int index2 = resultSchema.indexOf(table2);
 				newResultSchema.addAll((Collection<? extends Table>) storageResult.getSchema().clone());
+				Integer pk = 1;
 
 				if (attr1.equals("id")) {
 
@@ -708,7 +739,8 @@ public class DatabaseEngine {
 								ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
 								newList.addAll(
 										(Collection<? extends Integer>) storageResult.getData().get(pk1).clone());
-								newResultData.put(entry2.getKey() + pk1, newList);
+								newResultData.put(pk, newList);
+								pk++;
 							}
 						}
 					} else {
@@ -719,7 +751,8 @@ public class DatabaseEngine {
 								ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
 								newList.addAll(
 										(Collection<? extends Integer>) storageResult.getData().get(pk1).clone());
-								newResultData.put(entry2.getKey() + pk1, newList);
+								newResultData.put(pk, newList);
+								pk++;
 							}
 						}
 					}
@@ -736,7 +769,8 @@ public class DatabaseEngine {
 								for (Integer pk1 : pkList1) {
 									ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
 									newList.addAll(storageResult.getData().get(pk1));
-									newResultData.put(entry2.getKey() + pk1, newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -750,7 +784,8 @@ public class DatabaseEngine {
 								for (Integer pk1 : pkList1) {
 									ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
 									newList.addAll(storageResult.getData().get(pk1));
-									newResultData.put(entry2.getKey() + pk1, newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -766,6 +801,7 @@ public class DatabaseEngine {
 
 				Result storageResult = result.getStorageResult(table2);
 				newResultSchema.addAll((Collection<? extends Table>) storageResult.getSchema().clone());
+				Integer pk = 1;
 
 				if (attr1.equals("id")) {
 
@@ -781,7 +817,8 @@ public class DatabaseEngine {
 								ArrayList<Integer> newList = (ArrayList<Integer>) entry1.getValue().clone();
 								newList.addAll(
 										(Collection<? extends Integer>) storageResult.getData().get(pk2).clone());
-								newResultData.put(entry1.getKey() + pk2, newList);
+								newResultData.put(pk, newList);
+								pk++;
 							}
 						}
 					} else {
@@ -795,7 +832,8 @@ public class DatabaseEngine {
 									ArrayList<Integer> newList = (ArrayList<Integer>) entry1.getValue().clone();
 									newList.addAll(
 											(Collection<? extends Integer>) storageResult.getData().get(pk2).clone());
-									newResultData.put(entry1.getKey() + pk2, newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -816,7 +854,8 @@ public class DatabaseEngine {
 								for (Integer pk1 : pkList1) {
 									ArrayList<Integer> newList = (ArrayList<Integer>) resultData.get(pk1).clone();
 									newList.addAll((Collection<? extends Integer>) entry2.getValue().clone());
-									newResultData.put(pk1 + entry2.getKey(), newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -830,7 +869,8 @@ public class DatabaseEngine {
 								for (Integer pk1 : pkList1) {
 									ArrayList<Integer> newList = (ArrayList<Integer>) resultData.get(pk1).clone();
 									newList.addAll((Collection<? extends Integer>) entry2.getValue().clone());
-									newResultData.put(pk1 + entry2.getKey(), newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -844,13 +884,10 @@ public class DatabaseEngine {
 			} else if (result.storageContains(table1) && result.storageContains(table2)) {
 
 				if (result.storageIndex(table1) == result.storageIndex(table2)) {
-
-					Result storageResult = result.getStorageResult(table1);
-
 					for (Map.Entry<ArrayList<Table>, Result> entry : result.getStorage().entrySet()) {
 						ArrayList<Table> key = entry.getKey();
 						if (key.contains(table1)) {
-							Result newStorageResult = join(storageResult, s1, s2);
+							Result newStorageResult = join(entry.getValue(), s1, s2);
 							result.getStorage().remove(key);
 							result.getStorage().put(key, newStorageResult);
 							break;
@@ -879,17 +916,20 @@ public class DatabaseEngine {
 
 				}
 			} else if (resultSchema.contains(table1) && resultSchema.contains(table2)) {
+
 				Iterator<Map.Entry<Integer, ArrayList<Integer>>> it = resultData.entrySet().iterator();
 				int index1 = resultSchema.indexOf(table1);
 				int index2 = resultSchema.indexOf(table2);
+				Integer pk = 1;
 
 				if (attr1.equals("id")) {
 					if (attr2.equals("id")) {
 						while (it.hasNext()) {
 							Map.Entry<Integer, ArrayList<Integer>> entry = it.next();
 							ArrayList<Integer> value = entry.getValue();
-							if (value.get(index1) == value.get(index2)) {
-								newResultData.put(entry.getKey(), entry.getValue());
+							if (value.get(index1).equals(value.get(index2))) {
+								newResultData.put(pk, entry.getValue());
+								pk++;
 							}
 						}
 					} else {
@@ -897,8 +937,9 @@ public class DatabaseEngine {
 							Map.Entry<Integer, ArrayList<Integer>> entry = it.next();
 							ArrayList<Integer> value = entry.getValue();
 							Integer id2 = value.get(index2);
-							if (value.get(index1) == table2.getData().get(id2).get(attr2)) {
-								newResultData.put(entry.getKey(), entry.getValue());
+							if (value.get(index1).equals(table2.getData().get(id2).get(attr2))) {
+								newResultData.put(pk, entry.getValue());
+								pk++;
 							}
 						}
 					}
@@ -908,8 +949,9 @@ public class DatabaseEngine {
 							Map.Entry<Integer, ArrayList<Integer>> entry = it.next();
 							ArrayList<Integer> value = entry.getValue();
 							Integer id1 = value.get(index1);
-							if (table1.getData().get(id1).get(attr1) == value.get(index2)) {
-								newResultData.put(entry.getKey(), entry.getValue());
+							if (table1.getData().get(id1).get(attr1).equals(value.get(index2))) {
+								newResultData.put(pk, entry.getValue());
+								pk++;
 							}
 						}
 					} else {
@@ -918,8 +960,9 @@ public class DatabaseEngine {
 							ArrayList<Integer> value = entry.getValue();
 							Integer id1 = value.get(index1);
 							Integer id2 = value.get(index2);
-							if (table1.getData().get(id1).get(attr1) == table2.getData().get(id2).get(attr2)) {
-								newResultData.put(entry.getKey(), entry.getValue());
+							if (table1.getData().get(id1).get(attr1).equals(table2.getData().get(id2).get(attr2))) {
+								newResultData.put(pk, entry.getValue());
+								pk++;
 							}
 						}
 					}
@@ -935,6 +978,7 @@ public class DatabaseEngine {
 				newResultSchema.add(table2);
 
 				Iterator<Map.Entry<Integer, ArrayList<Integer>>> it1 = resultData.entrySet().iterator();
+				Integer pk = 1;
 
 				if (attr1.equals("id")) {
 					if (attr2.equals("id")) {
@@ -945,7 +989,8 @@ public class DatabaseEngine {
 							if (value2 != null) {
 								ArrayList<Integer> newList = (ArrayList<Integer>) entry1.getValue().clone();
 								newList.add(value2.getPrimaryKey());
-								newResultData.put(entry1.getKey() + value2.getPrimaryKey(), newList);
+								newResultData.put(pk, newList);
+								pk++;
 							}
 						}
 					} else {
@@ -958,7 +1003,8 @@ public class DatabaseEngine {
 								for (int i = 0; i < pk2List.size(); i++) {
 									ArrayList<Integer> newList = (ArrayList<Integer>) entry1.getValue().clone();
 									newList.add(pk2List.get(i));
-									newResultData.put(entry1.getKey() + pk2List.get(i), newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -973,7 +1019,8 @@ public class DatabaseEngine {
 							if (value2 != null) {
 								ArrayList<Integer> newList = (ArrayList<Integer>) entry1.getValue().clone();
 								newList.add(value2.getPrimaryKey());
-								newResultData.put(entry1.getKey() + value2.getPrimaryKey(), newList);
+								newResultData.put(pk, newList);
+								pk++;
 							}
 						}
 					} else {
@@ -987,7 +1034,8 @@ public class DatabaseEngine {
 								for (int i = 0; i < pk2List.size(); i++) {
 									ArrayList<Integer> newList = (ArrayList<Integer>) entry1.getValue().clone();
 									newList.add(pk2List.get(i));
-									newResultData.put(entry1.getKey() + pk2List.get(i), newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -1002,6 +1050,7 @@ public class DatabaseEngine {
 				newResultSchema.add(table1);
 
 				Iterator<Map.Entry<Integer, ArrayList<Integer>>> it2 = resultData.entrySet().iterator();
+				Integer pk = 1;
 
 				if (attr1.equals("id")) {
 					if (attr2.equals("id")) {
@@ -1012,7 +1061,8 @@ public class DatabaseEngine {
 							if (value1 != null) {
 								ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
 								newList.add(value1.getPrimaryKey());
-								newResultData.put(entry2.getKey() + value1.getPrimaryKey(), newList);
+								newResultData.put(pk, newList);
+								pk++;
 							}
 						}
 					} else {
@@ -1024,7 +1074,8 @@ public class DatabaseEngine {
 							if (value1 != null) {
 								ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
 								newList.add(value1.getPrimaryKey());
-								newResultData.put(entry2.getKey() + value1.getPrimaryKey(), newList);
+								newResultData.put(pk, newList);
+								pk++;
 							}
 						}
 					}
@@ -1039,7 +1090,8 @@ public class DatabaseEngine {
 								for (int i = 0; i < pk1List.size(); i++) {
 									ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
 									newList.add(pk1List.get(i));
-									newResultData.put(entry2.getKey() + pk1List.get(i), newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -1053,7 +1105,8 @@ public class DatabaseEngine {
 								for (int i = 0; i < pk1List.size(); i++) {
 									ArrayList<Integer> newList = (ArrayList<Integer>) entry2.getValue().clone();
 									newList.add(pk1List.get(i));
-									newResultData.put(entry2.getKey() + pk1List.get(i), newList);
+									newResultData.put(pk, newList);
+									pk++;
 								}
 							}
 						}
@@ -1121,132 +1174,75 @@ public class DatabaseEngine {
 	}
 
 	public static void main(String[] args) throws IOException {
-		
-		System.out.println(an);
-//		String[] queries = { "1", "2", "3", "4", "5" };
-////		Long[] runtime = new Long[queries.length];
-//		Long[] runtime = { 0L, 0L, 0L, 0L, 0L };
-//
+
+		String[] queries = { "1", "2", "3", "4", "5" };
+//		Long[] runtime = new Long[queries.length];
+		Long[] runtime = new Long[] { 0L, 0L, 0L, 0L, 0L };
+
 //		LineChart lc = new LineChart(queries);
-//
-//		long startTime;
-//		long endTime;
-//
-////		String[] orders = { "14523", "14532", "23145", "32145", "54123", "54132","23541","32541", "41523", "41532","23415","32415", "45123", "45132","23451","32451" };
-////		String[] orders = { "12", "21", "14", "41", "45", "54", "53", "35", "34", "43", "24", "42" };
-//
-////		for (String order : orders) {
-//
-////			System.out.println("-------------order: " + order + " --------------");
-//
-//			Result result = new Result();
-//			for (char c : "12".toCharArray()) {
-////			for (char c : order.toCharArray()) {
-//				switch (c) {
-//				case '1':
-//					startTime = System.currentTimeMillis();
-//					System.out.println("cn.id=mc.company_id");
-//					result = joinExample(result, "cn.id", "mc.company_id");
-//					endTime = System.currentTimeMillis();
-//					runtime[0] = endTime - startTime;
-//					break;
-//				case '2':
-//					startTime = System.currentTimeMillis();
-//					System.out.println("mc.movie_id=t.id");
-//					result = joinExample(result, "mc.movie_id", "t.id");
-//					endTime = System.currentTimeMillis();
-//					runtime[1] = endTime - startTime;
-//					break;
-//				case '3':
-//					startTime = System.currentTimeMillis();
-//					System.out.println("mk.movie_id=t.id");
-//					result = joinExample(result, "mk.movie_id", "t.id");
-//					endTime = System.currentTimeMillis();
-//					runtime[2] = endTime - startTime;
-//					break;
-//				case '4':
-//					startTime = System.currentTimeMillis();
-//					System.out.println("mc.movie_id=mk.movie_id");
-//					result = joinExample(result, "mc.movie_id", "mk.movie_id");
-//					endTime = System.currentTimeMillis();
-//					runtime[3] = endTime - startTime;
-//					break;
-//				case '5':
-//					startTime = System.currentTimeMillis();
-//					System.out.println("mk.keyword_id=k.id");
-//					result = joinExample(result, "mk.keyword_id", "k.id");
-//					endTime = System.currentTimeMillis();
-//					runtime[4] = endTime - startTime;
-//					break;
-//				case '6':
-//					startTime = System.currentTimeMillis();
-//					System.out.println("t.id=mc.movie_id");
-//					result = joinExample(result, "t.id", "mc.movie_id");
-//					endTime = System.currentTimeMillis();
-//					runtime[0] = endTime - startTime;
-//					break;
-//				case '7':
-//					startTime = System.currentTimeMillis();
-//					System.out.println("t.id=mk.movie_id");
-//					result = joinExample(result, "t.id", "mk.movie_id");
-//					endTime = System.currentTimeMillis();
-//					runtime[0] = endTime - startTime;
-//					break;
-//				default:
-//					System.out.println("Error: The corresponding execution does not exist. ");
-//					break;
-//				}
-//			}
-//
-//			printRuntimeArray(runtime);
-////			System.out.println("The size of the result in the order " + order + " is: " + result.getData().size());
-//			lc.addLine("21", runtime);
-//			System.out.println(result);
-////			Result result1Example = new Result();
-////
-////			for (char c : "54123".toCharArray()) {
-////				switch (c) {
-////				case '1':
-////					startTime = System.currentTimeMillis();
-////					result1Example = joinExample(result1Example, "cn.id", "mc.company_id");
-////					endTime = System.currentTimeMillis();
-////					runtime[0] = endTime - startTime;
-////					break;
-////				case '2':
-////					startTime = System.currentTimeMillis();
-////					result1Example = joinExample(result1Example, "mc.movie_id", "t.id");
-////					endTime = System.currentTimeMillis();
-////					runtime[1] = endTime - startTime;
-////					break;
-////				case '3':
-////					startTime = System.currentTimeMillis();
-////					result1Example = joinExample(result1Example, "mk.movie_id", "t.id");
-////					endTime = System.currentTimeMillis();
-////					runtime[2] = endTime - startTime;
-////					break;
-////				case '4':
-////					startTime = System.currentTimeMillis();
-////					result1Example = joinExample(result1Example, "mc.movie_id", "mk.movie_id");
-////					endTime = System.currentTimeMillis();
-////					runtime[3] = endTime - startTime;
-////					break;
-////				case '5':
-////					startTime = System.currentTimeMillis();
-////					result1Example = joinExample(result1Example, "mk.keyword_id", "k.id");
-////					endTime = System.currentTimeMillis();
-////					runtime[4] = endTime - startTime;
-////					break;
-////				default:
-////					System.out.println("Error: The corresponding execution does not exist. ");
-////					break;
-////				}
-////			}
-////
-////			printRuntimeArray(runtime);
-////			lc.addLine("54123Example-"+i, runtime);
-//
-////		}
-//
+
+		long startTime;
+		long endTime;
+
+//		String[] orders = { "14523", "14532", "23145", "32145", "54123", "54132","23541","32541", "41523", "41532","23415","32415", "45123", "45132","23451","32451" };
+//		String[] orders = { "12", "21", "14", "41", "45", "54", "53", "35", "34", "43", "24", "42" };
+
+//		for (String order : orders) {
+
+//			System.out.println("-------------order: " + order + " --------------");
+
+		Result result = new Result();
+		for (char c : "12354".toCharArray()) {
+//			for (char c : order.toCharArray()) {
+			switch (c) {
+			case '1':
+				startTime = System.currentTimeMillis();
+				System.out.println("cn.id=mc.company_id");
+				result = join(result, "cn.id", "mc.company_id");
+				endTime = System.currentTimeMillis();
+				runtime[0] = endTime - startTime;
+				break;
+			case '2':
+				startTime = System.currentTimeMillis();
+				System.out.println("mc.movie_id=t.id");
+				result = join(result, "mc.movie_id", "t.id");
+				endTime = System.currentTimeMillis();
+				runtime[1] = endTime - startTime;
+				break;
+			case '3':
+				startTime = System.currentTimeMillis();
+				System.out.println("mk.movie_id=t.id");
+				result = join(result, "mk.movie_id", "t.id");
+				endTime = System.currentTimeMillis();
+				runtime[2] = endTime - startTime;
+				break;
+			case '4':
+				startTime = System.currentTimeMillis();
+				System.out.println("mc.movie_id=mk.movie_id");
+				result = join(result, "mc.movie_id", "mk.movie_id");
+				endTime = System.currentTimeMillis();
+				runtime[3] = endTime - startTime;
+				break;
+			case '5':
+				startTime = System.currentTimeMillis();
+				System.out.println("mk.keyword_id=k.id");
+				result = join(result, "mk.keyword_id", "k.id");
+				endTime = System.currentTimeMillis();
+				runtime[4] = endTime - startTime;
+				break;
+			default:
+				System.out.println("Error: The corresponding execution does not exist. ");
+				break;
+			}
+		}
+
+		printRuntimeArray(runtime);
+		System.out.println("The size of the result in the order 12354 is: " + result.getData().size());
+//		lc.addLine("1235", runtime);
+//		System.out.println(result);
+
+//		}
+
 //		lc.drawLineChart();
 
 	}
