@@ -17,8 +17,8 @@ public class Aka_titleTable extends Table {
 	public Aka_titleTable() {
 		name = "aka_title";
 		path = "imdb/aka_title.csv";
-		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "movie_id", "title", "imdb_index", "kind_id", "production_year", "phonetic_code",
-				"episode_of_id", "season_nr", "episode_nr", "note", "md5sum" }));
+		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "movie_id", "title", "imdb_index", "kind_id",
+				"production_year", "phonetic_code", "episode_of_id", "season_nr", "episode_nr", "note", "md5sum" }));
 		row = new Aka_title();
 		convert();
 	}
@@ -28,14 +28,14 @@ public class Aka_titleTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
-			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Aka_title aka_title = new Aka_title(nextLine);
 				this.data.put(aka_title.getPrimaryKey(), aka_title);
-				if (i % this.samplingSpace == 0) {
+
+				double random = this.r.nextDouble();
+				if (this.lowerBound <= random && random < this.upperBound) {
 					this.example.put(aka_title.getPrimaryKey(), aka_title);
 				}
-				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();

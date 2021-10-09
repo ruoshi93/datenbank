@@ -17,7 +17,8 @@ public class Movie_linkTable extends Table {
 	public Movie_linkTable() {
 		name = "movie_link";
 		path = "imdb/movie_link.csv";
-		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "movie_id", "linked_movie_id", "link_type_id" }));
+		title = new ArrayList<String>(
+				Arrays.asList(new String[] { "id", "movie_id", "linked_movie_id", "link_type_id" }));
 		row = new Movie_link();
 		convert();
 	}
@@ -27,14 +28,14 @@ public class Movie_linkTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
-			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Movie_link movie_link = new Movie_link(nextLine);
 				this.data.put(movie_link.getPrimaryKey(), movie_link);
-				if (i % this.samplingSpace == 0) {
+
+				double random = this.r.nextDouble();
+				if (this.lowerBound <= random && random < this.upperBound) {
 					this.example.put(movie_link.getPrimaryKey(), movie_link);
 				}
-				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();

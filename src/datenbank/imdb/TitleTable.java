@@ -31,14 +31,14 @@ public class TitleTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
-			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Title title = new Title(nextLine);
 				this.data.put(title.getPrimaryKey(), title);
-				if (i % this.samplingSpace == 0) {
+
+				double random = this.r.nextDouble();
+				if (this.lowerBound <= random && random < this.upperBound) {
 					this.example.put(title.getPrimaryKey(), title);
 				}
-				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();

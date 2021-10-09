@@ -28,14 +28,14 @@ public class Movie_companiesTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
-			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Movie_companies movie_companies = new Movie_companies(nextLine);
 				this.data.put(movie_companies.getPrimaryKey(), movie_companies);
-				if (i % this.samplingSpace == 0) {
+
+				double random = this.r.nextDouble();
+				if (this.lowerBound <= random && random < this.upperBound) {
 					this.example.put(movie_companies.getPrimaryKey(), movie_companies);
 				}
-				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();

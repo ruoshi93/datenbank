@@ -17,7 +17,8 @@ public class Person_infoTable extends Table {
 	public Person_infoTable() {
 		name = "person_info";
 		path = "imdb/person_info.csv";
-		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "person_id", "info_type_id", "info", "note" }));
+		title = new ArrayList<String>(
+				Arrays.asList(new String[] { "id", "person_id", "info_type_id", "info", "note" }));
 		row = new Person_info();
 		convert();
 	}
@@ -27,14 +28,14 @@ public class Person_infoTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
-			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Person_info person_info = new Person_info(nextLine);
 				this.data.put(person_info.getPrimaryKey(), person_info);
-				if (i % this.samplingSpace == 0) {
+
+				double random = this.r.nextDouble();
+				if (this.lowerBound <= random && random < this.upperBound) {
 					this.example.put(person_info.getPrimaryKey(), person_info);
 				}
-				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();

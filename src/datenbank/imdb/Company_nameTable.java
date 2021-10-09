@@ -17,7 +17,8 @@ public class Company_nameTable extends Table {
 	public Company_nameTable() {
 		name = "company_name";
 		path = "imdb/company_name.csv";
-		title = new ArrayList<String>(Arrays.asList(new String[] { "id", "name", "country_code", "imdb_id", "name_pcode_nf", "name_pcode_sf", "md5sum" }));
+		title = new ArrayList<String>(Arrays.asList(
+				new String[] { "id", "name", "country_code", "imdb_id", "name_pcode_nf", "name_pcode_sf", "md5sum" }));
 		row = new Company_name();
 		convert();
 	}
@@ -27,14 +28,14 @@ public class Company_nameTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
-			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Company_name company_name = new Company_name(nextLine);
 				this.data.put(company_name.getPrimaryKey(), company_name);
-				if (i % this.samplingSpace == 0) {
+
+				double random = this.r.nextDouble();
+				if (this.lowerBound <= random && random < this.upperBound) {
 					this.example.put(company_name.getPrimaryKey(), company_name);
 				}
-				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();

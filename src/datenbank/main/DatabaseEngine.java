@@ -3,8 +3,11 @@ package datenbank.main;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -1175,7 +1178,7 @@ public class DatabaseEngine {
 	}
 
 	public static void main(String[] args) throws IOException {
-
+		
 		String[] queries = { "1", "2", "3", "4", "5", "total" };
 		Long[] runtime = new Long[queries.length];
 
@@ -1196,12 +1199,13 @@ public class DatabaseEngine {
 				"52431", "52413", "52143", "52134", "53241", "53214", "53421", "53412", "53142", "53124", "54321",
 				"54312", "54231", "54213", "54123", "54132", "51342", "51324", "51432", "51423", "51243", "51234" };
 
-		HashMap<Integer, String> sizeArr = new HashMap<Integer, String>();
-		ArrayList<Long> runtimeArr = new ArrayList<Long>();
+//		HashMap<Integer, String> sizeArr = new HashMap<Integer, String>();
+		Map<String,Long> runtimeArr = new HashMap<String,Long>();
 
+		
 		for (String order : orders) {
 
-			System.out.println("-------------order: " + order + " --------------");
+//			System.out.println("-------------order: " + order + " --------------");
 
 			Result result = new Result();
 			for (char c : order.toCharArray()) {
@@ -1248,22 +1252,32 @@ public class DatabaseEngine {
 				}
 			}
 			runtime[5] = runtime[0] + runtime[1] + runtime[2] + runtime[3] + runtime[4];
-			runtimeArr.add(runtime[5]);
-			printRuntimeArray(runtime);
+			runtimeArr.put(order,runtime[5]);
+//			printRuntimeArray(runtime);
 			System.out.println("The size of the result in the order " + order + " is: " + result.getData().size());
-			sizeArr.put(result.getData().size(), order);
+//			sizeArr.put(result.getData().size(), order);
 			lc.addLine(order, runtime);
 
 		}
 
 		
-		System.out.println("There are "+sizeArr.size()+" kind of sizes in this HashMap. ");
+//		System.out.println("There are "+sizeArr.size()+" kind of sizes in this HashMap. ");
 
 		Long totalRuntime = 0L;
-		for(Long l:runtimeArr) {
-			totalRuntime+=l;
+		
+		List<Entry<String, Long>> testList = new ArrayList<Entry<String, Long>>(runtimeArr.entrySet());
+		Collections.sort(testList, new Comparator<Map.Entry<String, Long>>() {
+			public int compare(Map.Entry<String, Long> o1, Map.Entry<String, Long> o2) {
+				return (int) (o2.getValue() - o1.getValue());
+			}
+		});
+
+		for (Entry<String, Long> t : testList) {
+			System.out.println("["+t.getKey() + "] " + t.getValue());
+			totalRuntime+=t.getValue();
 		}
-		System.out.println(totalRuntime);
+
+		System.out.println("The total runtime is: "+totalRuntime+" ms. ");
 		
 		lc.drawLineChart();
 

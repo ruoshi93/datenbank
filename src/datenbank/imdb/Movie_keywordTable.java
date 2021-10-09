@@ -27,14 +27,14 @@ public class Movie_keywordTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
-			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Movie_keyword movie_keyword = new Movie_keyword(nextLine);
 				this.data.put(movie_keyword.getPrimaryKey(), movie_keyword);
-				if (i % this.samplingSpace == 0) {
+
+				double random = this.r.nextDouble();
+				if (this.lowerBound <= random && random < this.upperBound) {
 					this.example.put(movie_keyword.getPrimaryKey(), movie_keyword);
 				}
-				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();

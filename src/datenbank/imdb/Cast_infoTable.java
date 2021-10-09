@@ -17,7 +17,8 @@ public class Cast_infoTable extends Table {
 	public Cast_infoTable() {
 		name = "cast_info";
 		path = "imdb/cast_info.csv";
-		title = new ArrayList<String> (Arrays.asList(new String[] { "id", "person_id", "movie_id", "person_role_id", "note", "nr_order", "role_id" }));
+		title = new ArrayList<String>(Arrays.asList(
+				new String[] { "id", "person_id", "movie_id", "person_role_id", "note", "nr_order", "role_id" }));
 		row = new Cast_info();
 		convert();
 	}
@@ -27,14 +28,14 @@ public class Cast_infoTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
-			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Cast_info cast_info = new Cast_info(nextLine);
 				this.data.put(cast_info.getPrimaryKey(), cast_info);
-				if (i % this.samplingSpace == 0) {
+
+				double random = this.r.nextDouble();
+				if (this.lowerBound <= random && random < this.upperBound) {
 					this.example.put(cast_info.getPrimaryKey(), cast_info);
 				}
-				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();

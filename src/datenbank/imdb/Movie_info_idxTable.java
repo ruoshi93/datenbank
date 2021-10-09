@@ -27,14 +27,14 @@ public class Movie_info_idxTable extends Table {
 			CSVReader reader = new CSVReader(new FileReader(this.path));
 
 			String[] nextLine;
-			int i = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				Movie_info_idx movie_info_idx = new Movie_info_idx(nextLine);
 				this.data.put(movie_info_idx.getPrimaryKey(), movie_info_idx);
-				if (i % this.samplingSpace == 0) {
+
+				double random = this.r.nextDouble();
+				if (this.lowerBound <= random && random < this.upperBound) {
 					this.example.put(movie_info_idx.getPrimaryKey(), movie_info_idx);
 				}
-				i++;
 			}
 		} catch (CsvValidationException e) {
 			e.printStackTrace();
