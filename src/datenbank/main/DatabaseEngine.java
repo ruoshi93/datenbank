@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import datenbank.imdb.*;
+import datenbank.job.*;
 
 public class DatabaseEngine {
 
@@ -28,7 +29,7 @@ public class DatabaseEngine {
 //	static Table kt = new Kind_typeTable();
 //	static Table lt = new Link_typeTable();
 	static Table mc = new Movie_companiesTable();
-//	static Table mii = new Movie_info_idxTable();
+//	static Table mi_idx = new Movie_info_idxTable();
 //	static Table mi = new Movie_infoTable();
 	static Table mk = new Movie_keywordTable();
 //	static Table ml = new Movie_linkTable();
@@ -65,8 +66,8 @@ public class DatabaseEngine {
 //			return lt;
 		case "mc":
 			return mc;
-//		case "mii":
-//			return mii;
+//		case "mi_idx":
+//			return mi_idx;
 //		case "mi":
 //			return mi;
 		case "mk":
@@ -1149,7 +1150,7 @@ public class DatabaseEngine {
 		return result;
 	}
 
-	private static String printRuntime(long runT) {
+	public static String printRuntime(long runT) {
 		String s;
 
 		if (runT < 1000) {
