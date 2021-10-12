@@ -1,5 +1,12 @@
 package datenbank.job;
 
+import datenbank.imdb.Cast_infoTable;
+import datenbank.imdb.Company_nameTable;
+import datenbank.imdb.KeywordTable;
+import datenbank.imdb.Movie_companiesTable;
+import datenbank.imdb.Movie_keywordTable;
+import datenbank.imdb.NameTable;
+import datenbank.imdb.TitleTable;
 import datenbank.main.DatabaseEngine;
 import datenbank.main.Result;
 
@@ -18,6 +25,13 @@ public class Query17 extends Query {
 			+ "AND mc.movie_id = mk.movie_id;";
 
 	public Query17() {
+		DatabaseEngine.ci = new Cast_infoTable();
+		DatabaseEngine.cn = new Company_nameTable();
+		DatabaseEngine.k = new KeywordTable();
+		DatabaseEngine.mc = new Movie_companiesTable();
+		DatabaseEngine.mk = new Movie_keywordTable();
+		DatabaseEngine.n = new NameTable();
+		DatabaseEngine.t = new TitleTable();
 		allPermutation("123456789".toCharArray(), 0);
 	}
 

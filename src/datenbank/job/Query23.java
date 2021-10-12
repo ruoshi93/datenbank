@@ -1,5 +1,16 @@
 package datenbank.job;
 
+import datenbank.imdb.Comp_cast_typeTable;
+import datenbank.imdb.Company_nameTable;
+import datenbank.imdb.Company_typeTable;
+import datenbank.imdb.Complete_castTable;
+import datenbank.imdb.Info_typeTable;
+import datenbank.imdb.KeywordTable;
+import datenbank.imdb.Kind_typeTable;
+import datenbank.imdb.Movie_companiesTable;
+import datenbank.imdb.Movie_infoTable;
+import datenbank.imdb.Movie_keywordTable;
+import datenbank.imdb.TitleTable;
 import datenbank.main.DatabaseEngine;
 import datenbank.main.Result;
 
@@ -25,6 +36,17 @@ public class Query23 extends Query{
 				 + "AND cct.id = cc.status_id;";
 
 	public Query23() {
+		DatabaseEngine.cc = new Complete_castTable();
+		DatabaseEngine.cct = new Comp_cast_typeTable();
+		DatabaseEngine.cn = new Company_nameTable();
+		DatabaseEngine.ct = new Company_typeTable();
+		DatabaseEngine.it = new Info_typeTable();
+		DatabaseEngine.k = new KeywordTable();
+		DatabaseEngine.kt = new Kind_typeTable();
+		DatabaseEngine.mc = new Movie_companiesTable();
+		DatabaseEngine.mi = new Movie_infoTable();
+		DatabaseEngine.mk = new Movie_keywordTable();
+		DatabaseEngine.t = new TitleTable();
 		allPermutation("abcdefghijklmnop".toCharArray(), 0);
 	}
 

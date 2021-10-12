@@ -1,5 +1,10 @@
 package datenbank.job;
 
+import datenbank.imdb.Info_typeTable;
+import datenbank.imdb.KeywordTable;
+import datenbank.imdb.Movie_info_idxTable;
+import datenbank.imdb.Movie_keywordTable;
+import datenbank.imdb.TitleTable;
 import datenbank.main.DatabaseEngine;
 import datenbank.main.Result;
 
@@ -14,6 +19,11 @@ public class Query04 extends Query {
 				 + "AND it.id = mi_idx.info_type_id;";
 
 	public Query04() {
+		DatabaseEngine.it = new Info_typeTable();
+		DatabaseEngine.k = new KeywordTable();
+		DatabaseEngine.mi_idx = new Movie_info_idxTable();
+		DatabaseEngine.mk = new Movie_keywordTable();
+		DatabaseEngine.t = new TitleTable();
 		allPermutation("12345".toCharArray(), 0);
 	}
 

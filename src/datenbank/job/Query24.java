@@ -1,5 +1,17 @@
 package datenbank.job;
 
+import datenbank.imdb.Aka_nameTable;
+import datenbank.imdb.Cast_infoTable;
+import datenbank.imdb.Char_nameTable;
+import datenbank.imdb.Company_nameTable;
+import datenbank.imdb.Info_typeTable;
+import datenbank.imdb.KeywordTable;
+import datenbank.imdb.Movie_companiesTable;
+import datenbank.imdb.Movie_infoTable;
+import datenbank.imdb.Movie_keywordTable;
+import datenbank.imdb.NameTable;
+import datenbank.imdb.Role_typeTable;
+import datenbank.imdb.TitleTable;
 import datenbank.main.DatabaseEngine;
 import datenbank.main.Result;
 
@@ -27,6 +39,18 @@ public class Query24 extends Query {
 				 + "AND k.id = mk.keyword_id;";
 
 	public Query24() {
+		DatabaseEngine.an = new Aka_nameTable();
+		DatabaseEngine.chn = new Char_nameTable();
+		DatabaseEngine.ci = new Cast_infoTable();
+		DatabaseEngine.cn = new Company_nameTable();
+		DatabaseEngine.it = new Info_typeTable();
+		DatabaseEngine.k = new KeywordTable();
+		DatabaseEngine.mc = new Movie_companiesTable();
+		DatabaseEngine.mi = new Movie_infoTable();
+		DatabaseEngine.mk = new Movie_keywordTable();
+		DatabaseEngine.n = new NameTable();
+		DatabaseEngine.rt = new Role_typeTable();
+		DatabaseEngine.t = new TitleTable();
 		allPermutation("abcdefghijklmnopqr".toCharArray(), 0);
 	}
 
@@ -88,6 +112,7 @@ public class Query24 extends Query {
 				break;
 			case 'r':
 				result = DatabaseEngine.joinExample(result, "k.id", "mk.keyword_id");
+				break;
 			default:
 				System.out.println("Error: The corresponding execution does not exist. ");
 				break;
@@ -153,6 +178,7 @@ public class Query24 extends Query {
 				break;
 			case 'r':
 				result = DatabaseEngine.join(result, "k.id", "mk.keyword_id");
+				break;
 			default:
 				System.out.println("Error: The corresponding execution does not exist. ");
 				break;

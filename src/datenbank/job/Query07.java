@@ -1,5 +1,13 @@
 package datenbank.job;
 
+import datenbank.imdb.Aka_nameTable;
+import datenbank.imdb.Cast_infoTable;
+import datenbank.imdb.Info_typeTable;
+import datenbank.imdb.Link_typeTable;
+import datenbank.imdb.Movie_linkTable;
+import datenbank.imdb.NameTable;
+import datenbank.imdb.Person_infoTable;
+import datenbank.imdb.TitleTable;
 import datenbank.main.DatabaseEngine;
 import datenbank.main.Result;
 
@@ -20,6 +28,14 @@ public class Query07 extends Query{
 			+ "AND ci.movie_id = ml.linked_movie_id;";
 
 	public Query07() {
+		DatabaseEngine.an = new Aka_nameTable();
+		DatabaseEngine.ci = new Cast_infoTable();
+		DatabaseEngine.it = new Info_typeTable();
+		DatabaseEngine.lt = new Link_typeTable();
+		DatabaseEngine.ml = new Movie_linkTable();
+		DatabaseEngine.n = new NameTable();
+		DatabaseEngine.pi = new Person_infoTable();
+		DatabaseEngine.t = new TitleTable();
 		allPermutation("abcdefghijk".toCharArray(), 0);
 	}
 	

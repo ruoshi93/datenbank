@@ -1,5 +1,10 @@
 package datenbank.job;
 
+import datenbank.imdb.Company_typeTable;
+import datenbank.imdb.Info_typeTable;
+import datenbank.imdb.Movie_companiesTable;
+import datenbank.imdb.Movie_info_idxTable;
+import datenbank.imdb.TitleTable;
 import datenbank.main.DatabaseEngine;
 import datenbank.main.Result;
 
@@ -14,6 +19,11 @@ public class Query01 extends Query {
 				 + "AND it.id = mi_idx.info_type_id;";
 
 	public Query01() {
+		DatabaseEngine.ct = new Company_typeTable();
+		DatabaseEngine.it = new Info_typeTable();
+		DatabaseEngine.mc = new Movie_companiesTable();
+		DatabaseEngine.mi_idx = new Movie_info_idxTable();
+		DatabaseEngine.t = new TitleTable();
 		allPermutation("12345".toCharArray(), 0);
 	}
 

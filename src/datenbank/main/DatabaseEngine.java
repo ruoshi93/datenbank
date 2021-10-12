@@ -16,72 +16,114 @@ import datenbank.job.*;
 
 public class DatabaseEngine {
 
-//	static Table an = new Aka_nameTable();
-//	static Table at = new Aka_titleTable();;
-//	static Table ci = new Cast_infoTable();;
-//	static Table chn = new Char_nameTable();
-//	static Table cct = new Comp_cast_typeTable();
-	static Table cn = new Company_nameTable();
-//	static Table ct = new Company_typeTable();
-//	static Table cc = new Complete_castTable();
-//	static Table it = new Info_typeTable();
-	static Table k = new KeywordTable();
-//	static Table kt = new Kind_typeTable();
-//	static Table lt = new Link_typeTable();
-	static Table mc = new Movie_companiesTable();
-//	static Table mi_idx = new Movie_info_idxTable();
-//	static Table mi = new Movie_infoTable();
-	static Table mk = new Movie_keywordTable();
-//	static Table ml = new Movie_linkTable();
-//	static Table n = new NameTable();
-//	static Table pi = new Person_infoTable();
-//	static Table rt = new Role_typeTable();
-	static Table t = new TitleTable();
+	public static Table an;
+	public static Table at;
+	public static Table ci;
+	public static Table chn;
+	public static Table cct;
+	public static Table cct1;
+	public static Table cct2;
+	public static Table cn;
+	public static Table cn1;
+	public static Table cn2;
+	public static Table ct;
+	public static Table cc;
+	public static Table it;
+	public static Table it1;
+	public static Table it2;
+	public static Table k;
+	public static Table kt;
+	public static Table kt1;
+	public static Table kt2;
+	public static Table lt;
+	public static Table mc;
+	public static Table mc1;
+	public static Table mc2;
+	public static Table mi_idx;
+	public static Table mi_idx1;
+	public static Table mi_idx2;
+	public static Table mi;
+	public static Table mk;
+	public static Table ml;
+	public static Table n;
+	public static Table pi;
+	public static Table rt;
+	public static Table t;
+	public static Table t1;
+	public static Table t2;
 
 	public static Table get(String name) {
 		switch (name) {
-//		case "an":
-//			return an;
-//		case "at":
-//			return at;
-//		case "ci":
-//			return ci;
-//		case "chn":
-//			return chn;
-//		case "cct":
-//			return cct;
+		case "an":
+			return an;
+		case "at":
+			return at;
+		case "ci":
+			return ci;
+		case "chn":
+			return chn;
+		case "cct":
+			return cct;
+		case "cct1":
+			return cct1;
+		case "cct2":
+			return cct2;
 		case "cn":
 			return cn;
-//		case "ct":
-//			return ct;
-//		case "cc":
-//			return cc;
-//		case "it":
-//			return it;
+		case "cn1":
+			return cn1;
+		case "cn2":
+			return cn2;
+		case "ct":
+			return ct;
+		case "cc":
+			return cc;
+		case "it":
+			return it;
+		case "it1":
+			return it1;
+		case "it2":
+			return it2;
 		case "k":
 			return k;
-//		case "kt":
-//			return kt;
-//		case "lt":
-//			return lt;
+		case "kt":
+			return kt;
+		case "kt1":
+			return kt1;
+		case "kt2":
+			return kt2;
+		case "lt":
+			return lt;
 		case "mc":
 			return mc;
-//		case "mi_idx":
-//			return mi_idx;
-//		case "mi":
-//			return mi;
+		case "mc1":
+			return mc1;
+		case "mc2":
+			return mc2;
+		case "mi_idx":
+			return mi_idx;
+		case "mi_idx1":
+			return mi_idx1;
+		case "mi_idx2":
+			return mi_idx2;
+		case "mi":
+			return mi;
 		case "mk":
 			return mk;
-//		case "ml":
-//			return ml;
-//		case "n":
-//			return n;
-//		case "pi":
-//			return pi;
-//		case "rt":
-//			return rt;
+		case "ml":
+			return ml;
+		case "n":
+			return n;
+		case "pi":
+			return pi;
+		case "rt":
+			return rt;
 		case "t":
 			return t;
+		case "t1":
+			return t1;
+		case "t2":
+			return t2;
 		default:
 			return null;
 		}
@@ -1180,108 +1222,113 @@ public class DatabaseEngine {
 
 	public static void main(String[] args) throws IOException {
 		
-		String[] queries = { "1", "2", "3", "4", "5", "total" };
-		Long[] runtime = new Long[queries.length];
-
-		LineChart lc = new LineChart(queries);
-
-		long startTime;
-		long endTime;
-
-		String[] orders = { "12345", "12354", "12435", "12453", "12543", "12534", "13245", "13254", "13425", "13452",
-				"13542", "13524", "14325", "14352", "14235", "14253", "14523", "14532", "15342", "15324", "15432",
-				"15423", "15243", "15234", "21345", "21354", "21435", "21453", "21543", "21534", "23145", "23154",
-				"23415", "23451", "23541", "23514", "24315", "24351", "24135", "24153", "24513", "24531", "25341",
-				"25314", "25431", "25413", "25143", "25134", "32145", "32154", "32415", "32451", "32541", "32514",
-				"31245", "31254", "31425", "31452", "31542", "31524", "34125", "34152", "34215", "34251", "34521",
-				"34512", "35142", "35124", "35412", "35421", "35241", "35214", "42315", "42351", "42135", "42153",
-				"42513", "42531", "43215", "43251", "43125", "43152", "43512", "43521", "41325", "41352", "41235",
-				"41253", "41523", "41532", "45312", "45321", "45132", "45123", "45213", "45231", "52341", "52314",
-				"52431", "52413", "52143", "52134", "53241", "53214", "53421", "53412", "53142", "53124", "54321",
-				"54312", "54231", "54213", "54123", "54132", "51342", "51324", "51432", "51423", "51243", "51234" };
-
-//		HashMap<Integer, String> sizeArr = new HashMap<Integer, String>();
-		Map<String,Long> runtimeArr = new HashMap<String,Long>();
-
+//		String[] queries = { "1", "2", "3", "4", "5", "total" };
+//		Long[] runtime = new Long[queries.length];
+//
+//		LineChart lc = new LineChart(queries);
+//
+//		long startTime;
+//		long endTime;
+//
+////		String[] orders = { "12345", "12354", "12435", "12453", "12543", "12534", "13245", "13254", "13425", "13452",
+////				"13542", "13524", "14325", "14352", "14235", "14253", "14523", "14532", "15342", "15324", "15432",
+////				"15423", "15243", "15234", "21345", "21354", "21435", "21453", "21543", "21534", "23145", "23154",
+////				"23415", "23451", "23541", "23514", "24315", "24351", "24135", "24153", "24513", "24531", "25341",
+////				"25314", "25431", "25413", "25143", "25134", "32145", "32154", "32415", "32451", "32541", "32514",
+////				"31245", "31254", "31425", "31452", "31542", "31524", "34125", "34152", "34215", "34251", "34521",
+////				"34512", "35142", "35124", "35412", "35421", "35241", "35214", "42315", "42351", "42135", "42153",
+////				"42513", "42531", "43215", "43251", "43125", "43152", "43512", "43521", "41325", "41352", "41235",
+////				"41253", "41523", "41532", "45312", "45321", "45132", "45123", "45213", "45231", "52341", "52314",
+////				"52431", "52413", "52143", "52134", "53241", "53214", "53421", "53412", "53142", "53124", "54321",
+////				"54312", "54231", "54213", "54123", "54132", "51342", "51324", "51432", "51423", "51243", "51234" };
+//		String[] orders = {"15342"};
+//
+////		HashMap<Integer, String> sizeArr = new HashMap<Integer, String>();
+//		Map<String,Long> runtimeArr = new HashMap<String,Long>();
+//
+//		
+//		for (String order : orders) {
+//
+////			System.out.println("-------------order: " + order + " --------------");
+//
+//			Result result = new Result();
+//			for (char c : order.toCharArray()) {
+//
+//				switch (c) {
+//				case '1':
+//					startTime = System.currentTimeMillis();
+////					System.out.println("cn.id=mc.company_id");
+//					result = join(result, "cn.id", "mc.company_id");
+//					endTime = System.currentTimeMillis();
+//					runtime[0] = endTime - startTime;
+//					break;
+//				case '2':
+//					startTime = System.currentTimeMillis();
+////				System.out.println("mc.movie_id=t.id");
+//					result = join(result, "mc.movie_id", "t.id");
+//					endTime = System.currentTimeMillis();
+//					runtime[1] = endTime - startTime;
+//					break;
+//				case '3':
+//					startTime = System.currentTimeMillis();
+////				System.out.println("mk.movie_id=t.id");
+//					result = join(result, "mk.movie_id", "t.id");
+//					endTime = System.currentTimeMillis();
+//					runtime[2] = endTime - startTime;
+//					break;
+//				case '4':
+//					startTime = System.currentTimeMillis();
+////					System.out.println("mc.movie_id=mk.movie_id");
+//					result = join(result, "mc.movie_id", "mk.movie_id");
+//					endTime = System.currentTimeMillis();
+//					runtime[3] = endTime - startTime;
+//					break;
+//				case '5':
+//					startTime = System.currentTimeMillis();
+////					System.out.println("mk.keyword_id=k.id");
+//					result = join(result, "mk.keyword_id", "k.id");
+//					endTime = System.currentTimeMillis();
+//					runtime[4] = endTime - startTime;
+//					break;
+//				default:
+//					System.out.println("Error: The corresponding execution does not exist. ");
+//					break;
+//				}
+//			}
+//			runtime[5] = runtime[0] + runtime[1] + runtime[2] + runtime[3] + runtime[4];
+//			runtimeArr.put(order,runtime[5]);
+////			printRuntimeArray(runtime);
+//			System.out.println("The size of the result in the order " + order + " is: " + result.getData().size());
+////			sizeArr.put(result.getData().size(), order);
+//			lc.addLine(order, runtime);
+//
+//		}
+//
+//		
+////		System.out.println("There are "+sizeArr.size()+" kind of sizes in this HashMap. ");
+//
+//		Long totalRuntime = 0L;
+//		
+//		List<Entry<String, Long>> testList = new ArrayList<Entry<String, Long>>(runtimeArr.entrySet());
+//		Collections.sort(testList, new Comparator<Map.Entry<String, Long>>() {
+//			public int compare(Map.Entry<String, Long> o1, Map.Entry<String, Long> o2) {
+//				return (int) (o2.getValue() - o1.getValue());
+//			}
+//		});
+//
+//		for (Entry<String, Long> t : testList) {
+//			System.out.println("["+t.getKey() + "] " + t.getValue());
+//			totalRuntime+=t.getValue();
+//		}
+//
+//		System.out.println("The total runtime is: "+totalRuntime+" ms. ");
+//		
+//		lc.drawLineChart();
 		
-		for (String order : orders) {
-
-//			System.out.println("-------------order: " + order + " --------------");
-
-			Result result = new Result();
-			for (char c : order.toCharArray()) {
-
-				switch (c) {
-				case '1':
-					startTime = System.currentTimeMillis();
-//					System.out.println("cn.id=mc.company_id");
-					result = joinExample(result, "cn.id", "mc.company_id");
-					endTime = System.currentTimeMillis();
-					runtime[0] = endTime - startTime;
-					break;
-				case '2':
-					startTime = System.currentTimeMillis();
-//				System.out.println("mc.movie_id=t.id");
-					result = joinExample(result, "mc.movie_id", "t.id");
-					endTime = System.currentTimeMillis();
-					runtime[1] = endTime - startTime;
-					break;
-				case '3':
-					startTime = System.currentTimeMillis();
-//				System.out.println("mk.movie_id=t.id");
-					result = joinExample(result, "mk.movie_id", "t.id");
-					endTime = System.currentTimeMillis();
-					runtime[2] = endTime - startTime;
-					break;
-				case '4':
-					startTime = System.currentTimeMillis();
-//					System.out.println("mc.movie_id=mk.movie_id");
-					result = joinExample(result, "mc.movie_id", "mk.movie_id");
-					endTime = System.currentTimeMillis();
-					runtime[3] = endTime - startTime;
-					break;
-				case '5':
-					startTime = System.currentTimeMillis();
-//					System.out.println("mk.keyword_id=k.id");
-					result = joinExample(result, "mk.keyword_id", "k.id");
-					endTime = System.currentTimeMillis();
-					runtime[4] = endTime - startTime;
-					break;
-				default:
-					System.out.println("Error: The corresponding execution does not exist. ");
-					break;
-				}
-			}
-			runtime[5] = runtime[0] + runtime[1] + runtime[2] + runtime[3] + runtime[4];
-			runtimeArr.put(order,runtime[5]);
-//			printRuntimeArray(runtime);
-			System.out.println("The size of the result in the order " + order + " is: " + result.getData().size());
-//			sizeArr.put(result.getData().size(), order);
-			lc.addLine(order, runtime);
-
-		}
-
+		Query02 q2 = new Query02();
+		Result result = q2.execute();
+		System.out.println(result);
 		
-//		System.out.println("There are "+sizeArr.size()+" kind of sizes in this HashMap. ");
-
-		Long totalRuntime = 0L;
-		
-		List<Entry<String, Long>> testList = new ArrayList<Entry<String, Long>>(runtimeArr.entrySet());
-		Collections.sort(testList, new Comparator<Map.Entry<String, Long>>() {
-			public int compare(Map.Entry<String, Long> o1, Map.Entry<String, Long> o2) {
-				return (int) (o2.getValue() - o1.getValue());
-			}
-		});
-
-		for (Entry<String, Long> t : testList) {
-			System.out.println("["+t.getKey() + "] " + t.getValue());
-			totalRuntime+=t.getValue();
-		}
-
-		System.out.println("The total runtime is: "+totalRuntime+" ms. ");
-		
-		lc.drawLineChart();
-
 	}
 
 }
