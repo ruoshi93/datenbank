@@ -38,6 +38,7 @@ public class Query13 extends Query {
 		DatabaseEngine.mi_idx = new Movie_info_idxTable();
 		DatabaseEngine.t = new TitleTable();
 		allPermutation("abcdefghijk".toCharArray(), 0);
+		execute();
 	}
 
 	@Override

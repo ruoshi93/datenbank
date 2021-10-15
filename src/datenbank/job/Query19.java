@@ -43,6 +43,7 @@ public class Query19 extends Query {
 		DatabaseEngine.rt = new Role_typeTable();
 		DatabaseEngine.t = new TitleTable();
 		allPermutation("abcdefghijklm".toCharArray(), 0);
+		execute();
 	}
 
 	@Override

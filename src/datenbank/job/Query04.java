@@ -25,6 +25,7 @@ public class Query04 extends Query {
 		DatabaseEngine.mk = new Movie_keywordTable();
 		DatabaseEngine.t = new TitleTable();
 		allPermutation("12345".toCharArray(), 0);
+		execute();
 	}
 
 	@Override

@@ -52,6 +52,7 @@ public class Query24 extends Query {
 		DatabaseEngine.rt = new Role_typeTable();
 		DatabaseEngine.t = new TitleTable();
 		allPermutation("abcdefghijklmnopqr".toCharArray(), 0);
+		execute();
 	}
 
 	@Override

@@ -42,6 +42,7 @@ public class Query21 extends Query{
 		DatabaseEngine.ml = new Movie_linkTable();
 		DatabaseEngine.t = new TitleTable();
 		allPermutation("abcdefghijklmn".toCharArray(), 0);
+		execute();
 	}
 
 	@Override

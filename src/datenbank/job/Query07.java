@@ -37,6 +37,7 @@ public class Query07 extends Query{
 		DatabaseEngine.pi = new Person_infoTable();
 		DatabaseEngine.t = new TitleTable();
 		allPermutation("abcdefghijk".toCharArray(), 0);
+		execute();
 	}
 	
 	@Override

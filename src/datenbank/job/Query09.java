@@ -35,6 +35,7 @@ public class Query09 extends Query {
 		DatabaseEngine.rt = new Role_typeTable();
 		DatabaseEngine.t = new TitleTable();
 		allPermutation("123456789".toCharArray(), 0);
+		execute();
 	}
 
 	@Override

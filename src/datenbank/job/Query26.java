@@ -50,6 +50,7 @@ public class Query26 extends Query{
 		DatabaseEngine.n = new NameTable();
 		DatabaseEngine.t = new TitleTable();
 		allPermutation("abcdefghijklmnopq".toCharArray(), 0);
+		execute();
 	}
 
 	@Override

@@ -27,6 +27,7 @@ public class Query32 extends Query{
 		DatabaseEngine.t = new TitleTable();
 		DatabaseEngine.t1 = new TitleTable();
 		allPermutation("abcdef".toCharArray(), 0);
+		execute();
 	}
 
 	@Override

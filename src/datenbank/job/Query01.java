@@ -25,6 +25,7 @@ public class Query01 extends Query {
 		DatabaseEngine.mi_idx = new Movie_info_idxTable();
 		DatabaseEngine.t = new TitleTable();
 		allPermutation("12345".toCharArray(), 0);
+		execute();
 	}
 
 	@Override

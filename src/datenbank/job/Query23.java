@@ -48,6 +48,7 @@ public class Query23 extends Query{
 		DatabaseEngine.mk = new Movie_keywordTable();
 		DatabaseEngine.t = new TitleTable();
 		allPermutation("abcdefghijklmnop".toCharArray(), 0);
+		execute();
 	}
 
 	@Override

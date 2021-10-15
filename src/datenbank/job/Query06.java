@@ -25,6 +25,7 @@ public class Query06 extends Query {
 		DatabaseEngine.n = new NameTable();
 		DatabaseEngine.t = new TitleTable();
 		allPermutation("12345".toCharArray(), 0);
+		execute();
 	}
 
 	@Override
