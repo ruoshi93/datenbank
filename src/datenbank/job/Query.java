@@ -46,12 +46,12 @@ public abstract class Query {
 				order = s;
 			}
 		}
-		long startT2 = System.currentTimeMillis();
 		Result result = this.numbersToCode(order);
-		long endT = System.currentTimeMillis();
-		System.out.println("The best join order is: "+order);
-		System.out.println("The actual query runtime: "+DatabaseEngine.printRuntime(endT-startT2));
-		System.out.println("Total query runtime: "+DatabaseEngine.printRuntime(endT-startT));
+		long endT1 = System.currentTimeMillis();
+		System.out.println("Query runtime: "+DatabaseEngine.printRuntime(endT1-startT));
+		System.out.println(result);
+		long endT2 = System.currentTimeMillis();
+		System.out.println("Total runtime: "+DatabaseEngine.printRuntime(endT2-startT));
 		return result;
 	}
 
