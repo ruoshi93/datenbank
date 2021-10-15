@@ -141,14 +141,18 @@ public class DatabaseEngine {
 		// Examine the tables and attributes
 		if (table1 == null) {
 			System.out.println("Error: The table \"" + query1[0] + "\" does not exist. ");
+			return null;
 		} else if (table2 == null) {
 			System.out.println("Error: The table \"" + query2[0] + "\" does not exist. ");
+			return null;
 		} else if (!table1.getTitle().contains(attr1)) {
 			System.out.println(
 					"Error: The attribute \"" + attr1 + "\" does not exist in the table \"" + query1[0] + "\". ");
+			return null;
 		} else if (!table2.getTitle().contains(attr2)) {
 			System.out.println(
 					"Error: The attribute \"" + attr2 + "\" does not exist in the table \"" + query2[0] + "\". ");
+			return null;
 		}
 
 		HashMap<Integer, ArrayList<Integer>> resultData = result.getData();
@@ -671,14 +675,18 @@ public class DatabaseEngine {
 		// Examine the tables and attributes
 		if (table1 == null) {
 			System.out.println("Error: The table \"" + query1[0] + "\" does not exist. ");
+			return null;
 		} else if (table2 == null) {
 			System.out.println("Error: The table \"" + query2[0] + "\" does not exist. ");
+			return null;
 		} else if (!table1.getTitle().contains(attr1)) {
 			System.out.println(
 					"Error: The attribute \"" + attr1 + "\" does not exist in the table \"" + query1[0] + "\". ");
+			return null;
 		} else if (!table2.getTitle().contains(attr2)) {
 			System.out.println(
 					"Error: The attribute \"" + attr2 + "\" does not exist in the table \"" + query2[0] + "\". ");
+			return null;
 		}
 
 		HashMap<Integer, ArrayList<Integer>> resultData = result.getData();
@@ -1206,129 +1214,11 @@ public class DatabaseEngine {
 		return s;
 	}
 
-	private static void printRuntimeArray(Long[] runtime) {
-		for (long r : runtime) {
-			System.out.println(r + "ms  =  " + printRuntime(r));
-		}
-	}
-
-	// TODO
-	public static void dynamicJoinOrder(String query) {
-		Result result = new Result();
-
-		String[] queries = query.split("AND");
-
-	}
-
 	public static void main(String[] args) throws IOException {
 		
-//		String[] queries = { "1", "2", "3", "4", "5", "total" };
-//		Long[] runtime = new Long[queries.length];
-//
-//		LineChart lc = new LineChart(queries);
-//
-//		long startTime;
-//		long endTime;
-//
-////		String[] orders = { "12345", "12354", "12435", "12453", "12543", "12534", "13245", "13254", "13425", "13452",
-////				"13542", "13524", "14325", "14352", "14235", "14253", "14523", "14532", "15342", "15324", "15432",
-////				"15423", "15243", "15234", "21345", "21354", "21435", "21453", "21543", "21534", "23145", "23154",
-////				"23415", "23451", "23541", "23514", "24315", "24351", "24135", "24153", "24513", "24531", "25341",
-////				"25314", "25431", "25413", "25143", "25134", "32145", "32154", "32415", "32451", "32541", "32514",
-////				"31245", "31254", "31425", "31452", "31542", "31524", "34125", "34152", "34215", "34251", "34521",
-////				"34512", "35142", "35124", "35412", "35421", "35241", "35214", "42315", "42351", "42135", "42153",
-////				"42513", "42531", "43215", "43251", "43125", "43152", "43512", "43521", "41325", "41352", "41235",
-////				"41253", "41523", "41532", "45312", "45321", "45132", "45123", "45213", "45231", "52341", "52314",
-////				"52431", "52413", "52143", "52134", "53241", "53214", "53421", "53412", "53142", "53124", "54321",
-////				"54312", "54231", "54213", "54123", "54132", "51342", "51324", "51432", "51423", "51243", "51234" };
-//		String[] orders = {"15342"};
-//
-////		HashMap<Integer, String> sizeArr = new HashMap<Integer, String>();
-//		Map<String,Long> runtimeArr = new HashMap<String,Long>();
-//
-//		
-//		for (String order : orders) {
-//
-////			System.out.println("-------------order: " + order + " --------------");
-//
-//			Result result = new Result();
-//			for (char c : order.toCharArray()) {
-//
-//				switch (c) {
-//				case '1':
-//					startTime = System.currentTimeMillis();
-////					System.out.println("cn.id=mc.company_id");
-//					result = join(result, "cn.id", "mc.company_id");
-//					endTime = System.currentTimeMillis();
-//					runtime[0] = endTime - startTime;
-//					break;
-//				case '2':
-//					startTime = System.currentTimeMillis();
-////				System.out.println("mc.movie_id=t.id");
-//					result = join(result, "mc.movie_id", "t.id");
-//					endTime = System.currentTimeMillis();
-//					runtime[1] = endTime - startTime;
-//					break;
-//				case '3':
-//					startTime = System.currentTimeMillis();
-////				System.out.println("mk.movie_id=t.id");
-//					result = join(result, "mk.movie_id", "t.id");
-//					endTime = System.currentTimeMillis();
-//					runtime[2] = endTime - startTime;
-//					break;
-//				case '4':
-//					startTime = System.currentTimeMillis();
-////					System.out.println("mc.movie_id=mk.movie_id");
-//					result = join(result, "mc.movie_id", "mk.movie_id");
-//					endTime = System.currentTimeMillis();
-//					runtime[3] = endTime - startTime;
-//					break;
-//				case '5':
-//					startTime = System.currentTimeMillis();
-////					System.out.println("mk.keyword_id=k.id");
-//					result = join(result, "mk.keyword_id", "k.id");
-//					endTime = System.currentTimeMillis();
-//					runtime[4] = endTime - startTime;
-//					break;
-//				default:
-//					System.out.println("Error: The corresponding execution does not exist. ");
-//					break;
-//				}
-//			}
-//			runtime[5] = runtime[0] + runtime[1] + runtime[2] + runtime[3] + runtime[4];
-//			runtimeArr.put(order,runtime[5]);
-////			printRuntimeArray(runtime);
-//			System.out.println("The size of the result in the order " + order + " is: " + result.getData().size());
-////			sizeArr.put(result.getData().size(), order);
-//			lc.addLine(order, runtime);
-//
-//		}
-//
-//		
-////		System.out.println("There are "+sizeArr.size()+" kind of sizes in this HashMap. ");
-//
-//		Long totalRuntime = 0L;
-//		
-//		List<Entry<String, Long>> testList = new ArrayList<Entry<String, Long>>(runtimeArr.entrySet());
-//		Collections.sort(testList, new Comparator<Map.Entry<String, Long>>() {
-//			public int compare(Map.Entry<String, Long> o1, Map.Entry<String, Long> o2) {
-//				return (int) (o2.getValue() - o1.getValue());
-//			}
-//		});
-//
-//		for (Entry<String, Long> t : testList) {
-//			System.out.println("["+t.getKey() + "] " + t.getValue());
-//			totalRuntime+=t.getValue();
-//		}
-//
-//		System.out.println("The total runtime is: "+totalRuntime+" ms. ");
-//		
-//		lc.drawLineChart();
-		
+		// execute query 2
 		Query02 q2 = new Query02();
-		Result result = q2.execute();
-		System.out.println(result);
-		
+
 	}
 
 }
