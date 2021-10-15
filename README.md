@@ -18,7 +18,7 @@ The entrance of the program is the main method in datenbank/main/DatabaseEngine.
                
                
                
-###References: 
+References: 
 
 [1] http://homepages.cwi.nl/~boncz/job/imdb.tgz
 
