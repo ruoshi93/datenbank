@@ -86,24 +86,6 @@ public abstract class Table {
 		return model;
 	}
 	
-	public <T> void printPKMap(String attr) {
-		HashMap<T, ArrayList<Integer>> pkMap = this.getPKMap(attr);
-		
-		DefaultTableModel model = new DefaultTableModel(new String[] {"Key", "Value"}, 0);
-		for (Entry<T, ArrayList<Integer>> entry : pkMap.entrySet()) {
-			Object[] row = new Object[2];
-			row[0] = entry.getKey();
-			row[1] = entry.getValue();
-			model.addRow(row);
-		}
-		
-		JFrame jf = new JFrame(name);
-		jf.add(new JScrollPane(new JTable(model)));
-		jf.pack();
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jf.setVisible(true);
-	}
-	
 	public String toString() {
 		init();
 		return "Table "+this.name+": "+data.size()+" rows in total. ";
